@@ -7,7 +7,6 @@ export const userSchema = z.object({
   id: z.number().nonnegative(),
 });
 
-
 export const userProductSchema = z.object({
-    email:z.string().email().min(8,{})
-})
+  email: z.string().email().min(8, {}),
+});
