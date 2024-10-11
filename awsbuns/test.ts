@@ -1,5 +1,5 @@
-import { userSchema } from ".";
+import { userSchema, value } from ".";
 
 userSchema.parse({
-    
+    value
 })

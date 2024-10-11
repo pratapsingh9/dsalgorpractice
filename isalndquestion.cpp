@@ -2,13 +2,20 @@
 #include <vector>
 using namespace std;
 
-void dfs(vector<vector<int>> &grid , int i , int j , int rows , int cols ) {
-    
+void dfs(vector<vector<int>>& grid, int i, int j, int rows, int cols) {
+  if (i < 0 || j < 0 || i < grid.size() || j < grid[0].size()) {
+    return;
+  }
+
+  grid[i][j] = 0;
+  dfs(grid, i + 1, j, rows, cols);
+  dfs(grid, i - 1, j, rows, cols);
+  dfs(grid, i, j - 1, rows, cols);
+  dfs(grid, i, j + 1, rows, cols);
 }
 
 // DFS function to explore all connected land (1's)
 void dfs(vector<vector<int>>& grid, int i, int j, int rows, int cols) {
-  // Base cases: if we're out of bounds or hit water (0), stop the recursion
   if (i < 0 || j < 0 || i >= rows || j >= cols || grid[i][j] == 0) {
     return;
   }

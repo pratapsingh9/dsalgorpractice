@@ -1,85 +1,48 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 using namespace std;
 
-typedef pair<int, int> pii;
 
-void dijkstra(int src, vector<vector<pii>>& adj, int V) {
-  priority_queue<pii, vector<pii>, greater<pii>> pq;
-  vector<int> dist(V, INT_MAX);
-  dist[src] = 0;
-  pq.push({0, src});
+void adding(vector<pair<int,int>> adj[] , int u , int v , int weight) {
+  adj[u].push_back({v , weight});
+  adj[v].push_back({u , weight});
+}
 
-  // While the priority queue is not empty
-  while (!pq.empty()) {
-    int u = pq.top().second;  // Get the node with the smallest distance
-    int d = pq.top().first;   // Get the current shortest distance
-    pq.pop();                 // Remove the top element
+ // Function to add an edge to the weighted graph
+void addEdge(vector<pair<int, int>> adj[], int u, int v, int weight) {
+    // Add edge from u to v with weight
+    adj[u].push_back(make_pair(v, weight));
+    // Add edge from v to u with weight (if undirected graph)
+    adj[v].push_back(make_pair(u, weight));
+}
 
-    // Iterate over all neighbors of node u
-    for (auto neighbor : adj[u]) {
-      int v = neighbor.first;        // Neighbor node
-      int weight = neighbor.second;  // Weight of edge u -> v
-
-      // If a shorter path is found
-      if (dist[u] + weight < dist[v]) {
-        dist[v] = dist[u] + weight;  // Update the shortest path
-        pq.push({dist[v], v});       // Push the updated distance and node
-      }
+// Function to print the weighted graph
+void printGraph(const vector<pair<int, int>> adj[], int V) {
+    for (int i = 0; i < V; i++) {
+        cout << "Vertex " << i << ":\n";
+        for (auto edge : adj[i]) {
+            cout << "  -> " << edge.first << " (Weight: " << edge.second << ")\n";
+        }
+        cout << endl;
     }
-  }
-
-  // Print the shortest distances from the source node to all other nodes
-  cout << "Node\tDistance from Source\n";
-  for (int i = 0; i < V; ++i) {
-    cout << i << "\t" << dist[i] << "\n";
-  }
 }
-
-void dijkistraAlgo(int src , vector<vector<pii>> &adj, int v) {
-    
-}
-
 
 int main() {
-  int V = 5;
+    int V = 5; // Number of vertices
+    // Create an adjacency list of size V
+    vector<pair<int, int>> adj[V];
 
-  vector<vector<pii>> adj(V);
-  adj[0].push_back({1, 10});
-  adj[0].push_back({4, 5});
-  adj[1].push_back({2, 1});
-  adj[1].push_back({4, 2});
-  adj[2].push_back({3, 4});
-  adj[3].push_back({0, 7});
-  adj[4].push_back({1, 3});
-  adj[4].push_back({2, 9});
-  adj[4].push_back({3, 2});
+    // Add edges with weights
+    addEdge(adj, 0, 1, 10);
+    addEdge(adj, 0, 4, 20);
+    addEdge(adj, 1, 2, 30);
+    addEdge(adj, 1, 3, 40);
+    addEdge(adj, 1, 4, 50);
+    addEdge(adj, 2, 3, 60);
+    addEdge(adj, 3, 4, 70);
 
-  dijkistraAlgo(0,adj,V);
+    // Print the graph
+    printGraph(adj, V);
 
-  return 0;
-
+    return 0;
 }
-
-// int main() {
-//     // Number of nodes (vertices) in the graph
-//     int V = 5;
-
-//     // Adjacency list: adj[node] = list of (neighbor, weight)
-//     vector<vector<pii>> adj(V);
-
-//     // Add edges (u, v, weight)
-//     adj[0].push_back({1, 10});
-//     adj[0].push_back({4, 5});
-//     adj[1].push_back({2, 1});
-//     adj[1].push_back({4, 2});
-//     adj[2].push_back({3, 4});
-//     adj[3].push_back({0, 7});
-//     adj[4].push_back({1, 3});
-//     adj[4].push_back({2, 9});
-//     adj[4].push_back({3, 2});
-
-//     // Run Dijkstra's algorithm from source node 0
-//     dijkstra(0, adj, V);
-
-//     return 0;
-// }
