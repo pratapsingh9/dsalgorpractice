@@ -48,6 +48,18 @@ class StackLL {
   bool Isempty() { return (top == nullptr); }
 }
 
+
+
+void reverseStack(stack<int> &s) {
+  if(s.empty()) {
+    return ;
+  }
+  int ele = s.top();
+  s.pop();
+  reverseStack(s);
+  s.push(ele);
+}
+
 // stack using vector
 class Stack {
  private:

@@ -1,52 +1,71 @@
 #include <bits/stdc++.h>
+
 #include <algorithm>
 using namespace std;
 
 typedef pair<int, int> pii;
 
 void flyoodsWarshallAlgorithmsDefine(vector<vector<int>> &graph) {
-	int n = graph.size();
-  for(int i = 0 ;i<n;i++){
-    for(i )
+  int n = graph.size();
+  // making the -1 thing a graph
+  for(int i = 0 ; i<n;i++) {
+    for(int j = 0 ; j<n; j++) {
+      if(graph[i][j] == -1) {
+        graph[i][j] == INT_MAX;
+      }
+    }
+  }
+  // flyowd warsheel algo core
+
+  for(int k = 0; k<n;k++) {
+    for(int i = 0; i<n;i++) {
+      for(int j = 0 ; j<n; j++) {
+        if(graph[i][j] == INT_MAX || graph[k][j] == INT_MAX) continue;
+
+        graph[i][j] = min(graph[i][j] , graph[i][k] + graph[k][j]);
+      }
+    }
+  }
+
+  // making the intmax -1 again
+
+  for(int i = 0 ; i<n; i++) {
+    for(int j = 0; j < n; j++) {
+        if(matrix[i][j] == INT_MAX) {
+        graph[i][j] = -1;
+        }
+      }
+    }
+  }
+
+void flyoodsWarshallAlgorithm(vector<vector<int>> &graph) {
+  // making the nodes the int max
+  int n = graph.size();
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      if (graph[i][j] == -1) {
+        graph[i][j] = INT_MAX;
+      }
+    }
+  }
+
+  // floyds warsheel algorithm
+  for (int k = 0; k < n; k++) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        if (graph[i][k] == INT_MAX || graph[k][j] == INT_MAX) continue;
+        raph[i][j] = min(graph[i], graph[j], graph[i][k] + graph[k][j]);
+      }
+    }
+  }
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      if (graph[i][j] == INT_MAX) {
+        graph[i][j] = -1;
+      }
+    }
   }
 }
-
-
-
-void flyoodsWarshallAlgorithm(vector<vector<int>>&graph) {
-	// making the nodes the int max
-	int n = graph.size();
-	for(int i  = 0 ; i<n;i++) {
-		for(int j = 0; j<n; j++) {
-			if(graph[i][j] == -1) {
-				graph[i][j] = INT_MAX;
-			}
-		}
-	}
-
-	// floyds warsheel algorithm
-	for(int k = 0 ; k <n ; k++) {
-		for(int i = 0; i<n; i++) {
-			for(int j = 0; j<n; j++) {
-				if(graph[i][k] == INT_MAX || graph[k][j] == INT_MAX) continue;
-				 raph[i][j] = min(graph[i],graph[j] , graph[i][k] + graph[k][j]);
-			}
-		}
-	}
-	for(int i  = 0 ; i<n;i++) {
-		for(int j = 0; j<n; j++) {
-			if(graph[i][j] == INT_MAX) {
-				graph[i][j] = -1;
-
-			}
-		}
-	}
-
-
-}
-
-
-
 
 void bellmanFordAlgo(int source, vector<vector<pii>> &graph, int v) {
   vector<int> distance(v, INT_MAX);
