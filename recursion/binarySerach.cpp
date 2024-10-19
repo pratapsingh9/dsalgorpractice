@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int binary(vector<int> &nums , int target , int left  , int right) {
-    
+int binary(vector<int> &nums, int target, int left, int right) {
+  
 }
 
 int binarySearch(vector<int> &nums, int target, int low, int high) {

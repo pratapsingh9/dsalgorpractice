@@ -1,12 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
-
-
-
-
-
 void sortInsert(stack<int> &st , int element) {
     if(st.empty()) {
         st.push(element);

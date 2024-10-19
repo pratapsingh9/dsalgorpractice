@@ -47,14 +47,14 @@ bool biperateGraphDfs() {
   return true;
 }
 
-bool biperateGraphsDfsUtils(int node  , vector<int> &colors, int value) {
+bool biperateGraphsDfsUtils(int node, vector<int> &colors, int value) {
   colors[node] = value;
-  for(auto ele:unw_graph[node] ) {
-    if(colors[ele] == -1) {
+  for (auto ele : unw_graph[node]) {
+    if (colors[ele] == -1) {
       colors[ele] = 1 - colors[node];
-      if(!biperateGraphsDfsUtils(ele,colors,1-colors[ele])) {
+      if (!biperateGraphsDfsUtils(ele, colors, 1 - colors[ele])) {
         return false;
-      } else if(colors[ele] == colors[node]) {
+      } else if (colors[ele] == colors[node]) {
         return false;
       }
     }
@@ -63,10 +63,10 @@ bool biperateGraphsDfsUtils(int node  , vector<int> &colors, int value) {
 }
 
 bool biperateGraphdfs() {
-  vector<int> vec(v,-1);
-  for(int i = 0 ; i<v; i++) {
-    if(vec[i] == -1) {
-      if(!isBiperateGraphs(i,vec,0)) {
+  vector<int> vec(v, -1);
+  for (int i = 0; i < v; i++) {
+    if (vec[i] == -1) {
+      if (!isBiperateGraphs(i, vec, 0)) {
         return false;
       }
     }
@@ -389,8 +389,8 @@ bool isCyclic() {
 
 int numberOfIsland
 
-
-int main() {
+    int
+    main() {
   cin >> v;
   unw_graph.resize(v);
 

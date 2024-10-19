@@ -16,7 +16,8 @@
         "array": "cpp",
         "initializer_list": "cpp",
         "valarray": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "new": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "cSpell.words": [

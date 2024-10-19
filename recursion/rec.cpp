@@ -2,77 +2,68 @@
 #include <vector>
 using namespace std;
 
+void merge(vector<int> arr, int l, int r, int mid) {
+  int n1 = mid - l + 1;
+  int n2 = r - mid;
+  vector<int> L(n1);
+  vector<int> R(n2);
 
-void merge(vector<int> arr , int l , int r , int mid) {
-  int n1 = mid-l+1;
-  int n2 =  r-mid;
-
-  vector<int> L(n1); // left subarray
-  vector<int> R(n2); // right subarray;
-
-  for (int i = 0; i < n1; ++i)
-  {
-    /* code */
-    L[i] = arr[i+l];
+  for (int i = 0; i < n1; ++i) {
+    L[i] = arr[i + l];
   }
-  for (int i = 0; i < n2; ++i)
-  {
-    /* code */
-    R[i] = arr[mid+1+i];
+  for (int i = 0; i < n2; ++i) {
+    R[i] = arr[mid + 1 + i];
   }
-  int i = 0 , j = 0  , k = l;
+  int i = 0, j = 0, k = l;
 
-  while(i<n1 and j<n2) {
-      /* code */
-    if(L[i]  < R[j]) {
+  while (i < n1 and j < n2) {
+    if (L[i] < R[j]) {
       arr[k++] = L[i];
       j++;
-    } else{
-      arr[k++]  = R[j];
+    } else {
+      arr[k++] = R[j];
     }
   }
-  while(i<n1) {
-      /* code */
+  while (i < n1) {
     arr[k++] = L[i++];
   }
-  while(j<n2) {
-      /* code */
+  while (j < n2) {
     arr[k++] = R[j++];
   }
 }
 
-void mergeSort(vector<int> nums , int left , int right ) {
-  if(left < right) {
-    int mid = left + (right-left) / 2;
+void mergeSort(vector<int> nums, int left, int right) {
+  if (left < right) {
+    int mid = left + (right - left) / 2;
 
-    mergeSort(nums , left , mid-1);
-    mergeSort(nums , mid+1 , right);
+    mergeSort(nums, left, mid - 1);
+    mergeSort(nums, mid + 1, right);
 
-    merge(arr , left , right , mid);
+    merge(arr, left, right, mid);
   }
 }
 
-void printSubsequnece(string str  , string current , int index , vector<string> &str) {
-  if(index == str.size()) {
+void printSubsequnece(string str, string current, int index,
+                      vector<string>& str) {
+  if (index == str.size()) {
     str.push_back(current);
-    return ;
+    return;
   }
-  printSubsequnece(str , current , index + 1 , str);
-  printSubsequnece(str , current + str[index] , index+1 , str );
+  printSubsequnece(str, current, index + 1, str);
+  printSubsequnece(str, current + str[index], index + 1, str);
 }
 
-void printPermutation(string str , int index , vector<string>&result) {
-  if(index == str.size()) {
+void printPermutation(string str, int index, vector<string>& result) {
+  if (index == str.size()) {
     result.push_back(str);
-    return ;
+    return;
   }
-  for(int i = index ; i<str.size(); i++) {
-    swap(str[index] , str[i]);
-    printPermutation(str , index+1 , result);
-    swap(str[index] , str[i]);
-  }    
+  for (int i = index; i < str.size(); i++) {
+    swap(str[index], str[i]);
+    printPermutation(str, index + 1, result);
+    swap(str[index], str[i]);
+  }
 }
-
 
 void findSubsequences(string str, string current, int index,
                       vector<string>& result) {
@@ -93,7 +84,7 @@ void stringReverse(string s, int low, int high) {
   return stringReverse(s, low + 1, high - 1);
 }
 
-void findSubsequencesss(string str, string current, int index,
+void findSubsequences(string str, string current, int index,
                         vector<string>& result) {
   if (index == str.size()) {
     result.push_back(current);
@@ -109,7 +100,7 @@ int main() {
   string str = "abc";
   vector<string> subsequences;
 
-  findSubsequencesss(str, "", 0, subsequences);
+  findSubsequences(str, "", 0, subsequences);
 
   for (const string& subsequence : subsequences) {
     cout << "\"" << subsequence << "\"" << endl;
