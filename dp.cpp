@@ -1,72 +1,66 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
+// Node structure for the BST
+struct Node {
+  int data;
+  Node* left;
+  Node* right;
 
-vector<vector<int>> spiralorder(vector<vector<int>>& matrix) {
-  vector<int> result;
-  if(matrix.empty()) return result;
-  int top = 0;
-  int left = 0;
-  int right = matrix[0].size();
-  int bottom = matrix.size();
-
-  while(top <= bottom and left<=right) {
-    for(int i = left; i<=right; i++) {
-      result.push_back(matrix[top][i]);
-    }
-    top--;
-    for(int i = top; top <= bottom;  i++) {
-      result.push_back(matrix[i][bottom]);
-    }
-    right--;
-    if(top <= bottom) {
-      for(int i = right; i>=left; i--) {
-        result.push_back(matrix[bottom][i]);
-      }
-      bottom--;
-    }
-    if(left <= right) {
-      for(int i = bottom; i>=top; i--) {
-        result.push_back(matrix[i][left]);
-      }
-      left++;
-    }
-  }
-}
-
-class Solution {
- public:
-  vector<int> spiralOrder(vector<vector<int>>& matrix) {
-    vector<int> result;
-    
-    if (matrix.empty()) return result; 
-    
-    int top = 0, bottom = matrix.size() - 1;
-    int left = 0, right = matrix[0].size() - 1;
-
-    while (top <= bottom && left <= right) {
-      for (int i = left; i <= right; i++) {
-        result.push_back(matrix[top][i]);
-      }
-      top++;  
-      for (int i = top; i <= bottom; i++) {
-        result.push_back(matrix[i][right]);
-      }
-      right--; 
-      if (top <= bottom) {
-        for (int i = right; i >= left; i--) {
-          result.push_back(matrix[bottom][i]);
-        }
-        bottom--;
-      }
-
-      if (left <= right) {
-        for (int i = bottom; i >= top; i--) {
-          result.push_back(matrix[i][left]);
-        }
-        left++;
-      }
-    }
-    return result;
+  Node(int val) {
+    data = val;
+    left = right = nullptr;
   }
 };
+int findCiel(Node* root, int key) {
+  int ciel = -1;
+  while (root) {
+    if (root->data == key) {
+      return root->data;
+    } else if (root->data > key) {
+      ciel = root->data;
+      root = root->left;
+    } else {
+      root = root->right;
+    }
+  }
+  return ciel;
+}
+int findFloor(Node* root, int key) {
+  int floor = -1;
+
+  while (root) {
+    if (root->data == key) {
+      return root->data;
+    } else if (root->data < key) {
+      floor = root->data;
+      root = root->right;
+    } else {
+      root = root->left;
+    }
+  }
+
+  return floor;
+}
+
+// Example usage
+int main() {
+  // Creating a simple BST
+  Node* root = new Node(15);
+  root->left = new Node(10);
+  root->right = new Node(20);
+  root->left->left = new Node(8);
+  root->left->right = new Node(12);
+  root->right->left = new Node(17);
+  root->right->right = new Node(25);
+
+  int key = 18;
+  int floorValue = findFloor(root, key);
+
+  if (floorValue == -1)
+    cout << "No floor exists for " << key << endl;
+  else
+    cout << "The floor of " << key << " is " << floorValue << endl;
+
+  return 0;
+}
