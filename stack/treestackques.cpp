@@ -23,6 +23,38 @@ TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
   return (left != nullptr) ? left : right;
 }
 
+class BSTIterator {
+ public:
+  stack<int> st;
+
+  void pushLeft(TreeNode* root) {
+    while (root != nullptr) {
+      st.push(root);
+      root = root->left;
+    }
+  }
+  BSTIterator(TreeNode* root) { pushLeft(root); }
+
+  int next() {
+    TreeNode* node = st.top();
+    st.pop();
+
+    if (node->right != nullptr) {
+      pushLeft(node->right);
+    }
+    return node->val;
+  }
+
+  bool hasNext() { return !st.empty(); }
+};
+
+TreeNode* loweestCommonBsts(TreeNode* root, int p, int q) {
+  if (root == nullptr) return nullptr;
+
+  if (root == p || root == q) return root;
+  if (root->val > p && root->val) return root;
+}
+
 void printPathNodesToAllLevel(TreeNode* root, vector<string>& vec, string ans) {
   if (root == nullptr) {
     return;
@@ -47,6 +79,19 @@ bool checkSameTree(TreeNode* root, TreeNode* node) {
 
   return checkSameTree(root->left, node->left) &&
          checkSameTree(root->right, node->right);
+}
+
+bool checkedBalanecedd(TreeNode* root) {
+  if (root == nullptr) {
+    return false;
+  }
+  int ltor = maxDepty(root->left);
+  int rtor = maxDepty(root->right);
+
+  if (abs(ltor - rtor) > 1) {
+    return false;
+  }
+  return checkedBalanecedd(root->right) && checkBalancedBst(root->left);
 }
 
 bool checkBalancedBst(TreeNode* root) {
