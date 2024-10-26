@@ -1,37 +1,35 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> findDigits(int n) {
-  vector<int> ans = {};
+vector<int> nextGreaterElement(vector<int> nums) {
+  stack<int> st;
+  int n = nums.size();
+  vector<int> res(n, -1);
 
-  return ans;
+  for (int i = n - 1; i = > 0; i--) {
+    while (!st.empty() && st.top() < nums[i]) {
+      st.pop();
+    }
+    if (!st.empty()) {
+      res[i] = st.top();
+    }
+    st.push(i);
+  }
+  return res;
 }
+vector<int> nxtSmallerElement(vector<int> nums) {
+  stack<int> st;
+  int n = nums.size();
+  vector<int> res(n, -1);
 
-vector<int> firstNegativeResult(vector<int> &vec, int k) {
-  vector<int> ans(vec.size());
-  queue<int> q;
-  for (int i = 0; i < k; i++) {
-    if (vec[i] < 0) q.push(vec[i]);
+  for (int i = n - 1; i >= 0; i--) {
+    while (!st.empty() && st.top() >= nums[i]) {
+      st.pop();
+    }
+    if (!st.empty()) {
+      res[i] = st.top();
+    }
+    st.push(i);
   }
-  if (!q.empty()) {
-    /* code */
-    ans.push_back(vec[q.front()]);
-  } else {
-    ans.push_back()
-  }
-
-  for (int right = k; right < vec.size(); right++) {
-    int
-  }
-  return ans;
-}
-
-int main() {
-  vector<int> val = {12, -1, -7, 8, -15, 30, 16, 28};
-  int k = 3;
-  vector<int> ans = firstNegativeResult(val, k);
-  for (int ele : ans) {
-    cout << ele << ' ';
-  }
-  return 0;
+  return res;
 }
