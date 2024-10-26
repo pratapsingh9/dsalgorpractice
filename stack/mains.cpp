@@ -11,6 +11,25 @@ void reverseStacknums(stack<int> &st) {
   st.push(top);
 }
 
+vector<int> nxtSmallerUnit(vector<int> nums) {
+	int n = nums.size();
+	stack<int> s;
+	vector<int> res(n,-1);
+	for(int i = n-1; i=>0; i--) {
+		while(s.empty() && s.top() >= nums[i]]) {
+			s.pop();
+		}
+		if(!s.empty()) {
+			res[i] = s.top();
+		}
+
+		st.push(i);
+	}
+	return res;
+}
+
+
+
 void insertstacks(stack<int> *st, int val) {
   if (st.empty() || st.top() <= val) {
     st.push(val);
@@ -51,6 +70,21 @@ vector<int> nextSmallerElement(vector<int> nums) {
   }
 
   return ans;
+}
+
+vector<int> next(vector<int> nums) {
+	int n =nums.size();
+	stack<int>s;
+	vector<int> res(n,-1);
+	for(int i = 0; i<n*2-1; i++) {
+		while(!s.empty() && nums[s.top()] <= nums[i%n]) {
+			st.pop();
+		}
+		while(!s.empty()) {
+			res[i%n] = nums[s.top()];
+		}
+		s.push(i%n);
+	}
 }
 
 vector<int> nextGreaterElements(vector<int> nums) {

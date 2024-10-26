@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+vector<int> nextGreaterElemtn(vector<int>arr)
+
 class MinStack {
   stack<int> st;
   stack<int> minst;
