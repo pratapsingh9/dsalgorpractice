@@ -22,4 +22,3 @@ int maxMeeting(vector<Meeting> meeting) {
 }
 
 int main() { return 0; }
-

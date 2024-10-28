@@ -9,6 +9,8 @@ struct TreeNode {
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+
+
 TreeNode* findLcaofBinaryTree(TreeNode* root, int n, int m) {
   if (root == nullptr) return nullptr;
 
@@ -191,4 +193,24 @@ int main() {
   }
 
   return 0;
+}
+
+
+
+int minCost(vector<int> arr) {
+      priority_queue<int,vector<int>,greater<int>> pq;
+      for(auto &ele:arr) {
+        pq.push(ele);
+      } 
+      long long int ans = 0;
+      while(pq.size() > 1) {
+        int f = pq.top();
+        pq.pop();
+        int l = pq.top();
+        pq.pop();
+        ans += f + l;
+        pq.push(f+l);
+      }
+
+      return ans;
 }

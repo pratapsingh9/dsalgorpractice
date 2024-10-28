@@ -25,14 +25,14 @@ void dfs(vector<vector<int>>& grid, int i, int j, int rows, int cols) {
 }
 int numIslands(vector<vector<int>>& grid) {
   int rows = grid.size();
-  if (rows == 0) return 0;  // Edge case: empty grid
+  if (rows == 0) return 0;
   int cols = grid[0].size();
-  int islandCount = 0;  // To count the number of islands
+  int islandCount = 0;
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       if (grid[i][j] == 1) {
         dfs(grid, i, j, rows, cols);
-        islandCount++;  // Increase the count of islands
+        islandCount++;
       }
     }
   }
@@ -52,18 +52,3 @@ int main() {
        << endl;
   return 0;
 }
-
-// int main() {
-//     // Example grid (1: land, 0: water)
-//     vector<vector<int>> grid = {
-//         {1, 1, 0, 0, 0},
-//         {1, 1, 0, 0, 1},
-//         {0, 0, 0, 1, 1},
-//         {0, 0, 0, 0, 0},
-//         {1, 0, 1, 0, 1}
-//     };
-
-//     cout << "Number of islands: " << numIslands(grid) << endl;
-
-//     return 0;
-// }
