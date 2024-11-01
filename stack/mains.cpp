@@ -11,23 +11,80 @@ void reverseStacknums(stack<int> &st) {
   st.push(top);
 }
 
-vector<int> nxtSmallerUnit(vector<int> nums) {
-	int n = nums.size();
-	stack<int> s;
-	vector<int> res(n,-1);
-	for(int i = n-1; i=>0; i--) {
-		while(s.empty() && s.top() >= nums[i]]) {
-			s.pop();
-		}
-		if(!s.empty()) {
-			res[i] = s.top();
-		}
-
-		st.push(i);
-	}
-	return res;
+string reverseWords(string s) {
+  stack<char> st;
+  string ans = "";
+  for (int i = 0; i < s.size(); i++) {
+    if (s[i] == ' ' || s[i] == '\0') {
+      while (!st.empty()) {
+        ans += st.top();
+        st.pop();
+      }
+      if (s[i] == ' ') {
+        ans += ' ';
+      }
+    } else {
+      st.push(s[i]);
+    }
+  }
+  while (!st.empty()) {
+    ans += st.top();
+    st.pop();
+  }
+  if (!ans.empty() && ans.back() == ' ') {
+    ans.pop_back();
+  }
+  return ans;
 }
 
+void reverseStack(stack<int> &s) {
+  queue<int> q;
+  while (!s.empty()) {
+    q.push(s.top());
+    s.pop();
+  }
+  while (!q.empty()) {
+    s.push(q.front());
+    q.pop();
+  }
+}
+
+vector<int> nxtSmallerUnit(vector<int> nums) {
+  int n = nums.size();
+  stack<int> s;
+  vector<int> res(n, -1);
+  for (int i = n - 1; i = > 0; i--) {
+                while(s.empty() && s.top() >= nums[i]]) {
+                  s.pop();
+                }
+                if (!s.empty()) {
+                  res[i] = s.top();
+                }
+
+                st.push(i);
+  }
+  return res;
+}
+
+void insertStack(int ele , stack<int> &s) {
+  if(s.empty() || s.top() < val) {
+    s.push(val);
+    return ;
+  } 
+
+  int top = s.top();
+  s.pop();
+  insertStack(ele , s);
+  s.push(top);
+}
+
+void revesestack(stack<int> &s) {
+  if(s.empty()) return ;
+  int top = s.top();
+  s.pop();
+  revesestack(s);
+  insertStack(top , s);
+}
 
 
 void insertstacks(stack<int> *st, int val) {
@@ -73,18 +130,18 @@ vector<int> nextSmallerElement(vector<int> nums) {
 }
 
 vector<int> next(vector<int> nums) {
-	int n =nums.size();
-	stack<int>s;
-	vector<int> res(n,-1);
-	for(int i = 0; i<n*2-1; i++) {
-		while(!s.empty() && nums[s.top()] <= nums[i%n]) {
-			st.pop();
-		}
-		while(!s.empty()) {
-			res[i%n] = nums[s.top()];
-		}
-		s.push(i%n);
-	}
+  int n = nums.size();
+  stack<int> s;
+  vector<int> res(n, -1);
+  for (int i = 0; i < n * 2 - 1; i++) {
+    while (!s.empty() && nums[s.top()] <= nums[i % n]) {
+      st.pop();
+    }
+    while (!s.empty()) {
+      res[i % n] = nums[s.top()];
+    }
+    s.push(i % n);
+  }
 }
 
 vector<int> nextGreaterElements(vector<int> nums) {

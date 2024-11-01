@@ -3,7 +3,7 @@ using namespace std;
 
 
 // top largest k element
-int largestk(vector<int> arr  , int k ) {
+int largest(vector<int> arr  , int k ) {
     priority_queue<int , vector<int> , greater<int>> pq;
     for(int n:arr) {
         pq.push(n);
@@ -36,7 +36,7 @@ vector<int> frequencySort(vector<int> num  , int k) {
 }
 
 
-// k closest points to origin
+// tpp k frequen elemnts
 
 vector<int> topKfrequentELement(vector<int>num , int k ) {
   typedef pair<int , int> pi;
@@ -53,6 +53,64 @@ vector<int> topKfrequentELement(vector<int>num , int k ) {
   while(!pq.empty()) {
     ans.push_back(pq.top().second);
     pq.pop();
+  }
+  return ans;
+}
+
+// minise the cost of adding the ropes
+int costofRopes(vector<int> ans){
+  if(ans.empty()) return 0;
+  priority_queue<int , vector<int> , greater<int>> pq;
+  int cost = 0;
+  for(int n:ans){
+    pq.push(n);
+  }
+  while(pq.size() > 1) {
+    int f = pq.top();
+    pq.pop();
+    int s = pq.top();
+    pq.pop();
+    cost += f+s;
+    pq.push(f+s);
+  }
+  return cost;
+ }
+
+// k th closest point to origin
+vector<pair<int,int>> kthClosespointOrigin(vector<pair<int,int>> point , int k ) {
+    typedef pair<int , pair<int,int>> pi;
+  priority_queue<pi>pq;
+  for(auto &points:point) {
+    int dist = points.first*points.first + points.second*points.second;
+    pq.push({dist , points});
+    if(pq.size() > k) pq.pop();
+  }
+  vector<pair<int,int>> ans;
+  while(!pq.empty()) {
+    ans.push_back(pq.top().second);
+    pq.pop();
+  }
+  return ans;
+}
+
+
+// sum of element between kth small and kth largest
+int costofkandklarge(vector<int> sum , int f , int l) {
+  if(sum.empty()) return 0;
+  if(sum.size() < f || sum.size() < l ) return -1;
+  priority_queue<int , vector<int> , greater<int>> pq;
+  for(int n:sum) {
+    pq.push(n);
+    if(pq.size() > l) {
+      pq.pop();
+    } 
+  }
+  int ans = 0;
+  int c = 0;
+  while(!pq.empty()) {
+    if(c>f || c==f) ans+= pq.top();
+    pq.pop();
+    c++;
   }
   return ans;
 }
