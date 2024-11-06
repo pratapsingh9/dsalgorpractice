@@ -21,4 +21,36 @@ int maxMeeting(vector<Meeting> meeting) {
   return maxmss;
 }
 
-int main() { return 0; }
+
+
+vector<int> nums = {4,6,46,4,6,49,45,9};
+
+vector<int> rankedAnswer(vector<int> &nums ){
+  typedef pair<int,int> p;
+  vector<int> ans(nums.size(),0);
+  priority_queue<p , vector<p> , greater<p>> pq;
+  for(int i = 0; i<nums.size(); i++) {
+    pq.push({nums[i], i});
+  }
+  int rank =  1;
+  while(!pq.empty()) {
+    auto it = pq.top();
+    pq.pop();
+    ans[it.second] = rank++;
+  }
+  return ans;
+}
+
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> ans;
+        for(int i = 0; i<nums.size(); i++) {
+          int idx = abs(nums[i])-1;
+          if(nums[idx] < 0) {
+            return nums[i];
+          }
+          nums[idx] *= -1;
+        }
+    }
+};
