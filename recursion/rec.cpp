@@ -85,7 +85,7 @@ void stringReverse(string s, int low, int high) {
 }
 
 void findSubsequences(string str, string current, int index,
-                        vector<string>& result) {
+                      vector<string>& result) {
   if (index == str.size()) {
     result.push_back(current);
     return;
@@ -106,5 +106,52 @@ int main() {
     cout << "\"" << subsequence << "\"" << endl;
   }
 
+  return 0;
+}
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+bool subsetSum(const vector<int>& arr, int target) {
+  int n = arr.size();
+  vector<vector<bool>> dp(n + 1, vector<int>(target + 1, false));
+  for (int i = 0; i <= n; i++) {
+    dp[i][0] = true;
+  }
+  for (int i = 1; i <= n; i++) {
+    for (int t = 1; t <= target; t++) {
+      if (arr[i - 1] > target) {
+        dp[i][t] = dp[i - 1][t];
+      } else {
+        dp[i][t] =
+            // include function code
+            dp[i - 1][t] || dp[i - 1][t - arr[i - 1]];
+      }
+    }
+  }
+  return dp[n][target];
+}
+
+bool subsetSumRecursive(const vector<int>& arr, int n, int target,
+                        vector<vector<int>> memo) {
+  if (target == 0) return true;  // Subset found
+  if (n == 0) return false;      // No elements left
+  if (memo[n][target] != -1) return memo[n][target];
+  if (arr[n - 1] <= target) {
+    // Choose the current element or skip it
+    memo[n][target] = subsetSumRecursive(arr, n - 1, target - arr[n - 1]) ||
+                      subsetSumRecursive(arr, n - 1, target);
+  } else {
+    // Skip the current element
+    memo[n][target] = subsetSumRecursive(arr, n - 1, target);
+  }
+  return memo[n][target];
+}
+
+int main() {
+  vector<int> arr = {2, 3, 7, 8, 10};
+  int target = 11;
+  cout << (subsetSumRecursive(arr, arr.size(), target) ? "Yes" : "No") << endl;
   return 0;
 }

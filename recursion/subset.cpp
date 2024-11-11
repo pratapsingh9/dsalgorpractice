@@ -9,26 +9,22 @@ int power(int n, int pow) {
   return n * power(n, pow - 1);
 }
 
-
 int cutRod(int prices[], int n) {
-    if (n <= 0) return 0;
-    int maxProfit = INT_MIN;
-    for (int i = 0; i < n; i++){
-        maxProfit = std::max(maxProfit, prices[i] + cutRod(prices, n - i - 1));
-    }
-    return maxProfit;
+  if (n <= 0) return 0;
+  int maxProfit = INT_MIN;
+  for (int i = 0; i < n; i++) {
+    maxProfit = std::max(maxProfit, prices[i] + cutRod(prices, n - i - 1));
+  }
+  return maxProfit;
 }
 
+int coinChange(vector<int> coins, int index, int amount) {
+  if (amount == 0) return 1;
+  if (amount < 0 || index < 0) return 0;
 
-int coinChange(vector<int> coins , int index , int amount  ) {
-  if(amount == 0) return 1;
-  if (amount  < 0 || index < 0 ) return 0;
-
-
-  return coinChange(coins , index , amount-coins[index]) + coinChange(coins , index-1 , amount);
+  return coinChange(coins, index, amount - coins[index]) +
+         coinChange(coins, index - 1, amount);
 }
-
-
 
 vector<int> ans = {1,2,3,4,5}
 
@@ -58,14 +54,12 @@ void printArrayinRevers(vector<int> n, int i) {
   cout << ele << endl;
 }
 
-int knapStack(vector<int> w , vector<int> values , int capactiy , int n){
-  if(n==0||capactiy == 0) return 0;
-  if(w[n-1] > capactiy) {
+int knapStack(vector<int> w, vector<int> values, int capactiy, int n) {
+  if (n == 0 || capactiy == 0) return 0;
+  if (w[n - 1] > capactiy) {
     return max
   }
 }
-
-
 
 void allSubsequnceOfstring(string &s, int ind, string curr) {
   if (ind == s.size()) {
@@ -77,45 +71,44 @@ void allSubsequnceOfstring(string &s, int ind, string curr) {
   allSubsequnceOfstring(s, index + 1, curr);
 }
 
-void generateParenthisHelper(vector<string> &ans , int n , string current, int open , int close) {
-  if(current.length() == 2*n) {
+void generateParenthisHelper(vector<string> &ans, int n, string current,
+                             int open, int close) {
+  if (current.length() == 2 * n) {
     ans.push_back(current);
-    return ;
+    return;
   }
 
-  if(open < n) {
-    generateParenthisHelper(ans , n , current + '(' , open+1 , close);
+  if (open < n) {
+    generateParenthisHelper(ans, n, current + '(', open + 1, close);
   }
-  if(close < n) {
+  if (close < n) {
     // closing
-    generateParenthisHelper(ans , n , current + ')' , open , close+1); 
+    generateParenthisHelper(ans, n, current + ')', open, close + 1);
   }
 }
 
-int wayToClimb(int n ) {
-  if(n==0) return 0;
-  if(n==1) return 1;
+int wayToClimb(int n) {
+  if (n == 0) return 0;
+  if (n == 1) return 1;
 
-  int left =  wayToClimb(n-1);
-  int right = wayToClimb(n-2);
-  return left+right;
+  int left = wayToClimb(n - 1);
+  int right = wayToClimb(n - 2);
+  return left + right;
 }
 
-void permutateResults(vector<string> &result , string str , int start) {
-  if(start == str.size() ) {
+void permutateResults(vector<string> &result, string str, int start) {
+  if (start == str.size()) {
     result.push_back(str);
-    return ;
+    return;
   }
-  for(int i = start; i<str.size() ; i++) {
-
+  for (int i = start; i < str.size(); i++) {
   }
 }
 
 vector<string> generateParenthis(int n) {
   vector<string> ans;
-  generateParenthisHelper(ans , n , "" , 0,0);
+  generateParenthisHelper(ans, n, "", 0, 0);
 }
-
 
 int main() {
   cout << power(2, 4) << endl;

@@ -356,9 +356,91 @@ ListNode* addtwoNumber(ListNode* l1, ListNode* l2) {
     }
     curr = curr->next;
   }
-  if(carr > 0) {
+  if (carr > 0) {
     curr->next = new ListNode(carr);
-  } 
+  }
 
   return dummy->next;
 }
+
+ListNode* evenandodd(ListNode* head) {
+  ListNode* dummy = new ListNode(10);
+  ListNode* dummy2 = new ListNode(0);
+
+  ListNode* f = dummy;
+  ListNode* s = dummy2;
+
+  while (head != nullptr) {
+    if (head->val % 2 == 0) {
+      f->next = head;
+      f = f->next;
+    } else {
+      s->next = head;
+      s = s->next;
+    }
+    head = head->next;
+  }
+
+  s->next = nullptr;
+  f->next = s->next;
+
+  return dummy->next;
+}
+
+ListNode* reverseList(ListNode* head) {
+  ListNode* prev = nullptr;
+  ListNode* current = head;
+  ListNode* next = nullptr;
+
+  while (current != nullptr) {
+    next = current->next;
+    current->next = prev;
+    prev = current;
+    current = next;
+  }
+  return prev;
+}
+
+ListNode* subtractLinkedLists(ListNode* l1, ListNode* l2) {
+  l1 = reverse(l1);
+  l2 = reverse(l2);
+
+  ListNode* res = nullptr;
+  ListNode* prev = nullptr;
+  int borrow = 0;
+
+  while (l1 != nullptr || l2 != nullptr || borrow != 0) {
+    int val1 = (l1 != nullptr) ? l1->val : 0;
+    int val2 = (l2 != nullptr) ? l2->val : 0;
+
+    int diff = val1 - val2 - borrow;
+
+    if (diff < 0) {
+      diff += 10
+    }
+  }
+}
+
+class Solution {
+ public:
+  ListNode* mergeKLists(vector<ListNode*>& lists) {
+    auto cmp = [](ListNode* a, ListNode* b) { return a->val > b->val; }
+
+    priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)>
+        pq(cmp);
+
+    for (ListNode* list : lists) {
+      if (list) {
+        pq.push(list);
+      }
+    }
+    ListNode*dummy = new ListNode(0);
+    ListNode*curr = dummy;
+    // dummy->next = pq.top();
+
+    while(!pq.empty()) {
+      ListNode*node =pq.to
+  
+    }
+  }
+};
