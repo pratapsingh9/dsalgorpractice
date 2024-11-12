@@ -814,3 +814,137 @@ class Solution {
  public:
   void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {}
 };
+
+#include <climits>
+#include <iostream>
+#include <queue>
+#include <vector>
+
+using namespace std;
+
+int primMST(int n, vector<vector<pair<int, int>>>& graph) {
+  priority_queue<pair<int, int>, vector<pair<int, int>>,
+                 greater<pair<int, int>>>
+      pq;
+  vector<bool> inMST(n, false);
+  pq.push({0, 0});
+  int mstCost = 0;
+  while (!pq.empty()) {
+    auto [weight, node] = pq.top();
+    pq.pop();
+    if (inMST[node]) continue;
+    mstCost += weight;
+    inMST[node] = true;
+    for (auto& adj : graph[node]) {
+      int nxtNode = adj.first;
+      int weightNxt = adj.second;
+      if (!inMST[nxtNode]) {
+        pq.push({weightNxt, nxtNode});
+      }
+    }
+  }
+
+  return mstCost;
+}
+
+class Solution {
+ public:
+  bool exist(vector<vector<char>>& board, string word) {
+    for (int i = 0; i < board.size(); i++) {
+      for (int j = 0; j < board[0].size(); j++) {
+        if (dfs(board, word, i, j, 0)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  bool dfs(vector<vector<char>>& board, string word, int i, int j, int index) {
+    if (index == word.size()) return true;
+
+    if (i < 0 || j < 0 || i >= board.size() || j >= board[0].size() ||
+        board[i][j] != word[index]) {
+      return false;
+    }
+
+    char temp = board[i][j];
+
+    board[i][j] = '#';
+
+    bool ans = dfs(board, word, i + 1, j, index + 1) ||
+               dfs(board, word, i, j + 1, index + 1) ||
+               dfs(board, word, i - 1, j, index + 1) ||
+               dfs(board, word, i, j - 1, index + 1);
+
+    board[i][j] = temp;
+
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  bool canJump(vector<int>& nums) {
+    int n = nums.size();
+    int maxy = 0;
+    for (int i = 0; i < n; i++) {
+      if (i > maxy) return false;
+
+      maxy = max(maxy, i + nums[i]);
+      if (maxy >= n - 1) return true;
+    }
+    return false;
+  }
+};
+
+void solve(vector<int> nums, vector<vector<int>>& ans, int start) {
+  if (start == nums.size()) {
+    ans.push_back(nums);
+    return;
+  }
+
+  for (int i = start; i < nums.size(); i++) {
+    swap(nums[i], nums[start]);
+    solve(nums, ans, start + 1);
+    swap(nums[i], nums[start]);
+  }
+}
+
+vector<vector<int>> findUnqiuePermuation(vector<int>& nums) {
+  vector<vector<int>> ans;
+  vector<int> temp;
+  solve(nums, ans, temp, int start);
+  return ans;
+}
+
+void printallChars(string s) {
+  sort(s.begin(), s.end());
+  for (int i = 1; i < s.size(); i++) {
+    if (s[i] == s[i - 1]) {
+      cout << s[i] << endl;
+      while (i < s.size() && s[i] == s[i - 1]) {
+        i++;
+      }
+    }
+  }
+}
+
+class Solution {
+ public:
+  int strStr(string haystack, string needle) {
+    int m = haystack.size();
+    int n = needle.size();
+
+    if (n == 0) return 0;
+    for (int i = 0; i < m; i++) {
+      int j = 0;
+      while (j < n && haystack[i + j] == needle[j]) {
+        j++;
+      }
+
+      if (j == n) return i;
+    }
+
+    return -1;
+  }
+};

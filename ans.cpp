@@ -2,7 +2,6 @@
 
 #include <iostream>
 using namespace std;
-
 struct ListNode {
   int val;
   ListNode* next;
@@ -434,13 +433,12 @@ class Solution {
         pq.push(list);
       }
     }
-    ListNode*dummy = new ListNode(0);
-    ListNode*curr = dummy;
+    ListNode* dummy = new ListNode(0);
+    ListNode* curr = dummy;
     // dummy->next = pq.top();
 
-    while(!pq.empty()) {
-      ListNode*node =pq.to
-  
+    while (!pq.empty()) {
+      ListNode* node = pq.to
     }
   }
 };

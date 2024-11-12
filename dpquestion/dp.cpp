@@ -35,9 +35,6 @@ class Solution {
     return findMinDifference(0, 0, totalSum, nums, memo);
   }
 };
-
-#include <vector>
-
 class Solution {
  public:
   bool canAchieveTarget(int idx, int target, std::vector<int>& nums,
@@ -131,4 +128,3 @@ class Solution {
     return dp[i][j];
   }
 };
-
