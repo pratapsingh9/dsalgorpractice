@@ -48,9 +48,8 @@ class BSTIterator {
   bool hasNext() { return !st.empty(); }
 };
 
-TreeNode*lowestCommnbst(TreeNode*root, int p , int q) {
-  if(root==nullptr) return NULL;
-  
+TreeNode* lowestCommnbst(TreeNode* root, int p, int q) {
+  if (root == nullptr) return NULL;
 }
 
 TreeNode* loweestCommonBsts(TreeNode* root, int p, int q) {
@@ -147,6 +146,40 @@ void postOrder(TreeNode* root) {
   }
 }
 
+void preOrderTraverssal(TreeNode* root) {
+  if (root == nullptr) return;
+
+  stack<TreeNode*> st;
+  TreeNode* curr = root;
+  st.push(root);
+  while (curr != nullptr || !st.empty()) {
+    TreeNode* curr = st.top();
+    st.pop();
+    if (curr->left) {
+      st.push(curr->left);
+    }
+    if (curr->right) {
+      st.push(curr->right);
+    }
+  }
+}
+
+void inorderTraversalIterative(TreeNode* root) {
+  if (root == nullptr) return;
+  stack<TreeNode*> st;
+  TreeNode* curr = root;
+  while (curr != nullptr || !st.empty()) {
+    while (curr != nullptr) {
+      st.push(curr);
+      curr = curr->left;
+    }
+    TreeNode* node = st.top();
+    st.pop();
+    cout << node->val << endl;
+
+    curr = curr->right;
+  }
+}
 void inorderTraversaliterative(TreeNode* root) {
   if (root == nullptr) return;
   stack<TreeNode*> st;
@@ -262,3 +295,35 @@ int main() {
 
   return 0;
 }
+
+class Solution {
+ public:
+  int maxVowels(string s, int k) {
+    int count = 0;
+    int maxCount = 0;
+    for (int right = 0; right < s.size(); right++) {
+      if (s[right] == 'a' || s[right] == 'e' || s[right] == 'i' ||
+          s[right] == 'o' || s[right] == 'u') {
+        count++;
+      }
+
+      if (right > k) {
+        if (s[right - k] == 'a' || s[right - k] == 'e' || s[right - k] == 'i' ||
+            s[right - k] == 'o' || s[right - k] == 'u') {
+          count--;
+        }
+      }
+
+      maxCount = max(count, maxCount);
+    }
+    return maxCount;
+  }
+};
+
+
+class Solution {
+public:
+    vector<int> getSubarrayBeauty(vector<int>& nums, int k, int x) {
+        int n =
+    }
+};
