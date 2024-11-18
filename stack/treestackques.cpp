@@ -320,10 +320,99 @@ class Solution {
   }
 };
 
+class Solution {
+ public:
+  vector<int> getSubarrayBeauty(vector<int>& nums, int k, int x) {
+    vector<int> result;
+    vector<int> count(101, k);
+
+    for (int i = 0; i < k; i++) {
+      count[nums[i] + 50]++;
+    }
+
+    auto findXtheSmalles = [&]() {
+      int curr = 0;
+      for (int i = 0; i < 50; i++) {
+        curr++
+      }
+    }
+  }
+};
+
+class Solution {
+ public:
+  int maxScore(vector<int>& cardPoints, int k) {
+    int n = cardPoints.size();
+    int maxSum = 0;
+    for (int i = 0; i < k; i++) {
+      maxSum += cardPoints[i];
+    }
+    int ans = maxSum;
+    for (int i = 0; i < n - k; i++) {
+      maxSum = maxSum - cardPoints[i - k - 1] + cardPoints[i + k + 1];
+      maxSum = maxSum - cardPoints[i - k - 1] + cardPoints[i + k + 1];
+      ans = max(ans, maxSum);
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    vector<int> res;
+    int n = nums.size();
+    if (k == = 1) return nums;
+    int maxAns = *max_element(nums.begin(), nums.begin() + k);
+
+    res.push_back(maxAns);
+
+    for (int i = k; i < n; i++) {
+      if (nums[i - k] == maxAns) {
+        maxAns = *max_element(nums.begin() + i - k + 1, nums.begin() + i + 1);
+
+      } else {
+        maxAns = max(maxAns, nums[i]);
+      }
+
+      res.push_back(nums[i]);
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  int maxFreq(string s, int maxLetters, int minSize, int maxSize) {
+    unordered_map<char, int> mp;
+    unordered_map<string, int> substringFreq
+    int start = 0;
+    int ans = 0;
+    for (int right = 0; right < s.size(); right++) {
+      mp[s[right]]++;
+      if(right-start+1 > minSize) {
+        mp[s[start]]--;
+        if(mp[s[start]]==0) {
+          mp.erase(s[start]);
+        }
+        start++;
+      }
+      if(right-start+1 == minSize) {
+        if(mp.size() <= maxLetters) {
+          string nodes = s.substr(start,minSize);
+          substringFreq[nodes]++;
+          ans=max(ans,substringFreq[nodes]);
+        }
+      }
+    }
+    return ans;
+  }
+};
+
 
 class Solution {
 public:
-    vector<int> getSubarrayBeauty(vector<int>& nums, int k, int x) {
-        int n =
+    int longestOnes(vector<int>& nums, int k) {
+        
     }
 };

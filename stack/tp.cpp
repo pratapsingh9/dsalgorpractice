@@ -22,7 +22,52 @@ struct TreeNode {
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
  * right(right) {}
  * };
+
+
+
  */
+
+class Solution {
+ public:
+  bool findTarget(TreeNode* root, int k) {
+    unordered_set<int> s;
+    return dfs(root, k, s);
+  }
+  bool dfs(TreeNode* root, int k, unordered_set<int>& s) {
+    if (root == nullptr) return false;
+    if (s.count(k - root->val) != s.end()) {
+      return true;
+    }
+
+    s.insert(root->val);
+
+    return dfs(root->left, k, s) || dfs(root->right, k, s);
+  }
+};
+
+class Solution {
+ public:
+  vector<int> largestValues(TreeNode* root) {
+    if (root == nullptr) return {};
+    queue<TreeNode*> q;
+    vector<int> ans;
+    q.push(root);
+    while (!q.empty()) {
+      vector<int> temp;
+      int size = q.size();
+      for (int i = 0; i < size; i++) {
+        TreeNode* node = q.front();
+        q.pop();
+        temp.push_back(root->val);
+        if (node->left) q.push(node->left);
+        if (node->right) q.push(node->right);
+      }
+      ans.push_back(*max_element(temp.begin(), temp.end()));
+    }
+    return ans;
+  }
+};
+
 class Solution {
  public:
   bool isCompleteTree(TreeNode* root) {
@@ -1842,25 +1887,210 @@ class Solution {
   }
 };
 class Solution {
-public:
-    int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
-        vector<vector<int>> graph(n);
-        for(auto &edge : edges) {
-            graph[edge[0]].push_back(edge[1]);
-            graph[edge[1]].push_back(edge[0]);
+ public:
+  int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
+    vector<vector<int>> graph(n);
+    for (auto& edge : edges) {
+      graph[edge[0]].push_back(edge[1]);
+      graph[edge[1]].push_back(edge[0]);
+    }
+    return dfs(0, -1, graph, hasApple);
+  }
+
+  int dfs(int node, int parent, vector<vector<int>>& graph,
+          vector<bool>& hasApple) {
+    int time = 0;
+    for (int neighbor : graph[node]) {
+      if (neighbor == parent) continue;
+      int childTime = dfs(neighbor, node, graph, hasApple);
+      if (childTime > 0 || hasApple[neighbor]) {
+        time += childTime + 2;
+      }
+    }
+    return time;
+  }
+};
+
+class Solution {
+ public:
+  int longestOnes(vector<int>& nums, int k) {
+    int start = 0;
+    int ans = 0;
+    int countZero = 0;
+    for (int end = 0; end < nums.size(); end++) {
+      /* code */
+      if (nums[end] == 0) {
+        countZero++;
+      }
+      while (countZero > k) {
+        if (nums[start] == 0) {
+          countZero--;
         }
-        return dfs(0, -1, graph, hasApple);
+        start++;
+      }
+      ans = max(ans, end - start + 1);
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int numberOfSubstrings(string s) {
+    int zeroCount = 0;
+    int oneCount = 0;
+    int ans = 0;
+    int l = 0;
+    for (int r = 0; r < s.size(); r++) {
+      /* code */
+      if (s[r] == '0') {
+        zeroCount++;
+      } else {
+        oneCount++;
+      }
+      while (oneCount < zeroCount * zeroCount) {
+        if (s[l] == '0') {
+          zeroCount--;
+        } else {
+          oneCount--;
+        }
+        l++;
+      }
+      ans += (r - l + 1);
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int numberOfSubarrays(vector<int>& nums, int k) {
+    int odd = 0, even = 0, ans = 0, l = 0;
+    for (int r = 0; r < nums.size(); r++) {
+      if (nums[r] % 2 == 0) {
+        even++;
+      } else {
+        odd++;
+      }
+      while (odd > k) {
+        if (nums[l] % 2 != 0) {
+          odd--;
+        }
+        l++;
+      }
+      if (odd == k) ans++;
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  typedef pair<int, int> P;
+  int maxDistance(vector<vector<int>>& grid) {
+    int n = grid.size();
+    queue<P> q;
+    int maxDist = -1;
+
+    for (int i = 0; i < n; i++) {
+      /* code */
+      for (int j = 0; j < n; j++) {
+        /* code */
+        if (grid[i][j] == 1) q.push({i, j});
+      }
     }
 
-    int dfs(int node, int parent, vector<vector<int>>& graph, vector<bool>& hasApple) {
-        int time = 0;
-        for(int neighbor : graph[node]) {
-            if(neighbor == parent) continue; 
-            int childTime = dfs(neighbor, node, graph, hasApple);
-            if(childTime>0 || hasApple[neighbor] ) {
-              time += childTime +2;
-            }
+    vector<pair<int, int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    while (!q.empty()) {
+      int s = q.size();
+
+      for (int i = 0; i < s; i++) {
+        P top = q.front();
+        int x = top.first;
+        int y = top.second;
+        q.pop();
+
+        for (auto it : directions) {
+          int newX = it.first + x;
+          int newY = it.second + y;
+
+          if (newX >= 0 && newY >= 0 && newX < n && newY < n &&
+              grid[newX][newY] == 0) {
+            grid[newX][newY] = grid[x][y] + 1;
+            q.push({newX, newY});
+            maxDist = max(maxDist, grid[newX][newY] - 1);
+          }
         }
-        return time;
+      }
     }
+    return maxDist;
+  }
 };
+
+class Solution {
+ public:
+  typedef pair<int, int> P;
+
+  void dfs(vector<vector<pair<int, int>>>& graph, int node,
+           vector<bool>& visited, int& minDistance) {
+    visited[node] = true;
+    for (auto& edge : graph[node]) {
+      int neighbour = edge.first;
+      int weight = edge.second;
+      minDistance = min(minDistance, weight);
+      if (!visited[neighbour]) {
+        dfs(graph, neighbour, visited, minDistance);
+      }
+    }
+  }
+
+  int minScore(int n, vector<vector<int>>& roads) {
+    vector<vector<pair<int, int>>> graph(n + 1);
+    for (auto& edge : roads) {
+      int a = edge[0];
+      int b = edge[1];
+      int distance = edge[2];
+      graph[a].emplace_back(b, distance);
+      graph[b].emplace_back(a, distance);
+    }
+    int minDist = INT_MAX;
+    vector<bool> visited(n + 1, false);
+    dfs(graph, 1, visited, minDist);
+
+    return minDist;
+  }
+};
+
+void dfscountDistinctIslandsUtil(vector<vector<int>>& grid,
+                                 vector<vector<bool>>& visited, int x, int y,
+                                 int rows, int cols) {
+  if (x > rows || y > cols || x < 0 || y < 0 || grid[x][y] == 0|| visited[x][y]) {
+    return;
+  }
+
+  visited[x][y] = true;
+  dfscountDistinctIslandsUtil(grid, visited, x - 1, y, rows, cols);
+  dfscountDistinctIslandsUtil(grid, visited, x, y - 1, rows, cols);
+  dfscountDistinctIslandsUtil(grid, visited, x, y + 1, rows, cols);
+  dfscountDistinctIslandsUtil(grid, visited, x + 1, y, rows, cols);
+}
+
+int countDistinctIslands(vector<vector<int>>& grid) {
+  // code here
+  int row = grid.size();
+  int cols = grid[0].size();
+  vector<vector<bool>> visited(row, vector<bool>(cols));
+  int val = 0;
+
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < cols; j++) {
+      /* code */
+      if (grid[i][j] == 1 && !visited[i][j]) {
+        val++;
+        dfscountDistinctIslandsUtil(grid, visited, i, j, row, cols);
+      }
+    }
+  }
+  return val;
+}
