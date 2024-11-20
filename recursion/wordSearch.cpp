@@ -57,3 +57,83 @@ int main() {
 
   return 0;
 }
+
+class Solution {
+ public:
+  string minWindow(string s, string t) {
+    if (s.empty() || t.empty() || s.size() < t.size()) {
+      return "";
+    }
+
+    vector<int> target_freq(128, 0);
+    vector<int> required_freq(128, 0);
+
+    for (char c : t) {
+      target_freq[c]++;
+    }
+
+    int left = 0;
+    int minLength = INT_MAX;
+    int minStart = 0;
+    int required = 0;
+    int formedChars = 0;
+
+    for (int i = 0; i < 128; i++) {
+      if (target_freq[i] > 0) {
+        required++;
+      }
+    }
+    for (int right = 0; right < s.size(); right++) {
+      char c = s[right];
+      required_freq[c]++;
+
+      if (target_freq[c] > 0 && target_freq[c] == required_freq[c]) {
+        formedChars++;
+      }
+      while (required == formedChars) {
+        if (right - left + 1 < minLength) {
+          minLength = right - left + 1;
+          minStart = left;
+        }
+
+        char leftChar = s[left];
+        required_freq[leftChar]--;
+        if (target_freq[leftChar] > 0 &&
+            target_freq[leftChar] < required_freq[leftChar]) {
+          required++;
+        }
+        left++;
+      }
+    }
+
+    return minLength == INT_MAX ? "" : s.substr(minStart, minLength);
+  }
+};
+
+class Solution {
+ public:
+  int maximumUniqueSubarray(vector<int> &nums) {
+    unordered_set<int> set;
+    int left = 0;
+    int ans = 0;
+    int currSum = 0;
+    for (int right = 0; right < nums.size(); right++) {
+      /* code */
+      if (set.insert(nums[right]) == set.end()) {
+        set.insert(nums[right]);
+        currSum += nums[right];
+      } else {
+        while (set.find(nums[right]) != set.end()) {
+          set.erase(nums[left]);
+          currSum -= nums[left];
+          left++;
+        }
+        set.insert(nums[right]);
+        currSum += nums[right];
+      }
+      ans = max(ans, currSum);
+    }
+    return ans;
+  }
+};
+

@@ -11,22 +11,21 @@ struct TreeNode {
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
- * };
-
-
-
- */
-
+vector<int> preorder(TreeNode* root) {
+  stack<TreeNode*> st;
+  st.push(root);
+  vector<int> result;
+  while (!st.empty()) {
+    TreeNode* curr = st.top();
+    st.pop();
+    if (curr != nullptr) {
+      if (curr->left) st.push(curr->left);
+      if (curr->right) st.push(curr->right);
+    }
+    result.push_back(curr->val);
+  }
+  return result;
+}
 class Solution {
  public:
   bool findTarget(TreeNode* root, int k) {
@@ -2065,7 +2064,8 @@ class Solution {
 void dfscountDistinctIslandsUtil(vector<vector<int>>& grid,
                                  vector<vector<bool>>& visited, int x, int y,
                                  int rows, int cols) {
-  if (x > rows || y > cols || x < 0 || y < 0 || grid[x][y] == 0|| visited[x][y]) {
+  if (x > rows || y > cols || x < 0 || y < 0 || grid[x][y] == 0 ||
+      visited[x][y]) {
     return;
   }
 
@@ -2093,4 +2093,56 @@ int countDistinctIslands(vector<vector<int>>& grid) {
     }
   }
   return val;
+}
+
+class Solution {
+ public:
+  vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+    int row = mat.size();
+    int cols = mat[0].size();
+    vector<vector<int>> ans(row, vector<int>(cols, INT_MAX));
+    queue<pair<int, int>> q;
+
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (mat[i][j] == 0) {
+          q.push({i, j});
+          ans[i][j] = 0;
+        }
+      }
+    }
+    vector<pair<int, int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    while (!q.empty()) {
+      auto it = q.front();
+      int x = it.first;
+      int y = it.second;
+      q.pop();
+
+      for (auto v : directions) {
+        int newX = v.first + x;
+        int newY = v.second + y;
+
+        if (newX >= 0 && newY >= 0 && newX < row && newY < cols) {
+          if (ans[x][y] + 1 < ans[newX][newY]) {
+            ans[newX][newY] = 1 + ans[x][y];
+            q.push({newX, newY});
+          }
+        }
+      }
+    }
+    return ans;
+  }
+};
+
+int solve(const vector<int>& nums) {
+  int n = (int)nums.size();
+  int ans = 0, curr = 0;
+  unordered_map<int, int> mp;
+  for (int start = 0; start < count; start++) {
+    /* code */
+    int curr = mp[start];
+    if (mp.count(curr) && mp[curr] >= start) {
+    }
+  }
 }
