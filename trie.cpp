@@ -30,6 +30,44 @@ void
   crawler->isEndOfword = true;
 }
 
+string shortestUnique(const string& word, TrieNode* root) {
+  TrieNode* node = root;
+  string prefix;
+  for (char c : word) {
+    prefix += c;
+    int idx = c - 'a';
+    if (node->children[idx]->isEndOfword == true) {
+      return prefix;
+    }
+    node = node->children[idx];
+  }
+  return prefix;
+}
+
+
+// 774
+// 445
+int minRotation(int input , int unlockCode) {
+  int minCost = 0;
+  while(input > 0 && unlockCode) {
+    int a = input%10;
+    int b  = unlockCode % 10;
+    minCost+= min(abs(a-b) , 10-abs(a-b));
+    input=input/10;
+    unlockCode=unlockCode/10;
+  }
+  return minCost;
+}
+
+vector<int> splitMost(int n) {
+  vector<int> result;
+  while(n>=4) {
+    result.push_back(4);
+    n-=4;
+  }
+  if(n==1)
+}
+
 bool search(TrieNode* root, string word) {
   TrieNode* crawler = root;
   for (char c : word) {

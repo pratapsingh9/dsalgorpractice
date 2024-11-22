@@ -1,11 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
-
-
-
-
 // stack using linkedList
 
 struct Node {
@@ -21,7 +16,7 @@ class StackLL {
   void push(int x) {
     Node* newnode = new Node();
     newnode->data = x;
-    newnode->next  = top;
+    newnode->next = top;
     top = newnode;
     cout << "Item added to the stack" << endl;
   }
@@ -51,8 +46,8 @@ class StackLL {
 
 
 void reverseStack(stack<int> &s) {
-  if(s.empty()) {
-    return ;
+  if (s.empty()) {
+    return;
   }
   int ele = s.top();
   s.pop();

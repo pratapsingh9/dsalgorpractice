@@ -51,11 +51,8 @@ vector<int> topoSortBfsKahn(vector<int> adj[], int V) {
   return ans;
 }
 
-// topo Sort Kahn,s Algorathims
 vector<int> topoSortUsingBfs(vector<int> adj[], int V) {
   vector<int> inDegree(V, 0);
-  // getting Indgree
-
   for (int i = 0; i < V; i++) {
     for (auto it : adj[i]) {
       inDegree[it]++;
@@ -74,9 +71,7 @@ vector<int> topoSortUsingBfs(vector<int> adj[], int V) {
   while (!q.empty()) {
     int top = q.front();
     q.pop();
-
     topoOrder.push_back(top);
-
     for (auto it : adj[top]) {
       inDegree[it]--;
       if (inDegree[it] == 0) {
@@ -112,5 +107,3 @@ bool detectCycleGraph(int V, vector<int> adj[]) {
   if (count == V) return false;
   return true;
 }
-
-

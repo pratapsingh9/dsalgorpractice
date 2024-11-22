@@ -2146,3 +2146,19 @@ int solve(const vector<int>& nums) {
     }
   }
 }
+
+class Solution {
+ public:
+  int findRadius(vector<int>& houses, vector<int>& heaters) {
+    sort(houses.begin(), houses.end());
+    sort(heaters.begin(), heaters.end());
+
+    int radius = 0;
+    int j = 0;
+    for (int house : houses) {
+      while (j < houses.size() - 1 && heaters[j] - house) {
+      }
+    }
+    return radius;
+  }
+};
