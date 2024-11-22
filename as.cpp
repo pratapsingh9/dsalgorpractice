@@ -693,8 +693,12 @@ class Solution {
 
     int first = *min_element(nums1.begin(), nums1.end());
     int second = *min_element(nums2.begin(), nums2.end());
-
-    return min(first * 10 + second, second * 10 + first);
+    if (first > second) {
+      return second * 10 + first;
+    } else {
+      return first * 10 + second;
+    }
+    // return min(first * 10 + second, second * 10 + first);
   }
 };
 
@@ -720,3 +724,11 @@ class Solution {
     return answer;
   }
 };
+
+bool canCut(vector<int>& ropes, int k, int length) {
+  int count = 0;
+  for (int rope : ropes) {
+    count += abs(rope / length);
+  }
+  return count >= k;
+}
