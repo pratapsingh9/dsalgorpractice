@@ -509,32 +509,214 @@ class Solution {
 };
 
 class Solution {
-public:
-    string greatestLetter(string s) {
-        unordered_set<char> upper, lower;
-        for (char c : s) {
-            if (isupper(c)) {
-                upper.insert(c);
-            } else {
-                lower.insert(c);
-            }
-        }
-        
-        char result = 0;
-        for (char c : lower) {
-            if (upper.count(toupper(c))) { 
-                result = max(result, toupper(c)); 
-            }
-        }
-        
-        return result ? string(1, result) : "";
+ public:
+  string greatestLetter(string s) {
+    unordered_set<char> upper, lower;
+    for (char c : s) {
+      if (isupper(c)) {
+        upper.insert(c);
+      } else {
+        lower.insert(c);
+      }
     }
+
+    char result = 0;
+    for (char c : lower) {
+      if (upper.count(toupper(c))) {
+        result = max(result, toupper(c));
+      }
+    }
+
+    return result ? string(1, result) : "";
+  }
 };
 
+class Solution {
+ public:
+  int numberOfSpecialChars(string word) {
+    vector<int> lower(26, 0), upper(26, 0);
+    int answer = 0;
+    for (char c : word) {
+      if (isupper(c)) {
+        upper[c - 'A']++;
+      } else {
+        lower[c - 'a']++;
+      }
+    }
+    for (int i = 0; i < 26; i++) {
+      if (upper[i] > 0 && lower[i] > 0) {
+        answer++;
+      }
+    }
+
+    return answer;
+  }
+};
+
+// aaAbcBC
+class Solution {
+ public:
+  int numberOfSpecialChars(string word) {
+    int answer = 0;
+    vector<int> firstupper(26, -1), lastLower(26, -1);
+    for (int i = 0; i < word.size(); i++) {
+      char c = word[i];
+
+      if (isupper(c)) {
+        if (firstupper[c - 'A'] == -1) {
+          firstupper[c - 'A'] = i;
+        }
+      } else {
+        lastLower[c - 'a'] = i;
+      }
+    }
+    int specialCount = 0;
+    for (int i = 0; i < 26; i++) {
+      if (firstupper[i] != -1 && lastLower[i] != -1 &&
+          lastLower[i] < firstupper[i]) {
+        specialCount++;
+      }
+    }
+    return specialCount;
+  }
+};
+class Solution {
+ public:
+  int numberOfSpecialChars(string word) {
+    vector<int> firstUpper(26, INT_MAX);
+    vector<int> lastLower(26, -1);
+    for (int i = 0; i < word.length(); i++) {
+      char c = word[i];
+      if (isupper(c)) {
+        firstUpper[c - 'A'] = min(firstUpper[c - 'A'], i);
+      } else {
+        lastLower[c - 'a'] = i;
+      }
+    }
+    int count = 0;
+    for (int i = 0; i < 26; i++) {
+      if (firstUpper[i] != INT_MAX && lastLower[i] != -1 &&
+          lastLower[i] < firstUpper[i]) {
+        count++;
+      }
+    }
+    return count;
+  }
+};
+class Solution {
+ public:
+  int countSpecialCharacters(string word) {
+    vector<int> firstUpper(26, INT_MAX);
+    vector<int> lastLower(26, -1);
+    for (int i = 0; i < word.length(); i++) {
+      char c = word[i];
+      if (isupper(c)) {
+        firstUpper[c - 'A'] = min(firstUpper[c - 'A'], i);
+      } else {
+        lastLower[c - 'a'] = i;
+      }
+    }
+    int count = 0;
+    for (int i = 0; i < 26; i++) {
+      if (firstUpper[i] != INT_MAX && lastLower[i] != -1 &&
+          lastLower[i] < firstUpper[i]) {
+        count++;
+      }
+    }
+    return count;
+  }
+};
 
 class Solution {
-public:
-    int numberOfSpecialChars(string word) {
-        
+ public:
+  int countCharacters(vector<string>& words, string chars) {
+    vector<int> charsfreq(26, 0);
+    for (char c : chars) {
+      charsfreq[c - 'a']++;
     }
+    int val = 0;
+    for (string& word : words) {
+      vector<int> tempFreq(26, 0);
+      for (char c : word) {
+        tempFreq[c - 'a']++;
+      }
+      bool flag = true;
+      for (int i = 0; i < 26; i++) {
+        if (tempFreq[i] > charsfreq[i]) {
+          flag = false;
+          break;
+        }
+      }
+      if (flag) {
+        val += word.size();
+      }
+    }
+    return val;
+  }
+};
+class Solution {
+ public:
+  int countCharacters(vector<string>& words, string chars) {
+    vector<int> charsfreq(26, 0);
+    for (char c : chars) {
+      charsfreq[c - 'a']++;
+    }
+    int val = 0;
+    for (string& word : words) {
+      vector<int> tempFreq = charsfreq;
+      bool flag = true;
+      for (char c : word) {
+        if (--tempFreq[c - 'a'] < 0) {
+          flag = false;
+          break;
+        }
+      }
+      if (flag) {
+        val += word.size();
+      }
+    }
+    return val;
+  }
+};
+
+class Solution {
+ public:
+  int minNumber(vector<int>& nums1, vector<int>& nums2) {
+    unordered_set<int> set(nums1.begin(), nums1.end());
+    int smallcom = 10;
+    for (int num : nums2) {
+      if (set.count(num)) {
+        smallcom = min(smallcom, num);
+      }
+    }
+    if (smallcom != 10) return smallcom;
+
+    int first = *min_element(nums1.begin(), nums1.end());
+    int second = *min_element(nums2.begin(), nums2.end());
+
+    return min(first * 10 + second, second * 10 + first);
+  }
+};
+
+class Solution {
+ public:
+  vector<int> occurrencesOfElement(vector<int>& nums, vector<int>& queries,
+                                   int x) {
+    unordered_map<int, vector<int>> occurrences;
+    for (int i = 0; i < nums.size(); i++) {
+      occurrences[nums[i]].push_back(i);
+    }
+
+    vector<int> answer;
+    for (int q : queries) {
+      if (q > 0 && q <= occurrences[x].size()) {
+        // -1 due to 0 based indexing
+        answer.push_back(occurrences[x][q - 1]);
+      } else {
+        answer.push_back(-1);
+      }
+    }
+
+    return answer;
+  }
 };
