@@ -459,7 +459,6 @@ class Solution {
     int minLenght = 0;
     int sum = 0;
     for (int right = 0; right < nums.size(); right++) {
-      /* code */
       sum += nums[right];
       while (sum > k) {
         sum -= nums[left++];
@@ -731,4 +730,140 @@ bool canCut(vector<int>& ropes, int k, int length) {
     count += abs(rope / length);
   }
   return count >= k;
+}
+
+class Solution {
+ public:
+  vector<vector<char>> rotateTheBox(vector<vector<char>>& box) {
+    int m = box.size();
+    int n = box[0].size();
+
+    for (int i = 0; i < m; i++) {
+      int empty = n - 1;
+      for (int j = n - 1; j >= 0; j--) {
+        if (box[i][j] == '#') {
+          box[i][j] = '.';
+          box[i][empty] = '#';
+          empty--;
+        } else if (box[i][j] == '*') {
+          empty = j - 1;
+        }
+      }
+    }
+    vector<vector<char>> rotateBoxed(m, vector<char>(n));
+
+    for (int i = 0; i < m; i++) {
+      /* code */
+      for (int j = 0; j < n; j++) {
+        /* code */
+        rotateBoxed[j][i] = box[i][j];
+      }
+    }
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        rotateBoxed[j][m - i - 1] = box[i][j];
+      }
+    }
+    return rotateBoxed;
+  }
+};
+
+class Solution {
+ public:
+  vector<vector<string>> groupAnagrams(vector<string>& strs) {
+    unordered_map<string, vector<string>> mp;
+    for (const string& str : strs) {
+      string sorted = str;
+      sort(sorted.begin(), sorted.end());
+      mp[sorted].push_back(str);
+    }
+
+    vector<vector<string>> answer;
+    for (const auto& pair : mp) {
+      answer.push_back(pair.second);
+    }
+    return answer;
+  }
+};
+
+class Solution {
+ public:
+  int longestConsecutive(vector<int>& nums) {
+    unordered_set<int> numSet(nums.begin(), nums.end());
+    int longest = 0;
+    for (int num : numSet) {
+      if (!numSet.count(num - 1)) {
+        int currentLong = 1;
+        int curNum = num;
+        while (numSet.count(curNum + 1)) {
+          curNum += 1;
+          currentLong++;
+        }
+
+        longest = max(longest, currentLong);
+      }
+    }
+    return longest;
+  }
+};
+class Solution {
+ public:
+  vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    int n = vec.size();
+    sort(vec.begin(), vec.end());
+    vector<vector<int>> ans;
+    for (int i = 0; i < n; i++) {
+      /* code */
+      vector<int>& vec = ans.empty() ? intervals[i] : ans.back();
+      if (ans.empty() || vec[1] < intervals[i][0]) {
+        ans.push_back(intervals[i]);
+      } else {
+        ans.back()[1] = max(ans.back()[1], intervals[i][1]);
+      }
+    }
+
+    return ans;
+  }
+};
+
+void sieveOfEratosthenes(int n) {
+  vector<bool> isPrims(n + 1, false);
+  isPrims[0] = isPrims[1] = false;
+  for (int i = 2; i * i <= n; i++) {
+    if (isPrims[i]) {
+      for (int j = i * i; j <= n; j+=i) {
+        isPrims[j] = false;
+      }
+    }
+  }
+  for (int i = 0; i < n; i++) {
+    /* code */
+    if (isPrims[i]) {
+      /* code */
+      cout << i << endl;
+    }
+  }
+}
+
+int findGcd(int a , int b) {
+  while(b>0) {
+    int rem = a%b;
+    findGcd(b,a);
+  }
+
+  return a;
+}
+
+int findsubarraywithSumk(vector<int> &arr , int k ) {
+  unordered_map<int,int> prefixCount;
+  prefixCount[0]=1;
+  int prefixSum = 0 , count = 0;
+  for(int num :arr){
+    prefixSum+= num;
+    if(prefixCount.find(prefixSum-k) != prefixCount.end()) {
+      count+= prefixCount[prefixSum-k];
+    }
+
+    prefixCount[pref]
+  }
 }

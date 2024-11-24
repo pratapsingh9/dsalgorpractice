@@ -2134,7 +2134,6 @@ class Solution {
     return ans;
   }
 };
-
 int solve(const vector<int>& nums) {
   int n = (int)nums.size();
   int ans = 0, curr = 0;
@@ -2146,7 +2145,6 @@ int solve(const vector<int>& nums) {
     }
   }
 }
-
 class Solution {
  public:
   int findRadius(vector<int>& houses, vector<int>& heaters) {
