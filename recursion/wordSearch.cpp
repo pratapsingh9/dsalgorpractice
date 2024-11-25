@@ -381,7 +381,7 @@ class Solution {
       minMoves = min(moves, minMoves);
       return;
     }
-    if (visited.count(current) || moves >= minMoves) {
+    if (visited.count(current)) {
       return;
     }
     visited.insert(current);
@@ -392,5 +392,43 @@ class Solution {
       dfs(nxtstr, target, neighbors, visited, moves + 1, minMoves);
     }
     visited.erase(current);
+  }
+};
+
+class Solution {
+ public:
+  int slidingPuzzle(vector<vector<int>> &board) {
+    string start = "";
+    for (int i = 0; i < 2; i++) {
+      for (int j = 0; j < 3; j++) {
+        start += to_string(board[i][j]);
+      }
+    }
+    vector<vector<int>> neighbors = {{1, 3}, {0, 2, 4}, {1, 5},
+                                     {0, 4}, {1, 3, 5}, {2, 4}};
+
+    string target = "123450";
+    queue<pair<int,string>> q;
+    unordered_set<string> visted;
+    q.push({0,start});
+    while(!q.empty()) {
+      string current = q.front().second;
+      int moves = q.front().first;
+
+      q.pop();
+      if(current==target) return moves;
+
+      int zeroIdx = current.find('0');
+      for(int neighbour:neighbors[zeroIdx]) {
+        string temp = current;
+        swap(temp[zeroIdx],temp[neighbour]);
+
+        if(visted.find(temp)==visted.end()) {
+          q.push({moves+1,temp});
+          visted.insert(temp);
+        }
+      } 
+    }
+    return -1;
   }
 };
