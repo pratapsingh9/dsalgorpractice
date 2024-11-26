@@ -408,27 +408,40 @@ class Solution {
                                      {0, 4}, {1, 3, 5}, {2, 4}};
 
     string target = "123450";
-    queue<pair<int,string>> q;
+    queue<pair<int, string>> q;
     unordered_set<string> visted;
-    q.push({0,start});
-    while(!q.empty()) {
+    q.push({0, start});
+    while (!q.empty()) {
       string current = q.front().second;
       int moves = q.front().first;
 
       q.pop();
-      if(current==target) return moves;
+      if (current == target) return moves;
 
       int zeroIdx = current.find('0');
-      for(int neighbour:neighbors[zeroIdx]) {
+      for (int neighbour : neighbors[zeroIdx]) {
         string temp = current;
-        swap(temp[zeroIdx],temp[neighbour]);
+        swap(temp[zeroIdx], temp[neighbour]);
 
-        if(visted.find(temp)==visted.end()) {
-          q.push({moves+1,temp});
+        if (visted.find(temp) == visted.end()) {
+          q.push({moves + 1, temp});
           visted.insert(temp);
         }
-      } 
+      }
     }
     return -1;
   }
 };
+
+
+void sieve(int n ) {
+  vector<bool> isPrims(n+1,true);
+  isPrims[0]=isPrims[1]=false;
+  for(int i = 2; i<sqrt(n); i++) {
+    if(isPrims[i]) {
+      for(int j=i*i; i<=n ;j+=i) {
+        
+      }
+    }
+  }
+}

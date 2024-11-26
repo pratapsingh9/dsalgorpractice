@@ -442,3 +442,311 @@ class Solution {
     }
   }
 };
+
+class Solution {
+ public:
+  int findChampion(int n, vector<vector<int>>& edges) {
+    if (edges.empty()) return -1;
+    // vector<vector<int>> edges(n);
+    vector<bool> indegree(n, 0);
+    for (auto edge : edges) {
+      indegree[v] = false;
+    }
+    if (count(indegree.begin(), indegree.end(), false) == 1) {
+      return find(indegree.begin(), indegree.end(), false) - indegree.begin();
+    } else {
+      return -1;
+    }
+  }
+};
+
+class Solution {
+ public:
+  vector<vector<int>> insert(vector<vector<int>>& intervals,
+                             vector<int>& newInterval) {
+    vector<vector<int>> result;
+    int n = intervals.size();
+    int i = 0;
+    while (i < n && intervals[i][1] < newInterval[0]) {
+      result.push_back(intervals[i]);
+      i++;
+    }
+
+    while (i < n && intervals[i][0] <= newInterval[1]) {
+      newInterval[0] = min(newInterval[0], intervals[i][0]);
+      newInterval[1] = max(newInterval[1], intervals[i][1]);
+      i++;
+    }
+    result.push_back(newInterval);
+
+    while (i < n) {
+      result.push_back(intervals[i]);
+      i++;
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int minTimeToType(string word) {
+    int currpostiton = 'a';
+    int timer = 0;
+    for (char c : word) {
+      int clockWise = abs(c - currpostiton);
+      int counterClockwies = 26 - clockWise;
+      timer += min(clockWise, counterClockwies);
+      currpostiton = c;
+    }
+    timer += word.size();
+    return timer;
+  }
+};
+
+class Solution {
+ public:
+  int minOperations(vector<int>& nums) {
+    int ans = 0;
+    for (int i = 1; i < nums.size(); i++) {
+      if (nums[i] <= nums[i - 1]) {
+        ans += nums[i - 1] + 1 - nums[i];
+      }
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int to_minutes(string& time) {
+    int hours = stoi(time.substr(0, 2));
+    int minutes = stoi(time.substr(3, 2));
+    return hours * 60 + minutes;
+  }
+
+  int convertTime(string current, string correct) {
+    int currentTime = to_minutes(current);
+    int correctTime = to_minutes(correct);
+    vector<int> time_intervals = {60, 15, 5, 1};
+    int diff = correctTime - currentTime;
+    int moves = 0;
+    for (int interval : time_intervals) {
+      moves += diff / interval;
+      diff %= interval;
+    }
+
+    return moves;
+  }
+};
+
+class Solution {
+ public:
+  int giveDiffrence(string current, string correct) {
+    int currHour = (current[0] - '0') * 10 + (current[1] - '0');
+    int currMinute = (current[3] - '0') * 10 + (current[4] - '0');
+    int correctHour = (correct[0] - '0') * 10 + (correct[1] - '0');
+    int correctMinute = (correct[3] - '0') * 10 + (correct[4] - '0');
+
+    return (correctHour * 60 + correctMinute) - (currHour * 60 + currMinute);
+  }
+  int convertTime(string current, string correct) {
+    int diff = giveDiffrence(current, correct);
+    vector<int> operation = {60, 15, 5, 1};
+    int totalOpeation = 0;
+    for (int operate : operation) {
+      totalOpeation += diff / operate;
+      diff %= operate;
+    }
+    return totalOpeation;
+  }
+};
+
+class Solution {
+ public:
+  int minCostToMoveChips(vector<int>& position) {
+    int evenCount = 0;
+    int oddCount = 0;
+    for (int it : position) {
+      if (it % 2 == 0) {
+        evenCount++;
+      } else {
+        oddCount++;
+      }
+    }
+    return min(evenCount, oddCount);
+  }
+};
+
+class Solution {
+ public:
+  bool canJump(vector<int>& nums) {
+    int n = nums.size();
+    int maxy = 0;
+    for (int i = 0; i < n; i++) {
+      if (i > maxy) {
+        return false;
+      }
+      maxy = max(maxy, i + nums[i]);
+      if (maxy >= n - 1) {
+        return true;
+      }
+    }
+    return false;
+  }
+};
+
+int gcd(int a, int b) { return b == 0 ? a : gcd(b, a % b); }
+
+int chinneseRemainder(vector<int>& nums, vector<int> rems) {
+  int prod = 1;
+  int result = 0;
+  for (int n : nums) prod *= n;
+
+  for (int i = 0; i < nums.size(); i++) {
+  }
+}
+
+void solved() {
+  int n, k;
+  cin >> n >> k;
+  if (k <= (n + 1) / 2) {
+  }
+}
+class Solution {
+ public:
+  typedef pair<int, int> P;
+  vector<string> findRelativeRanks(vector<int>& score) {
+    vector<string> answer(score.size(), "");
+    vector<string> prize = {"Gold Medal", "Silver Medal", "Bronze Medal"};
+
+    priority_queue<P> pq;
+    for (int i = 0; i < score.size(); i++) {
+      pq.push(make_pair(score[i], i));
+    }
+    int rank = 0;
+    while (!pq.empty()) {
+      int index = pq.top().second;
+      pq.pop();
+      if (rank < 3) {
+        answer[index] = prize[rank];
+      } else {
+        answer[index] = to_string(rank + 1);
+      }
+      rank++;
+    }
+
+    return answer;
+  }
+};
+
+class Solution {
+ public:
+  long long pickGifts(vector<int>& gifts, int k) {
+    long long response = 0;
+    priority_queue<int> pq(gifts.begin(), gifts.end());
+    while (k--) {
+      int val = pq.top();
+      pq.pop();
+      pq.push(sqrt(val));
+    }
+    while (!pq.empty()) {
+      response += pq.top();
+      pq.pop();
+    }
+    return response;
+  }
+};
+
+class Solution {
+ public:
+  int largestInteger(int num) {
+    priority_queue<int> evenHeap;
+    priority_queue<int> oddHeap;
+
+    string n = to_string(num);
+    for (int i = 0; i < n.size(); i++) {
+      int value = n[i] - '0';
+      if (i % 2 == 0) {
+        evenHeap.push(value);
+      } else {
+        oddHeap.push(value);
+      }
+    }
+    string result = "";
+    for (int i = 0; i < n.size(); i++) {
+      if (i % 2 == 0) {
+        result += to_string(evenHeap.top());
+        evenHeap.pop();
+      } else
+        [result += to_string(oddHeap.top()); oddHeap.pop();]
+    }
+    return stoi(result);
+  }
+};
+
+class Solution {
+ public:
+  int largestInteger(int num) {
+    string number = to_string(num);
+    vector<int> even, odd;
+    for (char c : number) {
+      int digit = c - '0';
+      if (digit % 2 == 0) {
+        even.push_back(digit);
+      } else {
+        odd.push_back(digit);
+      }
+    }
+    sort(even.rbegin(), even.rend());
+    sort(odd.rbegin(), odd.rend());
+
+    int evenIndex = 0, oddIndex = 0;
+    for (int i = 0; i < number.size(); i++) {
+      int digit = number[i] - '0';
+      if (digit % 2 == 0) {
+        number[i] = even[evenIndex++] + '0';  
+      } else {
+        number[i] = odd[oddIndex++] + '0'; 
+      }
+    }
+    return stoi(number);
+  }
+};
+
+
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int answer = 0;
+        for (int i = 0; i < grid.size(); i++)
+        {
+          /* code */
+          for(int j = 0; j<grid[0].size(); j++) {
+            if(grid[i][j] < 0) {
+              answer++;
+            }
+          }
+        }
+        return answer;
+    }
+};
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m  = matrix.size();
+        int n  = matrix[0].size();
+
+        int row = 0;
+        int cols = n-1;
+
+        while(row<m && cols>=0) {
+          if(matrix[row][cols]==target) return true;
+          else if(matrix[row][cols] < target) {
+            row++;
+          }
+          else cols--;
+        }
+        return false;
+    }
+};

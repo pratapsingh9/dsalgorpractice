@@ -26,6 +26,23 @@ int findCiel(Node* root, int key) {
   }
   return ciel;
 }
+
+int findfloor(Node*root, int key) {
+  int floor = -1;
+  while(root) {
+    if(root->data == key) {
+      return root->data;
+    }
+    else if(root->data < key) {
+      floor = root->data;
+      root = root->right;
+    }else{
+      root=root->left;
+    }
+  }
+  return floor;
+}
+
 int findFloor(Node* root, int key) {
   int floor = -1;
 
