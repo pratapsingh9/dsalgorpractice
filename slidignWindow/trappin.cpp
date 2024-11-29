@@ -52,4 +52,16 @@ int trap(vector<int> rains) {
   return ans;
 }
 
-int main() { return 0; }
+int findfirstmsisignPositive(vector<int> &nums) {
+  sort(nums.begin(),nums.end());
+  int missing = 1;
+  for(int num:nums) {
+    if(num==missing) {
+      missing++;
+    }
+    else if(num>missing) {
+      
+    }
+  }
+  return 
+}

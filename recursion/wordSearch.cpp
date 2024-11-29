@@ -112,7 +112,6 @@ class Solution {
     int ans = 0;
     int currSum = 0;
     for (int right = 0; right < nums.size(); right++) {
-      /* code */
       if (set.insert(nums[right]) == set.end()) {
         set.insert(nums[right]);
         currSum += nums[right];
@@ -433,15 +432,496 @@ class Solution {
   }
 };
 
-
-void sieve(int n ) {
-  vector<bool> isPrims(n+1,true);
-  isPrims[0]=isPrims[1]=false;
-  for(int i = 2; i<sqrt(n); i++) {
-    if(isPrims[i]) {
-      for(int j=i*i; i<=n ;j+=i) {
-        
+void sieve(int n) {
+  vector<bool> isPrims(n + 1, true);
+  isPrims[0] = isPrims[1] = false;
+  for (int i = 2; i < sqrt(n); i++) {
+    if (isPrims[i]) {
+      for (int j = i * i; i <= n; j += i) {
       }
     }
   }
 }
+
+class Solution {
+ public:
+  int search(vector<int> &nums, int target) {
+    int st = 0, end = nums.size() - 1;
+
+    while (st <= end) {
+      int mid = st + (end - st) / 2;
+      if (nums[mid] == target) {
+        return target;
+      }
+
+      if (nums[st] <= nums[end]) {
+        if (nums[st] <= target && nums[mid] >= target) {
+          end = mid - 1;
+        } else {
+          st = mid + 1;
+        }
+      } else if (nums[mid] <= target && nums[end] >= target) {
+        if () }
+    }
+  }
+};
+
+class Solution {
+ public:
+  int peakIndexInMountainArray(vector<int> &arr) {
+    int start = 0, int end = arr.size() - 1;
+    while (start <= end) {
+      int mid = start + (end - start) / 2;
+      if (arr[mid] > arr[mid + 1]) {
+        end = mid;
+      } else {
+        start = mid + 1;
+      }
+    }
+    return start;
+  }
+};
+
+int findKRotation(vector<int> &arr) {
+  // Code Here
+  int low = 0, high = arr.size() - 1;
+  while (low < high) {
+    int mid = low + (high - low) / 2;
+    if (arr[mid] < arr[low]) {
+      high = mid - 1;
+    } else if (arr[mid] > arr[high]) {
+      low = mid + 1;
+    }
+  }
+  return low;
+}
+
+class Solution {
+ public:
+  bool search(vector<int> &nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+
+      if (nums[mid] == target) return true;
+      if (nums[left] == nums[mid]) {
+        left++;
+        continue;
+      }
+      if (nums[left] <= nums[mid]) {
+        if (target >= nums[left] && nums[mid] > target) {
+          right = mid - 1;
+        } else {
+          left = mid + 1;
+        }
+      } else {
+        if (target > nums[mid] && nums[right] = > target) {
+          left = mid + 1;
+        } else {
+          right = mid - 1;
+        }
+      }
+    }
+    return false;
+  }
+};
+
+class Solution {
+ public:
+  bool solve(vector<int> &piles, int h, int k) {
+    int hour = 0;
+    for (int pile : piles) {
+      hour += ceil((double)pile / k);
+    }
+    return hour <= h;
+  }
+  int minEatingSpeed(vector<int> &piles, int h) {
+    int low = 1;
+    int high = *max_element(piles.begin(), piles.end());
+    int res = high;
+    while (low <= high) {
+      int mid = low + (high - low) / 2;
+      if (solve(piles, h, mid)) {
+        high = mid - 1;
+        res = mid;
+      } else {
+        low = mid + 1;
+      }
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  bool canShip(vector<int> &weights, int days, int capacity) {
+    int total = 0, requiredDays = 1;
+    for (int weight : weights) {
+      if (total + weight > capacity) {
+        requiredDays++;
+        total = weight;
+        if (requiredDays > days) return false;
+      } else {
+        total += weight;
+      }
+    }
+    return true;
+  }
+  int shipWithinDays(vector<int> &weights, int days) {
+    int low = *max_element(weights.begin(), weights.end());
+    int high = accumulate(weights.begin(), weights.end());
+    int result = high;
+    while (left < high) {
+      int mid = low + (high - low) / 2;
+      if (canShip(weights, days, mid)) {
+        result = mid;
+        high = mid - 1;
+      } else {
+        low = mid + 1;
+      }
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int findCheapestPrice(int n, vector<vector<int>> &flights, int src, int dst,
+                        int k) {
+    vector<vector<pair<int, int>>> graph(n);
+    for (const auto &flight : flights) {
+      graph[flight[0]].push_back({flight[1], flight[2]});
+    }
+
+    vector<int> distance(n, INT_MAX);
+    distance[src] = 0;
+    queue<pair<int, int>> q;
+    q.push({src, 0});
+    int minCost = 0;
+    int stops = 0;
+    while (!q.empty() && stops <= k) {
+      auto curr = q.front();
+      int node = curr.first;
+      int currCost = curr.second;
+      int size = q.size();
+      for (int i = 0; i < size; i++) {
+        int newCost = curr
+      }
+    }
+  }
+};
+
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+using namespace std;
+
+class Solution {
+ public:
+  int numBusesToDestination(vector<vector<int>> &routes, int source,
+                            int target) {
+    if (source == target) return 0;
+
+    unordered_map<int, vector<int>> stopToBuses;  // Map each stop to buses
+    for (int bus = 0; bus < routes.size(); ++bus) {
+      for (int stop : routes[bus]) {
+        stopToBuses[stop].push_back(bus);
+      }
+    }
+    queue<int> q;
+    unordered_set<int> visitedBuses;
+    unordered_set<int> visitedStops;
+    int busesTaken = 0;
+    for (int bus : stopToBuses[source]) {
+      q.push(bus);
+      visitedBuses.insert(bus);
+    }
+    while (!q.empty()) {
+      ++busesTaken;
+      int levelSize = q.size();
+
+      for (int i = 0; i < levelSize; ++i) {
+        int currentBus = q.front();
+        q.pop();
+
+        for (int stop : routes[currentBus]) {
+          if (stop == target) return busesTaken;
+          if (visitedStops.find(stop) == visitedStops.end()) {
+            visitedStops.insert(stop);
+            for (int nextBus : stopToBuses[stop]) {
+              if (visitedBuses.find(nextBus) == visitedBuses.end()) {
+                q.push(nextBus);
+                visitedBuses.insert(nextBus);
+              }
+            }
+          }
+        }
+      }
+    }
+    return -1;
+  }
+};
+class Solution {
+ public:
+  typedef pair<int, pair<int, int>> P;
+  int minimumObstacles(vector<vector<int>> &grid) {
+    int m = grid.size();
+    int n = grid[0].size();
+
+    vector<pair<int, int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+    deque<pair<int, int>> q;
+    dist[0][0] = 0;
+    q.push_front({0, 0});
+    while (!q.empty()) {
+      int x = q.front().first;
+      int y = q.front().second;
+
+      q.pop_front();
+
+      for (auto &dir : directions) {
+        int newX = dir.first + x;
+        int newY = dir.second + y;
+
+        if (newX >= 0 && newY >= 0 && newX < m && newY < n) {
+          int newCost = dist[x][y] + grid[newX][newY];
+          if (dist[newX][newY] > newCost) {
+            dist[newX][newY] = newCost;
+            if (grid[newX][newY] == 0) {
+              q.push_front({newX, newY});
+            } else {
+              q.push_back({newX, newY});
+            }
+          }
+        }
+      }
+    }
+    return dist[m - 1][n - 1];
+  }
+};
+class Solution {
+ public:
+  typedef pair<int, pair<int, int>> P;
+  int minimumObstacles(vector<vector<int>> &grid) {
+    int m = grid.size();
+    int n = grid[0].size();
+
+    vector<pair<int, int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+    dist[0][0] = 0;
+    priority_queue<P, vector<P>, greater<P>> pq;
+    pq.push({0, {0, 0}});
+    while (!pq.empty()) {
+      auto current = pq.top();
+      int x = current.second.first;
+      int y = current.second.second;
+      int distance = current.first;
+
+      for (auto &dir : directions) {
+        int newX = dir.first + x;
+        int newY = dir.second + y;
+        if (newX >= 0 && newY >= 0 && newX < m && newY < n) {
+          int weight = (grid[newX][newY] == 1) ? 1 : 0;
+          int newCost = weight + distance;
+
+          if (dist[newX][newY] > newCost) {
+            dist[newX][newY] = newCost;
+            pq.push({newCost, {newX, newY}});
+          }
+        }
+      }
+    }
+    return dist[m - 1][n - 1];
+  }
+};
+class Solution {
+ public:
+  typedef long long LL;
+  int maximumCandies(vector<int> &candies, long long k) {
+    long long low = 1, right = *max_element(candies.begin(), candies.end());
+    long long res = 0;
+
+    while (low <= right) {
+      LL mid = low + (right - low) / 2;
+      LL children = 0;
+      for (int pile : candies) {
+        children += pile / mid;
+
+        if (children >= k) {
+          res = mid;
+          low = mid + 1;
+        } else {
+          right = mid - 1;
+        }
+      }
+    }
+    return res;
+  }
+};
+class Solution {
+ public:
+  typedef pair<int, pair<int, int>> P;
+  int minimumTime(vector<vector<int>> &grid) {
+    int m = grid.size();
+    int n = grid[0].size();
+    if (grid[0][1] > 1 && grid[1][0] > 1) {
+      return -1;
+    }
+    priority_queue<P, vector<P>, greater<P>> pq;
+    pq.push({0, {0, 0}});
+    vector<vector<bool>> visited(m, vector<bool>(n, false));
+    vector<pair<int, int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    while (!pq.empty()) {
+      int currentTime = pq.top().first;
+      int x = pq.top().second.first;
+      int y = pq.top().second.second;
+      pq.pop();
+      if (visited[x][y]) continue;
+      visited[x][y] = true;
+      if (x == m - 1 && y == n - 1) {
+        return currentTime;
+      }
+      for (auto &dir : directions) {
+        int newX = x + dir.first;
+        int newY = y + dir.second;
+        if (newX >= 0 && newY >= 0 && newX < m && newY < n &&
+            !visited[newX][newY]) {
+          int newTime = currentTime + 1;
+          if (newTime % 2 != grid[newX][newY] % 2) {
+            newTime++;
+          }
+          pq.push({newTime, {newX, newY}});
+        }
+      }
+    }
+
+    return -1;
+  }
+};
+
+class Solution {
+ public:
+  int minimumTime(vector<vector<int>> &grid) {
+    int m = grid.size();
+    int n = grid[0].size();
+
+    // If we can't move right or down from start, it's impossible
+    if (grid[0][1] > 1 && grid[1][0] > 1) {
+      return -1;
+    }
+
+    // Directions: down, up, right, left
+    vector<vector<int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+    // Priority queue to store {time, x, y}
+    priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
+
+    // Distance matrix to track minimum time to reach each cell
+    vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+
+    // Start from top-left cell at time 0
+    pq.push({0, 0, 0});
+    dist[0][0] = 0;
+
+    while (!pq.empty()) {
+      auto curr = pq.top();
+      pq.pop();
+
+      int time = curr[0];
+      int x = curr[1];
+      int y = curr[2];
+      if (x == m - 1 && y == n - 1) {
+        return time;
+      }
+      if (time > dist[x][y]) continue;
+      for (auto &dir : directions) {
+        int nx = x + dir[0];
+        int ny = y + dir[1];
+        if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+          int newTime = max(time + 1, grid[nx][ny]);
+          if (newTime < dist[nx][ny]) {
+            dist[nx][ny] = newTime;
+            pq.push({newTime, nx, ny});
+          }
+        }
+      }
+    }
+    return -1;  // Cannot reach bottom-right cell
+  }
+};
+
+class Solution {
+ public:
+  int minAddToMakeValid(string s) {
+    int open = 0, close = 0;
+    for (char ch : s) {
+      if (c == '(') {
+        open++;
+      } else if (c == ')') {
+        if (open > 0) {
+          open--;
+        } else {
+          close++;
+        }
+      }
+    }
+    return open + close;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> maxDepthAfterSplit(string seq) {
+    vector<int> answer(seq.size(), 0);
+    int currDepth = 0;
+    for (int i = 0; i < seq.size(); i++) {
+      /* code */
+      if (seq[i] == '(') {
+        currDepth++;
+        answer[i] = currDepth % 2;
+      } else {
+        answer[i] = currDepth % 2;
+        currDepth--;
+      }
+    }
+    return answer;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> maxDepthAfterSplit(string seq) {
+    vector<int> answer(seq.size(), 0);
+    stack<int> st;
+    for (int i = 0; i < seq.size(); i++) {
+      if (seq[i] == '(') {
+        st.push(st.size());
+        answer[i] = st.size() % 2;
+      } else if (seq[i] == ')') {
+        answer[i] = st.size() % 2;
+        st.pop();
+      }
+    }
+    return answer;
+  }
+};
+
+string addBinary(string s1, string s2) {
+  int i = s1.size() - 1;
+  int j = s2.size() - 1;
+  string answer = "";
+  int carry = 0;
+  while (i >= 0 || j >= 0 || carry) {
+    int sum = carry;
+    if (i >= 0) {
+    }
+  }
+}
+
+class Solution {
+public:
+    int maximumSum(vector<int>& arr) {
+        
+    }
+};

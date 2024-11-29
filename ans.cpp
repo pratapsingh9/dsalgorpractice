@@ -704,49 +704,195 @@ class Solution {
     for (int i = 0; i < number.size(); i++) {
       int digit = number[i] - '0';
       if (digit % 2 == 0) {
-        number[i] = even[evenIndex++] + '0';  
+        number[i] = even[evenIndex++] + '0';
       } else {
-        number[i] = odd[oddIndex++] + '0'; 
+        number[i] = odd[oddIndex++] + '0';
       }
     }
     return stoi(number);
   }
 };
 
-
 class Solution {
-public:
-    int countNegatives(vector<vector<int>>& grid) {
-        int answer = 0;
-        for (int i = 0; i < grid.size(); i++)
-        {
-          /* code */
-          for(int j = 0; j<grid[0].size(); j++) {
-            if(grid[i][j] < 0) {
-              answer++;
-            }
-          }
+ public:
+  int countNegatives(vector<vector<int>>& grid) {
+    int answer = 0;
+    for (int i = 0; i < grid.size(); i++) {
+      /* code */
+      for (int j = 0; j < grid[0].size(); j++) {
+        if (grid[i][j] < 0) {
+          answer++;
         }
-        return answer;
+      }
     }
+    return answer;
+  }
 };
 
 class Solution {
-public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int m  = matrix.size();
-        int n  = matrix[0].size();
+ public:
+  bool searchMatrix(vector<vector<int>>& matrix, int target) {
+    int m = matrix.size();
+    int n = matrix[0].size();
 
-        int row = 0;
-        int cols = n-1;
+    int row = 0;
+    int cols = n - 1;
 
-        while(row<m && cols>=0) {
-          if(matrix[row][cols]==target) return true;
-          else if(matrix[row][cols] < target) {
-            row++;
-          }
-          else cols--;
-        }
-        return false;
+    while (row < m && cols >= 0) {
+      if (matrix[row][cols] == target)
+        return true;
+      else if (matrix[row][cols] < target) {
+        row++;
+      } else
+        cols--;
     }
+    return false;
+  }
+};
+
+class Solution {
+ public:
+  int bfs(int n, unordered_map<int, vector<int>>& graph) {
+    vector<int> distance(n, INT_MAX);
+    queue<int> q;
+    distance[0] = 0;
+    q.push(0);
+    while (!q.empty()) {
+      int node = q.front();
+      q.pop();
+
+      for (int neighbour : graph[node]) {
+        if (distance[neighbour] > distance[node] + 1) {
+          distance[neighbour] = distance[node] + 1;
+          q.push(neighbour);
+        }
+      }
+    }
+    return distance[n - 1];
+  }
+  vector<int> shortestDistanceAfterQueries(int n,
+                                           vector<vector<int>>& queries) {
+    unordered_map<int, vector<int>> graph;
+    for (int i = 0; i < n - 1; i++) {
+      /* code */
+      graph[i].push_back(i + 1);
+    }
+    vector<int> result;
+
+    for (const auto& query : queries) {
+      int u = query[0];
+      int v = query[1];
+
+      graph[u].push_back(v);
+      result.push_back(bfs(n, graph));
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst,
+                        int k) {
+    vector<vector<pair<int, int>>> graph(n);
+    for (const auto& flight : flights) {
+      int u = flight[0];
+      int v = flight[1];
+      int cost = flight[2];
+
+      graph[u].push_back({v, cost});
+    }
+
+    int minCost = INT_MAX;
+
+    vector<int> distance(n, INT_MAX);
+    distance[src] = 0;
+    queue<vector<int>> q;
+
+    q.push({0, src, 0});
+    while (!q.empty()) {
+      auto current = q.front();
+      q.pop();
+      int currentNode = current[1];
+      int stops = current[0];
+      int totalCost = current[2];
+
+      if (stops > k) continue;
+      for (auto neighbour : graph[currentNode]) {
+        int next = neighbour.first;
+        int movingCost = neighbour.second;
+
+        int newCost = movingCost + totalCost;
+
+        if (newCost < distance[next]) {
+          distance[next] = newCost;
+        }
+        if (next == dst) {
+          minCost = min(minCost, newCost);
+        }
+
+        q.push({stops + 1, next, newCost});
+      }
+    }
+    return minCost == INT_MAX ? -1 : minCost;
+  }
+};
+
+class Solution {
+ public:
+  int missingNumber(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    int low = 0;
+    int high = nums.size() - 1;
+    while (low <= high) {
+      int mid = low + (high - low) / 2;
+      if (nums[mid] == mid) {
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+    return low;
+  }
+};
+
+class Solution {
+ public:
+  int findKthPositive(vector<int>& arr, int k) {
+    int low = 0, high = arr.size() - 1;
+    while (low <= high) {
+      int mid = (high + low) / 2;
+
+      int missingNumber = arr[mid] - (mid + 1);
+
+      if (missingNumber > k) {
+        high = mid - 1;
+      } else {
+        low = mid + 1;
+      }
+    }
+
+    return low + k;
+  }
+};
+
+class Solution {
+ public:
+  int findDuplicate(vector<int>& nums) {
+    int low = 0, high = nums.size() - 1;
+    sort(nums.begin(), nums.end());
+    while (low <= high) {
+      int mid = (high + low) / 2;
+      int count = 0;
+      for (int num : nums) {
+        if (num <= mid) count++;
+      }
+      if (count > mid) {
+        high = mid;
+      } else {
+        low = mid + 1;
+      }
+    }
+    return low;
+  }
 };
