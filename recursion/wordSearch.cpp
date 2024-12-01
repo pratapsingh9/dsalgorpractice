@@ -920,8 +920,115 @@ string addBinary(string s1, string s2) {
 }
 
 class Solution {
-public:
-    int maximumSum(vector<int>& arr) {
-        
+ public:
+  int solve(vector<int> &arr, int index, int delted) { if }
+  int maximumSum(vector<int> &arr) {
+    int maxSum = INT_MIN;
+    for (int i = 0; i < arr.size(); i++) {
+      maxSum = max(maxSum, solve(arr, i, 0));
     }
+
+    return maxSum;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> topStudents(vector<string> &positive_feedback,
+                          vector<string> &negative_feedback,
+                          vector<string> &report, vector<int> &student_id,
+                          int k) {
+    unordered_set<string> positive(positive_feedback.begin(),
+                                   positive_feedback.end());
+    unordered_set<string> negative(negative_feedback.begin(),
+                                   negative_feedback.end());
+
+    auto comp =
+        [](const pair<int, int> &a, const pair<int, int> &b) {
+          if (a.first == b.first) {
+            return a.second > b.second;
+          }
+
+          return a.first > b.first;
+        }
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(comp)>
+        pq(comp);
+    for (int i = 0; i < report.size(); i++) {
+      int points = 0;
+      string &curr = report[i];
+
+      string word;
+
+      for (char c : curr) {
+        if (c == ' ') }
+    }
+  }
+};
+
+class Solution {
+ public:
+  void backtrack(vector<int> &nums, vector<vector<int>> &result,
+                 vector<int> &current, vector<bool> &visited) {
+    if (current.size() == nums.size()) {
+      result.push_back(current);
+      return;
+    }
+
+    for (int i = 0; i < nums.size(); i++) {
+      if (visited[i]) continue;
+      if (i > 0 && nums[i] == nums[i - 1] && !visited[i]) continue;
+
+      visited[i] = true;
+      current.push_back(nums[i]);
+      backtrack(nums, result, current, visited);
+      visited[i] = false;
+      current.pop_back();
+    }
+  }
+  vector<vector<int>> permuteUnique(vector<int> &nums) {
+    vector<vector<int>> result;
+    vector<int> current;
+    vector<bool> visited(nums.size(), false);
+
+    sort(nums.begin(), nums.end());
+
+    backtrack(nums, result, current, visited);
+
+    return result;
+  }
+};
+class Solution {
+ public:
+  bool binarySearch(vector<int> &arr, int i, int target) {
+    int low = 0, high = arr.size() - 1;
+    while (low <= high) {
+      int mid = low + (high - low) / 2;
+      if (mid == i) {
+        if (mid > low)
+          mid--;
+        else
+          mid++;
+      }
+
+      if (arr[mid] == target) return true;
+
+      if (arr[mid] < target) {
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+    return false;
+  }
+
+  bool checkIfExist(vector<int> &arr) {
+    sort(arr.begin(), arr.end());
+    for (int i = 0; i < arr.size(); i++) {
+      if (binarySearch(arr, i, arr[i] * 2)) {
+        return true;
+      }
+    }
+    return false;
+  }
 };

@@ -896,3 +896,42 @@ class Solution {
     return low;
   }
 };
+
+class Solution {
+ public:
+  vector<int> findPeakGrid(vector<vector<int>>& mat) {
+    int rows = mat.size();
+    int cols = mat[0].size();
+
+    int left = 0, right = cols - 1;
+
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      int maxRowIndex = 0;
+      for (int i = 0; i < rows; i++) {
+        if (mat[i][mid] > mat[maxRowIndex][mid]) {
+          maxRowIndex = i;
+        }
+      }
+
+      bool isTopSmaller = (mid == 0 || mat[mid][maxRowIndex])
+    }
+  }
+};
+
+class Solution {
+  public:
+    char nonRepeatingChar(string &s) {
+        unordered_map<char,int> mp;
+        for(char c:s) {
+          mp[c]++
+        }
+
+        for(char c:s) {
+          if(mp[c]==1) {
+            return c;
+          }
+        }
+        return '\0';
+     }
+};
