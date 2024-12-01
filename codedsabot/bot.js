@@ -56,13 +56,9 @@ bot.help((ctx) => {
     "Choose a rating that matches your skill level!"
   );
 });
-
-// Get Codeforces problem by rating
 bot.command("getcf", async (ctx) => {
   const args = ctx.message.text.split(" ").slice(1);
   const rating = parseInt(args[0]);
-
-  // Validate rating
   const validRatings = [800, 1200, 1600, 2000];
   if (isNaN(rating) || !validRatings.includes(rating)) {
     return ctx.reply(
@@ -70,7 +66,6 @@ bot.command("getcf", async (ctx) => {
       "Example: /getcf 1200"
     );
   }
-
   try {
     const problem = await getCodeforcesQuestion(rating);
     if (problem) {
@@ -89,8 +84,6 @@ bot.command("getcf", async (ctx) => {
     ctx.reply("🚨 An error occurred while fetching the problem. Please try again.");
   }
 });
-
-// Random problem command
 bot.command("random", async (ctx) => {
   const randomRatings = [800, 1200, 1600, 2000];
   const randomRating = randomRatings[Math.floor(Math.random() * randomRatings.length)];
@@ -113,11 +106,8 @@ bot.command("random", async (ctx) => {
     ctx.reply("🚨 An error occurred while fetching a random problem.");
   }
 });
-
-// Handle bot being added to a group
 bot.on("new_chat_members", async (ctx) => {
   try {
-    // Check if the bot is among the new members
     const botUsername = ctx.botInfo.username;
     const newMembers = ctx.message.new_chat_members;
     
@@ -138,8 +128,6 @@ bot.on("new_chat_members", async (ctx) => {
     console.error("Group join handler error:", error);
   }
 });
-
-// Error handling middleware
 bot.catch((err, ctx) => {
   console.error(`Error for ${ctx.updateType}:`, err);
 });

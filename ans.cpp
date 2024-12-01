@@ -920,18 +920,23 @@ class Solution {
 };
 
 class Solution {
-  public:
-    char nonRepeatingChar(string &s) {
-        unordered_map<char,int> mp;
-        for(char c:s) {
-          mp[c]++
-        }
+ public:
+  char nonRepeatingChar(string& s) {
+    unordered_map<char, int> mp;
+    for (char c : s) {
+      mp[c]++
+    }
 
-        for(char c:s) {
-          if(mp[c]==1) {
-            return c;
-          }
-        }
-        return '\0';
-     }
+    for (char c : s) {
+      if (mp[c] == 1) {
+        return c;
+      }
+    }
+    return '\0';
+  }
 };
+
+#include <vector>
+using namespace std;
+
+
