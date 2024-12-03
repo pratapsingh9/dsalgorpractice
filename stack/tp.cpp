@@ -1658,8 +1658,7 @@ class Solution {
     int prev2 = 0;
     int prev1 = nums[0];
     for (int i = 1; i < n; i++) {
-      int curr = max(nums[i] + prev2,
-                     prev1);  // dp[i] = max(nums[i] + dp[i-2], dp[i-1])
+      int curr = max(nums[i] + prev2, prev1);
       prev2 = prev1;
       prev1 = curr;
     }
@@ -1681,6 +1680,20 @@ class Node {
     children = _children;
   }
 };
+int maxDepth(Node* root) {
+  queue<pair<Node*, int>> q;
+  q.push({root, 1});
+  int maxy = 0;
+  while (!q.empty()) {
+    auto it = q.front();
+    q.pop();
+    maxy = max(maxy, it.second);
+    for (Node* kid : root->children) {
+      q.push({kid, it.second + 1});
+    }
+  }
+  return maxy;
+}
 class Solution {
  public:
   int maxDepth(Node* root) {
@@ -1754,7 +1767,6 @@ class Solution {
       }
     }
     return dp[n];
-    d
   }
   int helper(int target, vector<int>& memo) {
     if (target == 0) return 0;
@@ -2066,6 +2078,9 @@ void dfscountDistinctIslandsUtil(vector<vector<int>>& grid,
                                  int rows, int cols) {
   if (x > rows || y > cols || x < 0 || y < 0 || grid[x][y] == 0 ||
       visited[x][y]) {
+    if (x == y) {
+      continue;
+    }
     return;
   }
 
@@ -2158,5 +2173,160 @@ class Solution {
       }
     }
     return radius;
+  }
+};
+
+int secondLargest(vector<int>& arr) {
+  int largest = INT_MIN, secondLargest = INT_MIN;
+  for (int num : arr) {
+    if (num > largest) {
+      secondLargest = largest;
+      largest = num;
+    } else if (num > secondLargest && num < largest) {
+      secondLargest = num;
+    }
+  }
+}
+
+class Solution {
+ public:
+  int isPrefixOfWord(string sentence, string searchWord) {
+    int wordIndex = 0, searchIndex = 0;
+    for (int i = 0; i < sentence.size(); i++) {
+      /* code */
+      if (sentence[i] == ' ') {
+        wordIndex++;
+        searchIndex = 0;
+        continue;
+      } else {
+        if (searchWord[searchIndex] == sentence[i] &&
+            searchIndex < searchWord.size()) {
+          searchIndex++;
+          if (searchIndex == searchWord.size()) {
+            return wordIndex;
+          }
+        } else {
+          while (i < sentence.size() && sentence[i] != ' ') {
+            i++;
+          }
+          wordIndex++;
+          searchIndex = 0;
+        }
+      }
+    }
+    return -1;
+  }
+};
+
+class Solution {
+ public:
+  int isPrefixOfWord(string sentence, string searchWord) {
+    istringstream iss(sentence);
+    string word;
+    int index = 1;
+    while (iss >> word) {
+      if (isSolve(word, searchWord)) {
+        return index;
+      }
+      index += 1;
+    }
+    return -1;
+  }
+  bool isSolve(string& word, string& searchWord) {
+    if (word.size() > searchWord.size()) {
+      return false;
+    }
+
+    return word.substr(0, searchWord.length()) == searchWord;
+  }
+};
+
+bool hasZerosubarray(vector<int>& nums) {
+  unordered_set<int> s;
+  int sum = 0;
+  for (int i = 0; i < nums.size(); i++) {
+    /* code */
+    sum += nums[i];
+    if (s.find(sum) != s.end()) {
+      return true;
+    }
+    s.insert(sum);
+  }
+  return false;
+}
+
+class Solution {
+ public:
+  int subarraySum(vector<int>& nums, int k) {
+    unordered_map<int, int> mp;
+    int cumSum = 0, count = 0;
+    mp[0] = 1;
+    for (int num : nums) {
+      cumSum += num;
+      if (mp.find(cumSum - k) != mp.end()) {
+        count += mp[cumSum - k];
+      }
+      mp[cumSum]++;
+    }
+    return count;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> sorted = nums;
+    unordered_map<int, int> mp;
+    vector<int> result(n, 0);
+
+    sort(sorted.begin(), sorted.end());
+    for (int i = 0; i < n; i++) {
+      /* code */
+      if (mp.find(sorted[i]) == mp.end()) {
+        mp[sorted[i]] = i;
+      }
+    }
+    for (size_t i = 0; i < n; i++) {
+      /* code */
+      result[i] = mp[nums[i]];
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  char findTheDifference(string s, string t) {
+    vector<int> sfreq(26, 0);
+    for (char c : s) {
+      sfreq[c - 'a']++;
+      // sfreq[c-'a']
+    }
+    for (char c : t) {
+      sfreq[c - 'a']--;
+      if (sfreq[c - 'a'] < 0) {
+        return c;
+      }
+    }
+    return '\0';
+  }
+};
+
+class Solution {
+ public:
+  string addSpaces(string s, vector<int>& spaces) {
+    int n = spaces.size();
+    int j = 0;
+    string answer = "";
+    for (int i = 0; i < s.size(); i++) {
+      /* code */
+      if (j < n && i == spaces[j]) {
+        answer += ' ';
+        j++;
+      }
+      answer += s[i];
+    }
+    return answer;
   }
 };

@@ -939,4 +939,21 @@ class Solution {
 #include <vector>
 using namespace std;
 
-
+int numberOfSwap(string input) {
+  int n = input.size();
+  int zeroCount = count(input.begin(), input.end(), 0);
+  int oneCount = n - zeroCount;
+  if (zeroCount % 2 == 0 && oneCount % 2 == 0) {
+    return -1;
+  }
+  int swaps = 0, left = 0, right = n - 1;
+  while (left < right) {
+    if (s[left] == s[right]) {
+      left++;
+      right--;
+    } else {
+      int k = right;
+    }
+  }
+  return swaps;
+}
