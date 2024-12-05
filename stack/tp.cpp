@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 using namespace std;
-
 struct TreeNode {
   int val;
   TreeNode *left, *right;
@@ -26,6 +25,54 @@ vector<int> preorder(TreeNode* root) {
   }
   return result;
 }
+
+class Solution {
+ public:
+  vector<TreeNode*> generateTrees(int start, int end) {
+    vector<TreeNode*> result;
+    if (start > end) {
+      result.push_back(nullptr);
+      return result;
+    }
+    if (memo.find({start, end}) != memo.end()) {
+      return memo[{start, end}];
+    }
+    for (int root = start; root <= end; root++) {
+      vector<TreeNode*> leftSubTree = generateTrees(start, root - 1);
+      vector<TreeNode*> rightSubTree = generateTrees(root + 1, end);
+      for (TreeNode* left : leftSubTree) {
+        for (TreeNode* right : rightSubTree) {
+          TreeNode* currentNode = new TreeNode(root);
+          currentNode->left = left;
+          currentNode->right = right;
+          result.push_back(currentNode);
+        }
+      }
+    }
+    memo[{start, end}] = result;
+    return result;
+  }
+  vector<TreeNode*> generateTrees(int n) {
+    if (n == 0) return {};
+    unordered_map<pair<int, int>, vector<TreeNode*>> memo;
+    return generateTreesUtil(1, n, memo);
+  }
+};
+
+class Solution {
+ public:
+  vector<int> grayCode(int n) {
+    vector<int> result = {0};
+    for (int i = 0; i < n; ++i) {
+      int size = result.size();
+      for (int j = size - 1; j >= 0; --j) {
+        result.push_back(result[j] | (1 << i));
+      }
+    }
+    return result;
+  }
+};
+
 class Solution {
  public:
   bool findTarget(TreeNode* root, int k) {
@@ -2279,16 +2326,13 @@ class Solution {
     vector<int> sorted = nums;
     unordered_map<int, int> mp;
     vector<int> result(n, 0);
-
     sort(sorted.begin(), sorted.end());
     for (int i = 0; i < n; i++) {
-      /* code */
       if (mp.find(sorted[i]) == mp.end()) {
         mp[sorted[i]] = i;
       }
     }
     for (size_t i = 0; i < n; i++) {
-      /* code */
       result[i] = mp[nums[i]];
     }
     return result;
@@ -2320,7 +2364,6 @@ class Solution {
     int j = 0;
     string answer = "";
     for (int i = 0; i < s.size(); i++) {
-      /* code */
       if (j < n && i == spaces[j]) {
         answer += ' ';
         j++;
@@ -2329,4 +2372,185 @@ class Solution {
     }
     return answer;
   }
+};
+
+bool compareString(string first, string second) {
+  string s1 = "sfkhh#";
+  string s2 = "sfkhh";
+  for (size_t i = 0; i < s1.size(); i++) {
+    /* code */
+    if (s1[i] == '#' && i > 0) {
+      s1.erase(i - 1, 1);
+    }
+  }
+}
+
+class Solution {
+ public:
+  int firstMissingPositive(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    int smallestPositive = 1;
+    for (int num : nums) {
+      if (num == smallestPositive) {
+        smallestPositive++;
+      }
+    }
+    return smallestPositive;
+  }
+};
+
+class Solution {
+ public:
+  bool equalFrequency(string word) {
+    vector<int> freq(26, 0);
+    for (char c : word) {
+      freq[c - 'a']++;
+    }
+    for (auto entry : freq) {
+    }
+    return false;
+  }
+};
+
+class Solution {
+ public:
+  int helper(int maxNum, unordered_map<int, int>& mp,
+             unordered_map<int, int>& memo) {
+    if (maxNum <= 0) return 0;
+    if (memo.find(maxNum) != memo.end()) {
+      return memo[maxNum];
+    }
+    int skipCurrent = helper(maxNum - 1, mp, memo);
+    int takeCurrent = helper(maxNum - 2, mp, memo) + mp[maxNum] * maxNum;
+    memo[maxNum] = max(skipCurrent, takeCurrent);
+    return memo[maxNum];
+  }
+  int deleteAndEarn(vector<int>& nums) {
+    if (nums.empty()) return 0;
+    unordered_map<int, int> mp;
+    int maxNum = 0;
+    for (int& n : nums) {
+      mp[n]++;
+      maxNum = max(maxNum, n);
+    }
+    unordered_map<int, int> memo;
+    return helper(maxNum, mp, memo);
+  }
+};
+
+class Solution {
+ public:
+  int deleteAndEarn(vector<int>& nums) {
+    if (nums.empty()) return 0;
+    unordered_map<int, int> freq;
+    int maxNum = 0;
+    for (int& n : nums) {
+      freq[n]++;
+      maxNum = max(maxNum, n);
+    }
+
+    vector<int> dp(maxNum + 1, 0);
+    dp[0] = 1;
+    dp[1] = mp[1] * 1;
+
+    for (int i = 2; i <= maxNum; i++) {
+      int skipcurrent = dp[i - 1];
+      int includeCurrent = dp[i - 2] + mp[i] * i;
+      dp[i] = max(skipcurrent, includeCurrent);
+    }
+
+    return dp[maxNum];
+  }
+};
+
+class Solution {
+ public:
+  long long solver(int n, vector<int>& power) {
+    if (i < 0) return 0;
+
+    long long exclude = solver(n - 1, power);
+    long long include = solver(n - 2, power) + power[n];
+
+    return max(exclude, include);
+  }
+  long long maximumTotalDamage(vector<int>& power) {
+    int n = power.size();
+    return solver(n - 1, power);
+  };
+};
+
+class Solution {
+ public:
+  int solver(vector<int>& nums, int i, int& total) {
+    if (i < 2) return 0;
+    int count = 0;
+    if ((nums[i] - nums[i - 1]) == (nums[i - 1] - nums[i - 2])) {
+      count = 1 + solver(nums, i - 1, total);
+      total += count;
+      return count;
+    } else {
+      solver(nums, i - 1, total);
+      return 0;
+    }
+  }
+  int numberOfArithmeticSlices(vector<int>& nums) {
+    int total = 0;
+    solver(nums, nums.size() - 1, total);
+    return total;
+  }
+};
+class Solution {
+ public:
+  int solver(vector<int>& nums, int i, int& total, vector<int>& memo) {
+    if (i < 2) return 0;
+    if (memo[i] != -1) return memo[i];
+    int count = 0;
+    if ((nums[i] - nums[i - 1]) == (nums[i - 1] - nums[i - 2])) {
+      count = 1 + solver(nums, i - 1, total, memo);
+      total += count;
+    } else {
+      solver(nums, i - 1, total, memo);
+    }
+    return memo[i] = count;
+  }
+  int numberOfArithmeticSlices(vector<int>& nums) {
+    int total = 0;
+    int n = nums.size();
+    vector<int> memo(n - 1, -1);
+    solver(nums, nums.size() - 1, total, memo);
+    return total;
+  }
+};
+
+class Solution {
+public:
+    int solve(vector<int> &arr,int index , int difference) {
+      if(index < 0) {
+        return 0;
+      }
+      int maxLength =1 ;
+      for(int i = index-1; i>=0; i--) {
+        if(arr[i])
+      }
+    } 
+    int longestSubsequence(vector<int>& arr, int difference) {
+       
+    }
+};
+
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> result(n+1);
+        for(int i = 0; i<=n ; i++ ) {
+          result[i]= result[i >> 1] + (i & 1);
+        }
+        return result;
+    }
+};
+class Solution {
+public:
+    bool divisorGame(int n) {
+        
+    }
 };

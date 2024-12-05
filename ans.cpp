@@ -8,6 +8,12 @@ struct ListNode {
   ListNode(int x) : val(x), next(nullptr) {}
 };
 
+ListNode* reverseLL(ListNode* head) {
+  if (!head || !head->next) {
+    return head;
+  }
+}
+
 ListNode* reveseListWithStack(ListNode* head) {
   if (!head) return nullptr;
   stack<ListNode*> st;
@@ -956,4 +962,73 @@ int numberOfSwap(string input) {
     }
   }
   return swaps;
+}
+class Solution {
+ public:
+  bool canMakeSubsequence(string str1, string str2) {
+    int i = 0, j = 0;
+
+    while (i < str1.size() && j < str2.size()) {
+      if (str1[i] == str2[j]) {
+        j++;
+      } else if ((str1[i] - 'a' + 1) % 26 + 'a' == str2[j]) {
+        j++;
+      }
+      i++;
+    }
+
+    return j == str2.size();
+  }
+};
+
+bool areRotations(string& s1, string& s2) {
+  if (s1.size() != s2.size()) {
+    return false;
+  }
+  int n = s1.length();
+  string temp = s1;
+  for (int i = 0; i < n; i++) {
+    char first = temp[0];
+    temp = temp.substr(1) + first;
+    if (temp == s2) return true;
+  }
+  return false;
+}
+
+class Solution {
+ public:
+  int missingInteger(vector<int>& nums) {
+    int sumPrefix = nums[0];
+    for (size_t i = 0; i < nums.size(); i++) {
+      if (nums[i] == nums[i - 1] + 1) {
+        sumPrefix += nums[i];
+      } else {
+        break;
+      }
+    }
+    unordered_set<int> set(nums.begin(), nums.end());
+    int x = sumPrefix;
+    while (set.count(x)) {
+      x++;
+    }
+    return x;
+  }
+};
+
+void insertAtKth(int value, int k) {
+  Node* new_node = new Node(value);
+  if (k == 0) {
+    insertAtHead(value);
+    return;
+  }
+  Node* temp = head;
+  int count = 1;
+  while (temp != NULL && count < k - 1) {
+    temp = temp->next;
+    count++;
+  }
+  // check kar k null toh  nahi h code m 
+  new_node->next = temp->next;
+  temp->next = new_node;
+  new_node->prev = temp;
 }
