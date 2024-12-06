@@ -2523,34 +2523,45 @@ class Solution {
 };
 
 class Solution {
-public:
-    int solve(vector<int> &arr,int index , int difference) {
-      if(index < 0) {
-        return 0;
-      }
-      int maxLength =1 ;
-      for(int i = index-1; i>=0; i--) {
-        if(arr[i])
-      }
-    } 
-    int longestSubsequence(vector<int>& arr, int difference) {
-       
+ public:
+  int solve(vector<int>& arr, int index, int difference) {
+    if (index < 0) {
+      return 0;
     }
+    int maxLength = 1;
+    for (int i = index - 1; i >= 0; i--) {
+      if (arr[i]) }
+  }
+  int longestSubsequence(vector<int>& arr, int difference) {}
 };
 
 class Solution {
-public:
-    vector<int> countBits(int n) {
-        vector<int> result(n+1);
-        for(int i = 0; i<=n ; i++ ) {
-          result[i]= result[i >> 1] + (i & 1);
-        }
-        return result;
+ public:
+  vector<int> countBits(int n) {
+    vector<int> result(n + 1);
+    for (int i = 0; i <= n; i++) {
+      result[i] = result[i >> 1] + (i & 1);
     }
+    return result;
+  }
 };
+
 class Solution {
-public:
-    bool divisorGame(int n) {
-        
+ public:
+  int solve(vector<int>& arr, int index, int k) {
+    if (index == arr.size()) {
+      return 0;
     }
+
+    int maxSum = 0;
+    int maxValueInpartition = arr[index];
+    for (int j = 1; j <= k && index + j <= arr.size(); j++) {
+      maxValueInpartition = maxValueInpartition(maxValueInpartition, arr[j]);
+      maxSum = max(maxSum, maxValueInpartition * j + solve(arr, index + j, k));
+    }
+    return maxSum;
+  }
+  int maxSumAfterPartitioning(vector<int>& arr, int k) {
+    return solve(arr, 0, k);
+  }
 };
