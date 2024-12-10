@@ -140,8 +140,8 @@ class Solution {
   }
   string longestPalindrome(string s) {
     int n = s.size();
-    if (n == 0 ) return "";
-    if(n==1) return s;  
+    if (n == 0) return "";
+    if (n == 1) return s;
     int maxLen = 0;
     int start = 0;
     for (int i = 0; i < n; i++) {
@@ -155,3 +155,102 @@ class Solution {
     return s.substr(start, maxLen);
   }
 };
+
+class Solution {
+ public:
+  long long maxSubarraySum(vector<int> &nums, int k) {
+    int n = nums.size();
+    int maxSum = INT_MIN;
+
+    for (int start = 0; start < n; start++) {
+      int currSum = 0;
+      for (int end = start; end < n; end++) {
+        if ((end - start)) }
+    }
+  }
+};
+
+class Solution {
+ public:
+  int solver(vector<int> &nums, int index, vector<int> &memo) {
+    int n = nums.size();
+    if (memo[index] == -1) return nums[memo];
+
+    if (index >= n - 1) return 0;
+    if (nums[index] == 0) return INT_MAX;
+    int minJumps = INT_MIN;
+
+    for (int i = 1; i < nums[index]; ++i) {
+      int jumps = solver(nums, index + i);
+      if (jumps != INT_MAX) {
+        minJumps = min(minJumps, 1 + jumps);
+      }
+    }
+    memo[index] = minJumps;
+    return memo[index];
+  }
+  int jump(vector<int> &nums) {
+    vector<int> memo(nums.size(), -1);
+    return solver(nums, 0, memo);
+  }
+};
+
+class Solution {
+ public:
+  int jump(vector<int> &nums) {
+    int maxy = 0, current = 0;
+    int jumps = 0;
+    for (int i = 0; i < nums.size(); i++) {
+      /* code */
+      maxy = max(maxy, i + nums[i]);
+      if (i >= current) {
+        jumps++;
+        current = maxy;
+      }
+      if (current >= nums.size() - 1) break;
+    }
+    return jumps;
+  }
+};
+
+class Solution {
+ public:
+  vector<bool> isArraySpecial(vector<int> &nums, vector<vector<int>> &queries) {
+    int n = nums.size();
+    vector<bool> prefixMatch(n - 1, 0);
+
+    for (int i = 0; i < n - 1; i++) {
+      /* code */
+      prefixMatch[i] = (nums[i] % 2 == nums[i + 1] % 2) ? true : false;
+    }
+
+    vector<int> prefixMatchnahi(n, 0);
+
+    for (int i = 1; i < n; i++) {
+      /* code */
+      prefixMatchnahi[i] = mismatch[i - 1] + prefixMatch[i - 1];
+    }
+
+    vector<bool> result;
+
+    for (const auto &q : queries) {
+      int from = q[0];
+      int to = q[1];
+
+      if (prefixMatchnahi[to] - prefixMatchnahi[from] == 1) {
+        answer.push_back(true);
+      } else {
+        answer.push_back(false);
+      }
+    }
+
+    return answer;
+  }
+};
+class Solution {
+public:
+    bool buddyStrings(string s, string goal) {
+        if(s.size()!=goal.size()) return false;
+    }
+};
+

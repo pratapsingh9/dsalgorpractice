@@ -396,9 +396,105 @@ class ProductOfNumbers {
   }
 };
 
-class Solution {
-public:
-    vector<int> goodIndices(vector<int>& nums, int k) {
-        
+class TrieNode {
+  TrieNode *children[26];
+  bool isEndOfWord;
+
+  TrieNode() {
+    isEndOfWord = false;
+    for (int i = 0; i < 26; i++) {
+      children[i] = nullptr;
     }
+  }
+}
+
+class WordDictionary {
+ public:
+  TrieNode *root;
+  WordDictionary() { root = new TrieNode(); }
+
+  void addWord(string word) {
+    TrieNode *crawler = root;
+    for (char c : word) {
+      int index = c - 'a';
+      if (!crawler->children[index]) {
+        crawler->children[index] = new TrieNode();
+      }
+      crawler = crawler->children[index];
+    }
+    crawler->isEndOfWord = true;
+  }
+
+  bool search(string word) { return searchHelper(word, root, 0); }
+
+  bool searchHelper(const string &word, TrieNode *root, int index) {
+    if (index == word.size()) {
+      return root->isEndOfWord;
+    }
+
+    char c =
+  }
+};
+
+class Solution {
+ public:
+  string reorganizeString(string s) {
+    vector<int> freq(26, 0);
+
+    for (char c : s) {
+      freq[c - 'a']++;
+    }
+
+    priority_queue<pair<int, char>> pq;
+    for (int i = 0; i < 26; i++) {
+      /* code */
+      if (freq[i] > 0) {
+        pq.push({freq[i], 'a' + i});
+      }
+    }
+    if (pq.top().first > (s.size() + 1) / 2) {
+      return "";
+    }
+
+    string result = "";
+    while (pq.size() > 1) {
+      auto first = pq.top();
+      pq.pop();
+      auto second = pq.top();
+      pq.pop();
+      result += first.second;
+      result += second.second;
+
+      if (--first.first > 0) pq.push(first);
+      if (--second.first > 0) pq.push(second);
+    }
+    if (!pq.empty()) {
+      result += pq.top().second;
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int furthestBuilding(vector<int> &heights, int bricks, int ladders) {
+    priority_queue<int, vector<int>, greater<int>> pq;
+    int n = heights.size();
+    for (int i = 1; i < n; i++) {
+      /* code */
+      int diff = heights[i] - heights[i - 1];
+      if (diff <= 0) continue;
+
+      pq.push(diff);
+// pq m push karidya agar ladders ki kami pad rhi h toh bricks use kardi for chotha difference kids
+      if (pq.size() > ladders) {
+        // chotha hieghts ko hata diya isse
+        bricks -= pq.top();
+        pq.pop();
+      }
+      // bricks bhi kahatam toh return krardon kaha tak gaye apan 
+      if (bricks < 0) return i-1;
+    }
+    return heights.size() - 1;
+  }
 };

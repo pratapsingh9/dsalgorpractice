@@ -1063,3 +1063,27 @@ class Solution {
   }
 };
 
+class Solution {
+public:
+    int solver(vector<int> &nums , int index) {
+      int n = nums.size();
+      if(index >= n-1) return 0;
+      if(nums[index]== 0) return INT_MAX;
+
+      int minJumps = INT_MIN;
+
+      for (int i = 1; i < nums[index] ; ++i)
+      {
+        /* code */
+        int jumps = solver(nums,index+i);
+        if(jumps!=INT_MAX) {
+          minJumps= min(minJumps,1+jumps);
+        }
+
+      }
+      return minJumps;
+    }
+    int jump(vector<int>& nums) {
+        return solver(nums,0);
+    }
+};
