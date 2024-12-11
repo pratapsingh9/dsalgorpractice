@@ -144,10 +144,61 @@ class Solution {
   }
 };
 
+class Solution {
+ public:
+  vector<int> rearrangeBarcodes(vector<int>& barcodes) {
+    unordered_map<int, int> freq;
+    for (int x : barcodes) {
+      freq[x]++;
+    }
+
+    vector<pair<int, int>> freqvec;
+    for (auto& it : freq) {
+      freqvec.push_back({it.second, it.first});
+    }
+
+    sort(freqvec.begin(), freqvec.end());
+
+    vector<int> result(barcodes.size(), 0);
+    int index = 0;
+
+    for (auto& [count, barcode] : freqvec) {
+      for (int i = 0; i < count; i++) {
+        /* code */
+        result[index] = barcode;
+        index += 2;
+        if (index >= barcodes.size()) {
+          index = 1;
+        }
+      }
+    }
+    return result;
+  }
+};
 
 class Solution {
-public:
-    vector<int> rearrangeBarcodes(vector<int>& barcodes) {
-        
+ public:
+  typedef pair<int, string> P;
+  vector<string> topKFrequent(vector<string>& words, int k) {
+    if (words.empty()) return {};
+    unordered_map<string, int> mp;
+    for (string it : words) {
+      mp[it]++;
     }
-};1
+    priority_queue<P,vector<P>,greater<P>> pq;
+    vector<string> result;
+    for(auto it:mp) {
+      pq.push({it.second,it.first});
+      if(pq.size() > k) {
+        pq.pop();
+      }
+    }
+
+    while(!pq.empty()) {
+      result.push_back(pq.top().second);
+      pq.pop();
+    }
+    reverse(result.begin(),result.end());
+    return result;
+  }
+};

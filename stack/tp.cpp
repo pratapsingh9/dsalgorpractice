@@ -2565,3 +2565,114 @@ class Solution {
     return solve(arr, 0, k);
   }
 };
+
+class Solution {
+ public:
+  int minStoneSum(vector<int>& piles, int k) {
+    priority_queue<int> pq;
+
+    for (int x : piles) {
+      pq.push(x);
+    }
+    int sum = 0;
+    while (k--) {
+      int x = pq.top();
+      pq.pop();
+      pq.push(x - (x / 2));
+    }
+    while (!pq.empty()) {
+      sum += pq.top();
+      pq.pop();
+    }
+    return sum;
+  }
+};
+
+class Solution {
+ public:
+  int halveArray(vector<int>& nums) {
+    priority_queue<int> pq;
+    int steps = 0;
+    double total_sum = 0;
+    for (int x : nums) {
+      pq.push(x);
+      total_sum += x;
+    }
+    double reducedSum = total_sum;
+    double target = total_sum / 2;
+    while (reducedSum > target) {
+      double val = pq.top();
+      pq.pop();
+      reducedSum -= val / 2;
+      pq.push(val / 2);
+      steps++;
+    }
+    return steps;
+  }
+};
+
+class Solution {
+ public:
+  string clearStars(string s) {
+    string result;
+    for (char c : s) {
+      if (c == '*') {
+        if (!result.empty()) {
+          result.pop_back();
+        }
+      } else {
+        result.push_back();
+      }
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  void reverse(string& s, int start, int end) {
+    while (start < end) {
+      swap(s[start], s[end]);
+      start++;
+      end--;
+    }
+  }
+  string reversePrefix(string word, char ch) {
+    int i = 0;
+    while (i < word.size() && word[i] != ch) {
+      i++;
+    }
+
+    if (i < word.size()) {
+      reverse(word, 0, i);
+    }
+    return word;
+  }
+};
+
+class Solution {
+ public:
+  bool isPalindrome(string s, int left, int right) {
+    while (left < right) {
+      if (s[left] != s[right]) {
+        return false;
+      }
+      left++;
+      right--;
+    }
+    return true;
+  }
+  bool validPalindrome(string s) {
+    int left = 0, right = s.size() - 1;
+    while (left < right) {
+      if (s[left] != s[right]) {
+        return isPalindrome(s, left + 1, right) ||
+               isPalindrome(s, left, right - 1);
+      }
+
+      left++;
+      right--;
+    }
+    return true;
+  }
+};
