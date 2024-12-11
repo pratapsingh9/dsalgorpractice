@@ -486,15 +486,43 @@ class Solution {
       if (diff <= 0) continue;
 
       pq.push(diff);
-// pq m push karidya agar ladders ki kami pad rhi h toh bricks use kardi for chotha difference kids
+      // pq m push karidya agar ladders ki kami pad rhi h toh bricks use kardi
+      // for chotha difference kids
       if (pq.size() > ladders) {
         // chotha hieghts ko hata diya isse
         bricks -= pq.top();
         pq.pop();
       }
-      // bricks bhi kahatam toh return krardon kaha tak gaye apan 
-      if (bricks < 0) return i-1;
+      // bricks bhi kahatam toh return krardon kaha tak gaye apan
+      if (bricks < 0) return i - 1;
     }
     return heights.size() - 1;
+  }
+};
+
+struct Song {
+  string name;
+  int listenCount;
+  time_t lastPlayed;
+
+  // Constructor to initialize the song
+  Song(string n, int l, time_t t) : name(n), listenCount(l), lastPlayed(t) {}
+};
+
+class Solution {
+ public:
+  int numRescueBoats(vector<int> &people, int limit) {
+    sort(people.begin(), people.end());
+
+    int left = 0, rigth = people.size() - 1;
+    int answer = 0;
+    while (left <= rigth) {
+      if (people[left] + people[rigth] <= limit) {
+        left += 1;
+      }
+      rigth-= 1;
+      answer++;
+    }
+    return answer;
   }
 };
