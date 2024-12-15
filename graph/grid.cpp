@@ -254,3 +254,20 @@ public:
     }
 };
 
+class Solution {
+public:
+    int numRescueBoats(vector<int>& people, int limit) {
+        sort(people.begin(),people.end());
+
+        int left  = 0 , rigth =  people.size() - 1;
+        int answer = 0;
+        while(left<=rigth) {
+          if(people[left]+people[rigth] <= limit) {
+            left+=1;
+          }
+          rigth++;
+          answer++;
+        }
+        return answer;
+    }
+};

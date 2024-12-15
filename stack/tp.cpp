@@ -2676,3 +2676,524 @@ class Solution {
     return true;
   }
 };
+
+class Solution {
+ public:
+  string mergeAlternately(string word1, string word2) {
+    string result = "";
+    int i = 0;
+    int j = 0;
+    while (i < word1.size() && j < word2.size()) {
+      result += word1[i++];
+      result += word2[j++];
+    }
+
+    while (i < word1.size()) {
+      result += word1[i++];
+    }
+    while (j < word2.size()) {
+      result += word2[j++];
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  string makeSmallestPalindrome(string s) {
+    int left = 0, right = s.size() - 1;
+    while (left < right) {
+      if (s[left] != s[right]) {
+        char ch = min(s[left], s[right]);
+        s[left] = s[right] = ch;
+      }
+      left++;
+      right--;
+    }
+    return s;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> shortestToChar(string s, char c) {
+    int n = s.size();
+    vector<int> result(n, INT_MAX);
+    vector<int> position;
+    for (int i = 0; i < n; i++) {
+      if (s[i] == c) {
+        position.push_back(i);
+      }
+    }
+    for (int i = 0; i < n; i++) {
+      /* code */
+      int minDist = INT_MAX;
+      for (int pos : position) {
+        minDist = min(minDist, abs(i - pos));
+      }
+      result[i] = minDist;
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  string largestMerge(string word1, string word2) {
+    string merge = "";
+    int i = 0, j = 0;
+
+    while (i < word1.size() && j < word2.size()) {
+      if (word1.substr(i) > word2.substr(j)) {
+        merge += word1[i++];
+      } else {
+        merge += word2[j++];
+      }
+    }
+    if (i < word1.size()) {
+      merge += word1.substr(i);
+    }
+    if (j < word2.size()) {
+      merge += word2.substr(j);
+    }
+
+    return merge;
+  }
+};
+class Solution {
+ public:
+  string largestMerge(string word1, string word2) {
+    string merge = "";
+    int i = 0, j = 0;
+
+    while (i < word1.size() && j < word2.size()) {
+      if (word1[i] > word2[j]) {
+        merge += word1[i++];
+      } else if (word1[i] < word2[j]) {
+        merge += word2[j++];
+      } else {
+        if (word1.substr(i) > word2.substr(j)) {
+          merge += word1[i++];
+        } else {
+          merge += word2[j++];
+        }
+      }
+    }
+
+    merge += word1.substr(i);
+    merge += word2.substr(j);
+
+    return merge;
+  }
+};
+
+class Solution {
+ public:
+  string largestMerge(string word1, string word2) {
+    string merge = "";
+    int i = 0, j = 0;
+
+    while (i < word1.size() && j < word2.size()) {
+      if (word1[i] > word2[j]) {
+        merge += word1[i++];
+      } else if (word1[i] < word2[j]) {
+        merge += word2[j++];
+      } else {
+        if (word1.substr(i) > word2.substr(j)) {
+          merge += word1[i++];
+        } else {
+          merge += word2[j++];
+        }
+      }
+    }
+
+    merge += word1.substr(i);
+    merge += word2.substr(j);
+
+    return merge;
+  }
+};
+
+class Solution {
+ public:
+  int countBinarySubstrings(string s) {
+    int prev = 0, curr = 1, answer = 0;
+    for (int i = 1; i < s.size(); i++) {
+      /* code */
+      if (s[i] == s[i - 1]) {
+      }
+    }
+  }
+};
+
+class Solution {
+ public:
+  int minimumLength(string s) {
+    int i = 0, j = s.size() - 1;
+    while (i < j && s[i] == s[j]) {
+      char ch = s[i];
+      while (i <= j && s[i] == ch) {
+        i++;
+      }
+      while (i <= j && s[j] == ch) {
+        j--;
+      }
+    }
+    return j - i + 1;
+  }
+};
+
+class Solution {
+ public:
+  long long minimumSteps(string s) {
+    int n = s.size();
+    long long swaps = 0;
+    int white = 0;
+    for (int i = 0; i < n; ++i) {
+      /* code */
+      if (s[i] == '1') {
+        swaps += white;
+      } else {
+        white++;
+      }
+    }
+    return swaps;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> sortArrayByParityII(vector<int>& nums) {
+    int n = nums.size();
+    int oddIndex = 1;
+    int evenindex = 0;
+
+    while (oddIndex < n && evenindex < n) {
+      while (evenindex < n && nums[evenindex] % 2 == 0) {
+        evenindex += 2;
+      }
+      while (oddIndex < n && nums[oddIndex] % 2 == 1) {
+        oddIndex += 2;
+      }
+
+      if (evenindex < n && oddIndex < n) {
+        swap(nums[evenindex], nums[oddIndex]);
+      }
+    }
+    return nums;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> pivotArray(vector<int>& nums, int pivot) {
+    int less = 0, equal = 0, more = 0;
+    for (int num : nums) {
+      if (num < pivot)
+        less++;
+      else if (num == pivot)
+        equal++;
+      else
+        more++;
+    }
+    vector<int> result(nums.size());
+    int lessIndex = 0;
+    int equalIndex = less;
+    int moreIndex = less + equal;
+    for (int num : nums) {
+      if (num < pivot) {
+        result[lessIndex++] = num;
+      } else if (num == pivot) {
+        result[equalIndex++] = num;
+      } else {
+        result[moreIndex++] = num;
+      }
+    }
+
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  typedef vector<int> v;
+  vector<int> rearrangeArray(vector<int>& nums) {
+    v postitive;
+    v negative;
+
+    for (int n : nums) {
+      if (n > 0) {
+        postitive.push_back(n);
+      } else {
+        negative.push_back(n);
+      }
+    }
+    int a = 0, b = 0;
+    for (int i = 0; i < nums.size(); ++i) {
+      /* code */
+      if (i % 2 == 0)
+        nums[i] = postitive[a++];
+      else {
+        nums[i] = negative[b++];
+      }
+    }
+    return nums;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> rearrangeArray(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> result(n);
+    int pos = 0, neg = 1;
+    for (int n : nums) {
+      if (n > 0) {
+        result[pos] = n;
+        pos += 2;
+      } else if (n < 0) {
+        result[neg] = n;
+        neg += 2;
+      }
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  long long findScore(vector<int>& nums) {
+    if (nums.empty()) return 0;
+    vector<pair<int, int>> vec;
+    int n = nums.size();
+    for (int i = 0; i < n; ++i) {
+      /* code */
+      vec.push_back({nums[i], i});
+    }
+    sort(vec.begin(), vec.end());
+    long long score = 0;
+    vector<bool> visited(n, false);
+    for (int i = 0; i < n; i++) {
+      int index = vec[i].second;
+      if (!visited[index]) {
+        score += vec[i].first;
+        if (index > 0) {
+          visited[index - 1] = true;
+        }
+        if (index < n - 1) {
+          visited[index + 1] = true;
+        }
+        visited[index] = true;
+      }
+    }
+    return score;
+  }
+};
+
+class Solution {
+ public:
+  typedef pair<int, int> P;
+  long long findScore(vector<int>& nums) {
+    int n = nums.size();
+    if (n == 0) return 0;
+    priority_queue<P, vector<P>, greater<P>> pq;
+    for (int i = 0; i < n; ++i) {
+      /* code */
+      pq.push({nums[i], i});
+    }
+
+    long long score = 0;
+    vector<bool> visited(n, false);
+
+    while (!pq.empty()) {
+      int value = pq.top().first;
+      int index = pq.top().second;
+
+      pq.pop();
+
+      if (visited[index]) continue;
+
+      score += value;
+      visited[index] = true;
+      if (index > 0) {
+        visited[index - 1] = true;
+      }
+      if (index < n - 1) {
+        visited[index + 1] = true;
+      }
+    }
+    return score;
+  }
+};
+
+class Solution {
+ public:
+  int islandPerimeter(vector<vector<int>>& grid) {
+    int r = grid.size();
+    int c = grid[0].size();
+
+    int perimter = 0;
+
+    for (int i = 0; i < r; i++) {
+      /* code */
+      for (int j = 0; j < c; j++) {
+        /* code */
+        if (grid[i][j] == 1) {
+          perimter += 4;
+        }
+      }
+    }
+  }
+};
+
+class Solution {
+ public:
+  TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if (!root) return nullptr;
+
+    if (root == p || root == q) return root;
+
+    auto l = lowestCommonAncestor(root->left, p, q);
+    auto r = lowestCommonAncestor(root->right, p, q);
+
+    if (l & r) return root;
+
+    if (l) return l;
+
+    return r;
+  }
+};
+
+class Solution {
+ public:
+  long long continuousSubarrays(vector<int>& nums) {
+    long long result = 0;
+    int left = 0;
+    multiset<int> window;
+
+    for (int right = 0; right < nums.size(); right++) {
+      /* code */
+      window.insert(nums[right]);
+      while (!window.empty() && *window.rbegin() - *window.begin() > 2) {
+        window.erase(window.find(nums[left]));
+        left++;
+      }
+      result += right - left + 1;
+    }
+
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  long long continuousSubarrays(vector<int>& nums) {
+    long long result = 0;
+    int left = 0;
+    map<int, int> frequency;
+    for (int right = 0; right < nums.size(); right++) {
+      frequency[nums[right]]++;
+      while ((frequency.rbegin()->first - frequency.begin()->first) > 2) {
+        /* code */
+        frequency[nums[left]]--;
+        if (frequency[nums[left]] == 0) {
+          frequency.erase(nums[left]);
+        }
+        left++;
+      }
+      result += right - left + 1;
+    }
+    return result;
+  }
+};
+
+#include <queue>
+#include <utility>
+#include <vector>
+using namespace std;
+
+// Function to calculate the change in pass ratio when adding a student
+double calcDelta(int passed, int total) {
+  return double(passed + 1) / (total + 1) - double(passed) / total;
+}
+
+class Solution {
+ public:
+  double calcDelta(int passed, int total) {
+    return double(passed + 1) / (total + 1) - double(passed) / total;
+  }
+
+  double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
+    priority_queue<pair<double, pair<int, int>>> maxHeap;
+    for (const auto& cls : classes) {
+      int passed = cls[0], total = cls[1];
+      maxHeap.push({calcDelta(passed, total), {passed, total}});
+    }
+    while (extraStudents--) {
+      auto top = maxHeap.top();
+      maxHeap.pop();
+      int passed = top.second.first;
+      int total = top.second.second;
+      passed++;
+      total++;
+      maxHeap.push({calcDelta(passed, total), {passed, total}});
+    }
+    double totalAverage = 0.0;
+    for (const auto& cls : classes) {
+      auto top = maxHeap.top();
+      maxHeap.pop();
+
+      int passed = top.second.first;
+      int total = top.second.second;
+      totalAverage += double(passed) / total;
+    }
+    return totalAverage / classes.size();
+  }
+};
+
+class Solution {
+ public:
+  int solve(vector<vector<int>>& matrix, int cols) {
+    int ans = 0;
+    for (int i = 0; i < matrix.size(); i++) {
+      ans = max(ans, matrix[i][cols]);
+    }
+    return ans;
+  }
+  vector<vector<int>> modifiedMatrix(vector<vector<int>>& matrix) {
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (matrix[i][j] == -1) {
+          matrix[i][j] = solve(matrix, j);
+        }
+      }
+    }
+    return matrix;
+  }
+};
+
+class Solution {
+ public:
+  vector<vector<int>> shiftGrid(vector<vector<int>>& grid, int k) {
+    int m = grid.size();
+    int n = grid[0].size();
+    int total = m * n;
+    k = k % total;
+    vector<vector<int>> result(m, vector<int>(n, 0));
+
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        int newP = (i * n + j + k) % total;
+        int newR = (newP / n);
+        int newC = (newP % n);
+
+        result[newR][newC] = grid[i][j];
+      }
+    }
+
+    return result;
+  }
+};
+
