@@ -3197,3 +3197,150 @@ class Solution {
   }
 };
 
+class Solution {
+ public:
+  bool canMakeSquare(vector<vector<char>>& grid) {
+    for (int i = 0; i < 2; i++) {
+      /* code */
+      for (int j = 0; j < 2; j++) {
+        char a = grid[i][j];
+        char b = grid[i][j + 1];
+        char c = grid[i + 1][j];
+        char d = grid[i + 1][j + 1];
+
+        int blackCount = (a == 'B') + (c == 'B') + (d == 'B') + (b == 'B');
+        int whitecount = 4 - blackCount;
+        if (whitecount >= 3 || blackCount >= 3) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> rowAndMaximumOnes(vector<vector<int>>& mat) {
+    int maxRow = 0;
+    int maxOnes = 0;
+
+    for (int i = 0; i < mat.size(); i++) {
+      int countOnes = 0;
+      for (int j = 0; j < mat[0].size(); j++) {
+        if (mat[i][j] == 1) {
+          countOnes++;
+        }
+      }
+      if (countOnes > maxOnes) {
+        maxOnes = countOnes;
+        maxRow = i;
+      }
+    }
+    return {maxRow, maxOnes};
+  }
+};
+
+class Solution {
+ public:
+  int maximumWealth(vector<vector<int>>& accounts) {
+    int row = accounts.size();
+    int cols = accounts[0].size();
+    int maxy = 0;
+
+    for (int i = 0; i < row; i++) {
+      /* code */
+      int curr = 0;
+      for (int j = 0; j < cols; j++) {
+        curr += accounts[i][j];
+      }
+
+      maxy = max(curr, maxy);
+    }
+    return maxy;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> luckyNumbers(vector<vector<int>>& matrix) {
+    int row = matrix.size();
+    int cols = matrix[0].size();
+
+    vector<int> minrow(row, INT_MAX);
+    for (int i = 0; i < row; i++) {
+      /* code */
+      for (int j = 0; j < cols; j++) {
+        minrow[i] = min(minrow[i], matrix[i][j]);
+      }
+    }
+
+    vector<int> colsMax(cols, INT_MIN);
+    vector<int> ans;
+    for (int j = 0; j < cols; j++) {
+      for (int i = 0; i < row; i++) {
+        colsMax[j] = max(colsMax[j], matrix[i][j]);
+      }
+    }
+
+    for (int i = 0; i < row; i++) {
+      /* code */
+      for (int j = 0; j < cols; j++) {
+        if (matrix[i][j] == minrow[i] && matrix[i][j] == colsMax[j]) {
+          ans.push_back(matrix[i][j]);
+        }
+      }
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int diagonalSum(vector<vector<int>>& mat) {
+    int sum = 0;
+    int n = mat.size();
+    for (int i = 0; i < n; i++) {
+      /* code */
+      for (int j = 0; j < n; j++) {
+        if (i == j || (i + j == n - 1)) {
+          sum += mat[i][j];
+        }
+      }
+    }
+    return sum;
+  }
+};
+class Solution {
+ public:
+  bool isPrime(int num) {
+    if (num <= 1) return false;
+    if (num <= 3) return true;
+    if (num % 2 == 0) return false;
+
+    int sqrtNum = static_cast<int>(std::sqrt(num));
+    for (int i = 3; i <= sqrtNum; i += 2) {
+      if (num % i == 0) return false;
+    }
+    return true;
+  }
+
+  int diagonalPrime(vector<vector<int>>& nums) {
+    int n = nums.size();
+    int ans = INT_MIN;
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        if (i == j || (i + j == n - 1)) {
+          if (isPrime(nums[i][j])) {
+            ans = max(ans, nums[i][j]);
+          }
+        }
+      }
+    }
+
+    return ans == INT_MIN ? 0 : ans;
+  }
+};
+
+

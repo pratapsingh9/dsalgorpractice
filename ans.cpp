@@ -1027,8 +1027,231 @@ void insertAtKth(int value, int k) {
     temp = temp->next;
     count++;
   }
-  // check kar k null toh  nahi h code m 
+  // check kar k null toh  nahi h code m
   new_node->next = temp->next;
   temp->next = new_node;
   new_node->prev = temp;
 }
+
+class Solution {
+ public:
+  ListNode* insertionSortList(ListNode* head) {
+    if (!head || !head->next) return head;
+
+    ListNode* sorted = nullptr;
+
+    while (head) {
+      ListNode* current = head;
+      head = head->next;
+      if (!sorted || sorted->val >= current->val) {
+        current->next = sorted;
+        sorted = current;
+      } else {
+        ListNode* temp = sorted;
+        while (temp->next && temp->next->val < current->val) {
+          temp = temp->next;
+        }
+        current->next = temp->next;
+        temp->next = current;
+      }
+    }
+
+    return sorted;
+  }
+};
+
+class Solution {
+ public:
+  void dfs(vector<vector<char>>& board, int r, int c) {
+    if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] != 'X') return;
+    board[r][c] = '.';
+    dfs(board, r + 1, c);
+    dfs(board, r, c + 1);
+    dfs(board, r - 1, c);
+    dfs(board, r, c - 1);
+  }
+
+  int countBattleships(vector<vector<char>>& board) {
+    int rows = board.size();
+    int cols = board[0].size();
+    int count = 0;
+
+    for (int i = 0; i < rows; ++i) {
+      for (int j = 0; j < cols; ++j) {
+        if (board[i][j] == 'X') {
+          count++;
+          dfs(board, i, j);
+        }
+      }
+    }
+    return count;
+  }
+};
+
+class Solution {
+ public:
+  unordered_map<int, int> mp;
+  void solve(TreeNode* root) {
+    if (root == nullptr) {
+      return;
+    }
+    solve(root->left);
+    mp[root->val] = mp[root->val]++;
+    solve(root->right);
+  }
+  vector<int> findMode(TreeNode* root) {
+    solve(root);
+    int maxfreq = 0;
+  }
+};
+class Solution {
+ public:
+  bool canBeValid(string s, string locked) {
+    int n = s.size();
+    if (n % 2 != 0) return false;
+
+    int minOpen = 0, maxClose = 0;
+    for (int i = 0; i < n; i++) {
+      maxClose++;
+      minOpen = min(0, minOpen - 1);
+    }
+  }
+};
+class Solution {
+ public:
+  TreeNode* reverseOddLevels(TreeNode* root) {
+    bool isOddLevel = false;
+    queue<TreeNode*> q;
+    q.push(root);
+    vector<int> ans;
+    while (!q.empty()) {
+      int size = q.size();
+      vector<TreeNode*> vec;
+      for (int i = 0; i < size; i++) {
+        TreeNode* node = q.front();
+        q.pop();
+
+        vec.push_back(node);
+        if (node->left) q.push(node->left);
+        if (node->right) q.push(node->right);
+      }
+
+      if (isOddLevel) {
+        int left = 0, right = vec.size() - 1;
+        while (left < right) {
+          swap(vec[left]->val, vec[right]->val);
+          left++;
+          right--;
+        }
+      }
+      isOddLevel = !isOddLevel;
+    }
+    return root;
+  }
+};
+
+class Solution {
+ public:
+  void dfs(TreeNode* left, TreeNode* right, int level) {
+    if (!left || !right) return;
+
+    if (level % 2 == 0) {
+      swap(left->val, right->val);
+    }
+    dfs(left->left, right->right, level + 1);
+    dfs(left->right, right->left, level + 1);
+  }
+  TreeNode* reverseOddLevels(TreeNode* root) {
+    if (!root) return nullptr;
+    dfs(root->left, root->right, 1);
+    return root;
+  }
+};
+
+class Solution {
+ public:
+  int minReorder(int n, vector<vector<int>>& connections) {
+    unordered_map<int, vector<pair<int, int>>> adj;
+    for (auto& con : connections) {
+      adj[con[0]].push_back({con[1], 1});
+      adj[con[1]].push_back({con[0], 0});
+    }
+
+    vector<bool> visited(n, false);
+    int result = 0;
+    queue<int> q;
+    q.push(0);
+    visited[0] = true;
+    while (!q.empty()) {
+      int node = q.front();
+      q.pop();
+    }
+
+    for (auto it : adj) {
+      int neightbours = it.first;
+      int isOutgoing = it.second;
+
+      if (!visited[neightbours]) {
+        visited[neightbours] = true;
+        result += isOutgoing;
+        q.push(neightbours);
+      }
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int minimumOperations(vector<int>& nums, int start, int goal) {
+    if (goal < 0 || goal > 1000) return -1;
+    queue<pair<int, int>> q;
+    unordered_set<int> visited;
+    q.push({start, 0});
+    visited.insert(start);
+
+    while (!q.empty()) {
+      int x = q.front().first;
+      int operations = q.front().second;
+
+      if (x == goal) return operations;
+
+      for (int num : nums) {
+        vector<int> vals = {x - num, x + num, x ^ num};
+        for (int next : vals) {
+          if (next >= 0 && next <= 1000 &&
+              visited.find(next) == visited.end()) {
+            q.push({next, operations + 1});
+            visited.insert(next);
+          }
+        }
+      }
+    }
+    return -1;
+  }
+};
+
+class Solution {
+ public:
+  int minimumOperationsToMakeEqual(int x, int y) {
+    queue<pair<int, int>> q;
+    unordered_set<int> visited;
+    q.push({x, 0});
+    visited.insert(x);
+    while (!q.empty()) {
+      int x = q.front().first;
+      int ops = q.front().second;
+
+      if (x == y) return ops;
+      vector<int> possiblites = {x / 11, x / 5, x - 1, x + 1};
+      for (int values : possiblites) {
+        if (values >= 0 && visited.find(values) == visited.end()) {
+          if (values == y) return ops + 1;
+          q.push({visited, ops + 1});
+          visited.insert(values);
+        }
+      }
+    }
+    return -1;
+  }
+};
