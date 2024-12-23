@@ -249,6 +249,7 @@ class Solution {
     return result;
   }
 };
+
 class Solution {
  public:
   typedef pair<int, int> P;
@@ -274,20 +275,202 @@ class Solution {
   }
 };
 
+int gcd(int a, int) {
+  while (b != 0) {
+    int temp = a % b;
+    a = b;
+    b = temp;
+  }
+  return a;
+}
+
+int gcdre(int a, int b) {
+  if (b == 0) return a;
+  return gcdre(b, a % b);
+}
+
 class Solution {
  public:
-  vector<int> findXSum(vector<int>& nums, int k, int x) {
-    vector<int> filter;
-    for (int v : nums) {
-      if (v >= x) {
-        filter.push_back(v);
+  int countPaths(int n, vector<vector<int>>& roads) {
+    const int MOD = 1e9 + 7;
+    vector<vector<pair<int, int>>> graph(n);
+    for (auto road : roads) {
+      int u = road[0], v = road[1], weight = road[2];
+
+      graph[u].emplace_back(v, weight);
+      graph[v].emplace_back(u, weight);
+    }
+
+    vector<long long> dist(n, LLONG_MAX);
+    vector<int> ways(n, 0);
+    dist[0] = 0;
+    dist[1] = 1;
+  }
+};
+
+class Solution {
+ public:
+  bool backtrack(string& current, string& pattern, vector<bool>& visited,
+                 string& result) {
+    if (current.size() == pattern.size() + 1) {
+      result = current;
+      return;
+    }
+
+    for (int i = 1; i <= 9; i++) {
+      if (visited[i]) continue;
+      if (!current.empty()) {
+        char temp = current.back();
+        if ((pattern[current.size() - 1] == 'I' && temp - '0' >= i) ||
+            (pattern[current.size() - 1] == 'D' && temp - '0' <= i)) {
+          continue;
+        }
+      }
+      visited[i] = true;
+      current.push_back(i + '0');
+      if (backtrack(current, pattern, visited, result)) return true;
+      current.pop_back();
+      visited[i] = false;
+    }
+    return true;
+  }
+  string smallestNumber(string pattern) {
+    int n = pattern.size();
+    string result = "";
+    vector<bool> visited(10, false);
+    backtrack("", pattern, visited, result);
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  string smallestNumber(string pattern) {
+    stack<int> st;
+    string result = "";
+    int num = 1;
+
+    for (char c : pattern) {
+      st.push(c);
+      num++;
+      if (c == 'I') {
+        while (!st.empty()) {
+          result += to_string(st.top());
+          st.pop();
+        }
+      }
+    }
+    st.push(num);
+    while (!st.empty()) {
+      result += to_string(st.top());
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int evalRPN(vector<string>& tokens) {
+    stack<int> st;
+    for (int i = 0; i < tokens.size(); i++) {
+      /* code */
+      if (tokens[i] != "+" && tokens[i] != "-" && tokens[i] != "*" &&
+          tokens[i] != "/") {
+        st.push(stoi(tokens[i]));
+      } else {
+        int a = st.top();
+        st.pop();
+        int b = st.top();
+        st.pop();
+
+        if (tokens[i] == "+")
+          st.push(a + b);
+        else if (tokens[i] == "/")
+          st.push(a / b);
+        else if (tokens[i] == "-")
+          st.push(a - b);
+        else if (tokens[i] == "*")
+          st.push(a * b);
       }
     }
 
-    if (filter.size() < k) {
-      return {};
+    return st.top();
+  }
+};
+
+class Solution {
+ public:
+  string simplifyPath(string path) {
+    stack<string> st;
+    string dir;
+    path += '/';
+
+    for (char c : path) {
+      if (c == '/') {
+        if (dir == '..') {
+          if (!st.empty()) {
+            st.pop();
+          }
+        } else if (c == '.' && !dir.empty()) {
+          st.push(dir);
+        }
+
+        dir = "";
+      } else {
+        dir += c;
+      }
     }
 
-    sort(filter.begin(), filter.end());
+    if (st.empty()) return "/";
+    string result = "";
+    while (!st.empty()) {
+      result = "/" + st.top() + result;
+      st.pop();
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int solve(vector<int>& values) {
+    vector<pair<int, int>> vec;
+    for (int i = 0; i < values.size(); i++) {
+      vec.push_back({values[i], i});
+    }
+    sort(vec.begin(), vec.end());
+    int swaps = 0;
+    for (int i = 0; i < values.size(); i++) {
+      if (vec[i].second == i)
+        continue;
+      else {
+        ++swaps;
+        swap(vec[i], vec[vec[i].second]);
+        --i;
+      }
+    }
+    return swaps;
+  }
+  int minimumOperations(TreeNode* root) {
+    if (!root) return 0;
+    queue<TreeNode*> q;
+    q.push(root);
+    int totalSwaps = 0;
+    while (!q.empty()) {
+      int levelsize = q.size();
+      vector<int> levelvaleus;
+
+      for (int i = 0; i < levelsize; i++) {
+        TreeNode* current = q.front();
+        q.pop();
+        levelvaleus.push_back(current->val);
+        if (current->left) q.push(current->left);
+        if (current->right) q.push(current->right);
+      }
+
+      totalSwaps += solve(levelvaleus);
+    }
+
+    return totalSwaps;
   }
 };

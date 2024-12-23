@@ -1104,6 +1104,7 @@ class Solution {
     int maxfreq = 0;
   }
 };
+
 class Solution {
  public:
   bool canBeValid(string s, string locked) {
@@ -1254,4 +1255,46 @@ class Solution {
     }
     return -1;
   }
+};
+
+class Solution {
+ public:
+  bool canReach(vector<int>& arr, int start) {
+    int n = arr.size();
+    queue<int> q;
+    unordered_set<int> visited;
+    q.push(start);
+    visited.insert(start);
+    while (!q.empty()) {
+      int indx = q.front();
+      q.pop();
+
+      if (arr[indx] == 0) return true;
+      int forward =  indx+arr[indx];
+      int backward = indx-arr[indx];
+
+      if (forward < n && visited.find(forward) == visited.end()) {
+        q.push(forward);
+        visited.insert(forward);
+      }
+
+      if (backward >= 0 && visited.find(backward) == visited.end()) {
+        q.push(backward);
+        visited.insert(backward);
+      }
+    }
+    return false;
+  }
+};
+
+class Solution {
+public:
+    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
+        unordered_map<int,vector<int>> adj;
+        for(const auto &path:paths) {
+          adj[path[0]].push_back(adj[1]);
+          adj[path[1]].push_back(adj[0]);
+        }
+
+    }
 };

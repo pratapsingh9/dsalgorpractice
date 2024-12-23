@@ -18,7 +18,8 @@ class Solution(object):
             if evenidx < n and oddidx < n:
                 nums[evenidx], nums[oddidx] = nums[oddidx], nums[evenidx]
         return answer
-
+    
+print(Solution.sortArrayByParityII)
 
 class Solution(object):
     def finalPrices(self, prices):
