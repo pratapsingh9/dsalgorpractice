@@ -474,3 +474,125 @@ class Solution {
     return totalSwaps;
   }
 };
+
+class Solution {
+ public:
+  string removeDuplicates(string s) {
+    stack<char> st;
+    for (char c : s) {
+      if (!st.empty() && st.top() == c)
+        st.pop();
+      else {
+        st.push(c);
+      }
+    }
+    string ans = "";
+    while (!st.empty()) {
+      ans += st.top();
+      st.pop();
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+    stack<int> st;
+    int j = 0;
+    for (int num : pushed) {
+      st.push(num);
+
+      while (!st.empty() && popped[j] == st.top()) {
+        st.pop();
+        j++;
+      }
+    }
+    return st.empty();
+  }
+};
+
+class Solution {
+ public:
+  string removeStars(string s) {
+    string result;
+    for (char c : s) {
+      if (c == '*') {
+        if (!result.empty()) {
+          result.pop_back();
+        }
+      } else {
+        result.push_back(c);
+      }
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> nextGreaterElements(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> res(n, -1);
+    stack<int> st;
+    for (int i = 0; i < n * 2; i += 1) {
+      int num = nums[i % n];
+      while (!st.empty() && nums[st.top()] < num) {
+        int index = st.top();
+        st.pop();
+        res[index] = num;
+      }
+
+      if (i < n) {
+        st.push(i);
+      }
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  bool find132pattern(vector<int>& nums) {
+    stack<int> st;
+    int j = INT_MIN;
+    for (int i = nums.size() - 1; i >= 0; i--) {
+      if (nums[i] < j) return true;
+      while (!st.empty() && nums[]) }
+  }
+};
+
+class Solution {
+ public:
+  string smallestSubsequence(string s) {
+    stack<int> st;
+    unordered_map<char, int> freqMap;
+    unordered_set<int> visited;
+    for (char c : s) {
+      freqMap[c]++;
+    }
+    for (char c : s) {
+      freq[c]--;
+      if (visited.count(c)) continue;
+      while (!st.empty() && st.top() > c && freqMap[st.top()] > c) {
+        visited.erase(st.top());
+        st.pop();
+      }
+      st.push(c);
+      visited.insert(c);
+    }
+    string result;
+    while (!st.empty()) {
+      result = st.top() + result;
+      st.pop();
+    }
+    return result;
+  }
+};
+
+
+void show() {
+  
+  show();
+}
