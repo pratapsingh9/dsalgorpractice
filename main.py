@@ -18,8 +18,11 @@ class Solution(object):
             if evenidx < n and oddidx < n:
                 nums[evenidx], nums[oddidx] = nums[oddidx], nums[evenidx]
         return answer
-    
-print(Solution.sortArrayByParityII)
+
+class Values():
+    def vales(self,price):
+        for i in price:
+            print(price)
 
 class Solution(object):
     def finalPrices(self, prices):
@@ -36,7 +39,6 @@ class Solution(object):
                     result[i] -= prices[j]
                     break
         return result
-
 
 class Solution(object):
     def validateStackSequences(self, pushed, popped):

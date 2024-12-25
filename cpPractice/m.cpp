@@ -1,7 +1,9 @@
 #include <iostream>
 using namespace std;
 
-// Function to calculate gcd of two numbers using Euclid's algorithm
+
+
+
 int gcd(int a, int b) {
     while (b != 0) {
         int temp = a % b;

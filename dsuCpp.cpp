@@ -193,75 +193,77 @@ class Solution {
   }
 };
 
-#include <vector>
 #include <string>
+#include <vector>
 using namespace std;
 
 class Solution {
-public:
-    // Function to check if a substring is a palindrome
-    bool isPalindrome(string& s, int start, int end) {
-        while (start < end) {
-            if (s[start] != s[end]) return false;
-            start++;
-            end--;
-        }
-        return true;
+ public:
+  // Function to check if a substring is a palindrome
+  bool isPalindrome(string &s, int start, int end) {
+    while (start < end) {
+      if (s[start] != s[end]) return false;
+      start++;
+      end--;
+    }
+    return true;
+  }
+
+  // Backtracking function with memoization
+  vector<vector<string>> solve(string &s, int index,
+                               vector<vector<vector<string>>> &dp) {
+    // Base case: if we've processed the entire string
+    if (index == s.size()) {
+      return {{}};
+    }
+    if (!dp[index].empty()) {
+      return dp[index];
     }
 
-    // Backtracking function with memoization
-    vector<vector<string>> solve(string& s, int index, vector<vector<vector<string>>>& dp) {
-        // Base case: if we've processed the entire string
-        if (index == s.size()) {
-            return {{}};
-        }
-        if (!dp[index].empty()) {
-            return dp[index];
-        }
-
-        vector<vector<string>> result;
-        for (int i = index; i < s.size(); i++) {
-            if (isPalindrome(s, index, i)) {
-                string currentSubstring = s.substr(index, i - index + 1);
-                vector<vector<string>> subPartitions = solve(s, i + 1, dp);
-                for (auto& partition : subPartitions) {
-                    partition.insert(partition.begin(), currentSubstring);
-                    result.push_back(partition);
-                }
-            }
-        }
-
-        dp[index] = result;
-        return result;
-    }
-
-    // Main function to return all palindrome partitions
-    vector<vector<string>> partition(string s) {
-        int n = s.size();
-        vector<vector<vector<string>>> dp(n); 
-        return solve(s, 0, dp);
-    }
-};
-
-
-class Solution {
-public:
-    bool solve(string s , vector<string>& wordDict , unordered_map<string,bool> &memo) {
-      if(s.empty()) return true;
-      if(memo.find(s)!=memo.end()) return memo[s];
-      for(string &word:wordDict) {
-        if(s.find(word)==0) {
-          if(solve(s.substr(word.length()),wordDict)) {
-            memo[s]=true;
-            return memo[s];
-          }
+    vector<vector<string>> result;
+    for (int i = index; i < s.size(); i++) {
+      if (isPalindrome(s, index, i)) {
+        string currentSubstring = s.substr(index, i - index + 1);
+        vector<vector<string>> subPartitions = solve(s, i + 1, dp);
+        for (auto &partition : subPartitions) {
+          partition.insert(partition.begin(), currentSubstring);
+          result.push_back(partition);
         }
       }
-      memo[s]=false;
-      return memo[s];
     }
-    bool wordBreak(string s, vector<string>& wordDict) {
-      unordered_map<string,bool> memo;
-        return solve(s,wordDict,memo);
-    }
+
+    dp[index] = result;
+    return result;
+  }
+
+  // Main function to return all palindrome partitions
+  vector<vector<string>> partition(string s) {
+    int n = s.size();
+    vector<vector<vector<string>>> dp(n);
+    return solve(s, 0, dp);
+  }
 };
+
+class Solution {
+ public:
+  bool solve(string s, vector<string> &wordDict,
+             unordered_map<string, bool> &memo) {
+    if (s.empty()) return true;
+    if (memo.find(s) != memo.end()) return memo[s];
+    for (string &word : wordDict) {
+      if (s.find(word) == 0) {
+        if (solve(s.substr(word.length()), wordDict)) {
+          memo[s] = true;
+          return memo[s];
+        }
+      }
+    }
+    memo[s] = false;
+    return memo[s];
+  }
+  bool wordBreak(string s, vector<string> &wordDict) {
+    unordered_map<string, bool> memo;
+    return solve(s, wordDict, memo);
+  }
+};
+

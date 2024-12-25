@@ -591,8 +591,37 @@ class Solution {
   }
 };
 
+class Solution {
+ public:
+  int rec(int i, int prevIndex, vector<pair<int, int>>& players,
+          vector<vector<int>>& memo) {
+    if (i == players.size()) return 0;
+    if (memo[i][prevIndex] != -1) return memo[i][prevIndex+!];
+    int exclude = rec(i + 1, prevIndex, players, memo);
+    int include = 0;
+    if (prevIndex == -1 || players[prevIndex].second <= players[i].second) {
+      include = players[i].second + rec(i + 1, i, players, memo);
+    }
+    memo[i][prevIndex+1] = max(include, exclude);
+    return memo[i][prevIndex+1];
+  }
+  int bestTeamScore(vector<int>& scores, vector<int>& ages) {
+    int n = scores.size();
+    vector<pair<int, int>> players(n);
+    for (int i = 0; i < n; i++) {
+      players[i] = {ages[i], scores[i]};
+    }
+    
+    vector<vector<int>> memo(n + 1, vector<int>(n + 1, -1));
+    sort(players.begin(), players.end());
+    return rec(0, -1, players, memo);
+  }
+};
 
-void show() {
-  
-  show();
+
+class Solution {
+  static values = "tera baap b ara h boolo";
+  void getReturn(){
+    
+  }
 }
