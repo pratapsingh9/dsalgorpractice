@@ -261,8 +261,6 @@ ListNode* merge(ListNode* left, ListNode* right) {
   return dummy.next;
 }
 
-// Recursive merge sort function for linked list
-
 void printList(ListNode* root) {
   ListNode* curr = root;
   while (curr && curr->next) {
@@ -274,23 +272,19 @@ void printList(ListNode* root) {
 }
 
 int main() {
-  // Creating a linked list: 4 -> 2 -> 1 -> 3
   ListNode* head = new ListNode(4);
   head->next = new ListNode(2);
   head->next->next = new ListNode(1);
   head->next->next->next = new ListNode(3);
-
   cout << "Original list: ";
   printList(head);
-
-  // Sort the linked list
   head = mergeSort(head);
-
   cout << "Sorted list: ";
   printList(head);
-
   return 0;
 }
+
+
 class Solution {
  public:
   ListNode* reverseKGroup(ListNode* head, int k) {

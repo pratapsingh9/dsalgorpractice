@@ -2,28 +2,18 @@
 using namespace std;
 
 long long sumOfDistinctCounts(const vector<int>& categories) {
-  unordered_map<int, int>
-      lastSeen;          // To store the last seen index of each element
-  int start = 0;         // Start of the sliding window
-  long long result = 0;  // Final result to store the sum of distinct counts
+  unordered_map<int, int> lastSeen;
+  int start = 0;
+  long long result = 0;
 
   for (int end = 0; end < categories.size(); ++end) {
     int current = categories[end];
-
-    // If the current element was seen before, move the start of the window
     if (lastSeen.count(current) && lastSeen[current] >= start) {
-      start = lastSeen[current] +
-              1;  // Move start to exclude the previous occurrence
+      start = lastSeen[current] + 1;
     }
-
-    // Update the last seen index of the current element
     lastSeen[current] = end;
-
-    // Calculate the number of subarrays ending at the current index
-    // and add it to the result
     result += (end - start + 1);
   }
-
   return result;
 }
 
@@ -34,12 +24,9 @@ int main() {
 }
 
 vector<int> subarrayWithSUm(vector<int> nums, int target) {
-  //  will store the total sum till the index
   unordered_map<int, int> mp;
-
   int cumSum = 0;
   for (int i = 0; i < nums.size(); i++) {
-    /* code */
     cumSum += nums[i];
     if (cumSum == target) return {0, i};
     if (mp.find(target - cumSum) != mp.end()) {
@@ -87,6 +74,7 @@ class Solution {
     return (amount[0] + amount[1] + amount[2] + 1) / 2;
   }
 };
+
 class Solution {
  public:
   int fillCups(vector<int>& amount) {
@@ -94,15 +82,13 @@ class Solution {
     for (int x : amount) {
       if (x > 0) pq.push(x);
     }
-
-    int time = 0;
+    int time = 0 , ;
     while (!pq.empty()) {
       int first = pq.top();
       pq.pop();
       if (!pq.empty()) {
         int second = pq.top();
         pq.pop();
-
         if (--first > 0) pq.push(first);
         if (--second > 0) pq.push(second);
       } else {
@@ -185,20 +171,20 @@ class Solution {
     for (string it : words) {
       mp[it]++;
     }
-    priority_queue<P,vector<P>,greater<P>> pq;
+    priority_queue<P, vector<P>, greater<P>> pq;
     vector<string> result;
-    for(auto it:mp) {
-      pq.push({it.second,it.first});
-      if(pq.size() > k) {
+    for (auto it : mp) {
+      pq.push({it.second, it.first});
+      if (pq.size() > k) {
         pq.pop();
       }
     }
 
-    while(!pq.empty()) {
+    while (!pq.empty()) {
       result.push_back(pq.top().second);
       pq.pop();
     }
-    reverse(result.begin(),result.end());
+    reverse(result.begin(), result.end());
     return result;
   }
 };
