@@ -180,18 +180,13 @@ class Solution {
   int MOD = 1e9 + 7;
   int directions[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
   int solve(vector<vector<int>>& grid, int currentRow, int currentColumn,
-            int row, int column, vector<vector<int>>& memoDp) {class Solution {
- public:
-  int MOD = 1e9 + 7;
-  int directions[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-  int solve(vector<vector<int>>& grid, int currentRow, int currentColumn,
             int row, int column, vector<vector<int>>& memoDp) {
     if (memoDp[currentRow][currentColumn] != -1)
       return memoDp[currentRow][currentColumn];
     int count = 1;
     for (auto dirs : directions) {
       int newRow = dirs[0] + currentRow;
-      int newCol = dirs[1] + currentColumn;
+      int newCol = dir[1] + currentColumn;
 
       if (newRow >= 0 && newRow < row && newCol >= 0 && newCol < column &&
           grid[newRow][newCol] > grid[currentRow][currentColumn]) {
@@ -214,32 +209,33 @@ class Solution {
     return count;
   }
 };
-    if (memoDp[currentRow][currentColumn] != -1)
-      return memoDp[currentRow][currentColumn];
-    int count = 1;
-    for (auto dirs : directions) {
-      int newRow = dirs[0] + currentRow;
-      int newCol = dirs[1] + currentColumn;
 
-      if (newRow >= 0 && newRow < row && newCol >= 0 && newCol < column &&
-          grid[newRow][newCol] > grid[currentRow][currentColumn]) {
-        count =
-            (count + solve(grid, newRow, newCol, row, column, memoDp)) % MOD;
-      }
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& values) {
+        int maxValues = 0;
+        int maxPrevvalues = values[0] + 0;
+        for(int i = 1; i<values.size(); i++) {
+          maxValues=max(maxValues,maxPrevvalues+values[i] - i );
+          maxPrevvalues=max(maxPrevvalues,values[i] + i);
+        }
+        return maxValues;
     }
-    memoDp[currentRow][currentColumn] = count;
-    return memoDp[currentRow][currentColumn];
-  }
-  int countPaths(vector<vector<int>>& grid) {
-    int row = grid.size();
-    int column = grid[0].size();
-    int count = 0;
-    vector<vector<int>> memoDp(row + 1, vector<int>(column + 1, -1));
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < column; j++) {
-        count = (count + solve(grid, i, j, row, column, memoDp)) % MOD;
+};
+
+class Solution {
+  public:
+      int solve(int day , vector<int> &prices , bool shouldBuy) {
+        if(day>= prices.size()) return 0;
+        if(shouldBuy) {
+          int buy = -prices[day] + solve(day+1,prices,false);
+          int skip =  solve(day+1,prices,true);
+          return max(buy,skip);
+        }else{
+          int buy = prices[day] + 
+        }
       }
-    }
-    return count;
-  }
+      int maxProfit(vector<int>& prices) {
+        return solve(0,prices,true);  
+      }
 };

@@ -125,7 +125,6 @@ bool subsetSum(const vector<int>& arr, int target) {
         dp[i][t] = dp[i - 1][t];
       } else {
         dp[i][t] =
-            // include function code
             dp[i - 1][t] || dp[i - 1][t - arr[i - 1]];
       }
     }
@@ -143,7 +142,6 @@ bool subsetSumRecursive(const vector<int>& arr, int n, int target,
     memo[n][target] = subsetSumRecursive(arr, n - 1, target - arr[n - 1]) ||
                       subsetSumRecursive(arr, n - 1, target);
   } else {
-    // Skip the current element
     memo[n][target] = subsetSumRecursive(arr, n - 1, target);
   }
   return memo[n][target];

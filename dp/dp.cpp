@@ -63,41 +63,53 @@ class Solution {
 };
 
 class Solution {
-public:
-    int numTrees(int n) {
-      vector<int> dp(n+1,0);
-      dp[0]=1;
-      dp[1]=1;
+ public:
+  int numTrees(int n) {
+    vector<int> dp(n + 1, 0);
+    dp[0] = 1;
+    dp[1] = 1;
 
-      for(int nodes = 2; nodes<=n;nodes++) {
-        for(int root = 1; root<=nodes; root++) {
-          dp[nodes]+= dp[root-1] * dp[nodes-root];
-        }
+    for (int nodes = 2; nodes <= n; nodes++) {
+      for (int root = 1; root <= nodes; root++) {
+        dp[nodes] += dp[root - 1] * dp[nodes - root];
       }
-      return dp[n];
     }
+    return dp[n];
+  }
 };
+
 class Solution {
  public:
-  int solver(int start, int end,vector<vector<int>> &memo) {
+  int solver(int start, int end, vector<vector<int>> &memo) {
     if (start > end) {
       return 1;
     }
-    if(memo[start][end] != -1) return memo[start][end];
+    if (memo[start][end] != -1) return memo[start][end];
     int totalTrees = 0;
     for (int root = start; root < end; root++) {
-      int leftTrees = solver(start, root - 1,memo);
-      int rightTrees = solver(root + 1, end,memo);
+      int leftTrees = solver(start, root - 1, memo);
+      int rightTrees = solver(root + 1, end, memo);
 
       totalTrees += leftTrees * rightTrees;
     }
     memo[start][end] = totalTrees;
     return totalTrees;
   }
-  int numTrees(int n) { 
-    vector<vector<int>> memo(n+1,vector<int> (n+1,-1));
-    return solver(1, n , memo);
-   }
+  int numTrees(int n) {
+    vector<vector<int>> memo(n + 1, vector<int>(n + 1, -1));
+    return solver(1, n, memo);
+  }
 };
 
-
+class Solution {
+ public:
+  int minimizeSum(vector<int> &nums) {
+    int n = nums.size();
+    if (n <= 3) return 0;
+    sort(nums.begin(), nums.end());
+    int option1 = nums[n - 1] - nums[2];
+    int option2 = nums[n - 3] - nums[0];
+    int option3 = nums[n - 2] - nums[1];
+    return min({option1, option2, option3});
+  }
+};

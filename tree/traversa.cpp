@@ -23,6 +23,7 @@ class Solution {
     return decodedString;
   }
 };
+
 class Solution {
  public:
   void generateCombineHelper(vector<vector<int>> &result, vector<int> &temp,
@@ -520,7 +521,7 @@ class Solution {
       if (people[left] + people[rigth] <= limit) {
         left += 1;
       }
-      rigth-= 1;
+      rigth -= 1;
       answer++;
     }
     return answer;
