@@ -29,11 +29,9 @@ void dfsIterative(vector<vector<int>> &graph, int start, int V) {
   vector<bool> visited(V, false);
   stack<int> st;
   s.push(start);
-
   while (!s.empty()) {
     int node = s.top();
     s.pop();
-
     if (!visited[node]) {
       visited[node] = true;
       cout << node << endl;
@@ -250,8 +248,7 @@ void topologicalSort(int node, vector<bool> &visited, stack<int> &Stack,
   Stack.push(node);
 }
 
-vector<int> shortestPathIntoDag(vector<vector<pair<int, int>>> &graph, int V,
-                                int src) {
+vector<int> shortestPathIntoDag(vector<vector<pair<int, int>>> &graph, int V,int src) {
   stack<int> st;
   vector<int> visited(V, false);
   for (int i = 0; i < V; i++) {
@@ -259,13 +256,11 @@ vector<int> shortestPathIntoDag(vector<vector<pair<int, int>>> &graph, int V,
       dfs(i, visited, st, graph);
     }
   }
-
   vector<int> dist(V, INT_MAX);
   dist[src] = 0;
   while (!st.empty()) {
     int node = st.top();
     st.pop();
-
     for (const auto &it : graph[node]) {
       int w = it.second;
       int nodes = it.first;
@@ -276,7 +271,6 @@ vector<int> shortestPathIntoDag(vector<vector<pair<int, int>>> &graph, int V,
   }
   return dist;
 }
-
 bool isBiperaties(vector<vector<int>> &graph) {
   int n = graph.size();
   vector<int> color(n, -1);
@@ -288,7 +282,6 @@ bool isBiperaties(vector<vector<int>> &graph) {
       while (!q.empty()) {
         int node = q.front();
         q.pop();
-
         for (int n : graph[node]) {
           if (color[n] == -1) {
             color[n] = 1 - color[node];
@@ -307,7 +300,6 @@ int main() {
   int V = 5;
   vector<vector<pii>> adj(V);
 
-  // Adjacency list (first is weight, second is neighbor)
   adj[0].push_back({10, 1});
   adj[0].push_back({5, 4});
   adj[1].push_back({1, 2});

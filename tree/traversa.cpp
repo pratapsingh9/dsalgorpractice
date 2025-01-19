@@ -32,9 +32,7 @@ class Solution {
       result.push_back(temp);
       return;
     }
-
     if (start > n) return;
-
     temp.push_back(start);
     // include
     generateCombineHelper(result, temp, n, k, start + 1);
@@ -506,7 +504,6 @@ struct Song {
   int listenCount;
   time_t lastPlayed;
 
-  // Constructor to initialize the song
   Song(string n, int l, time_t t) : name(n), listenCount(l), lastPlayed(t) {}
 };
 
@@ -527,3 +524,21 @@ class Solution {
     return answer;
   }
 };
+
+
+class Solution{
+  public:
+  int numberRescueBoats(vector<int> &boats , int limit) {
+    sort(boats.begin(), boats.end());
+    int left = 0, right = boats.size() - 1;
+    int answer = 0;
+    while(left <= right) {
+      if(boats[left] + boats[right] <= limit) {
+        left += 1;
+      }
+      right -= 1;
+      answer++;
+    }
+    return answer;
+  }
+}

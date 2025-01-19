@@ -79,10 +79,96 @@ class Solution {
 
 class Solution {
 public:
-    long long minOperations(vector<int>& nums1, vector<int>& nums2, int k) {
-      if(k==0) {
-        return nums1 == nums2  ? 0 : -1;
-      }
-      
+    int waysToSplitArray(vector<int>& nums) {
+        long long total = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+          /* code */
+          total += nums[i];
+        }
+
+        long long lsum = 0 ;
+        int count = 0;
+
+        for (size_t i = 0; i < nums.size()-1; i++)
+        {
+          /* code */
+          lsum+= nums[i];
+          total -= nums[i];
+          if(lsum>=total){
+            count++;
+          } 
+        }
+        return count;
+        
+    }
+};
+
+class Solution {
+public:
+    int findMiddleIndex(vector<int>& nums) {
+        int t = 0;
+        for(int i = 0; i<nums.size(); i++) t+= nums[i];
+
+
+        int lsum = 0;
+        for (size_t i = 0; i < nums.size(); i++)
+        {
+          /* code */
+          t-= nums[i];
+
+          if(lsum=t) return i;
+
+          lsum+= nums[i];
+        }
+
+        return -1;
+        
+    }
+};
+
+class Solution {
+public:
+    int pivotIndex(vector<int>& nums) {
+        int total = 0;
+        for(int i = 0; i<nums.size(); i++) total+= nums[i];
+
+        int lsum = 0;
+        for(int i = 0; i<nums.size(); i++){
+          if(lsum == total - lsum - nums[i]) return i;
+          lsum+= nums[i];
+        }
+        return  -1;
+    }
+};
+
+class Solution {
+public:
+    typedef long long ll;
+    int minimumAverageDifference(vector<int>& nums) {
+        ll total  = 0;
+        for(int n:nums) total+= n;
+
+        ll lsum = 0;
+        int n = nums.size();
+        int res = 0;
+        ll minDiff = LLONG_MAX;
+
+        for (size_t i = 0; i < nums.size(); i++)
+        {
+          lsum += nums[i];
+          ll rsum = total - lsum;
+          ll lavg = lsum / (i+1);
+          ll ravg =  (i==n-1) ? 0 : rsum / (n-i-1);
+          ll diff = abs(lavg - ravg);
+
+          if (diff<minDiff)
+          {
+            minDiff= diff;
+            res=i;
+          }
+        }
+          return res;
+        
     }
 };

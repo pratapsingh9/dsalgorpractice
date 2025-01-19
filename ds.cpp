@@ -43,9 +43,7 @@ bool isIsomorphic(string a, string b) {
   unordered_map<char, char> atob, btoa;
 
   for (int i = 0; i < a.size(); i++) {
-    char a = s[i], b = t[i];
-
-    if (atob.count(a) !=) }
+  }
 }
 
 class Solution {
@@ -226,6 +224,7 @@ class Solution {
     return dp[0][1];
   }
 };
+
 class Solution {
  public:
   int maximumPopulation(vector<vector<int>>& logs) {
@@ -312,7 +311,6 @@ class Solution {
   string shiftingLetters(string s, vector<vector<int>>& shifts) {
     int n = s.size();
     vector<int> prefix(n + 1, 0);
-
     for (const auto& shift : shifts) {
       int start = shift[0];
       int end = shift[1];
@@ -326,7 +324,6 @@ class Solution {
       netShift += prefix[i];
       prefix[i] = netShift;
     }
-
     for (int i = 0; i < n; i++) {
       int shift = prefix[i] % 26;
       s[i] = ((s[i] - 'a' + shift + 26) % 26) + 'a';
@@ -409,6 +406,7 @@ class Solution {
     return ans;
   }
 };
+
 class Solution {
  public:
   int bagOfTokensScore(vector<int>& tokens, int power) {
@@ -446,7 +444,6 @@ class Solution {
   }
 };
 
-
 class Solution {
  public:
   int countWords(vector<string>& words1, vector<string>& words2) {
@@ -467,4 +464,206 @@ class Solution {
   }
 };
 
+class Solution {
+ public:
+  int solve(int index, vector<int>& days, vector<int>& costs,
+            vector<int>& memoDp) {
+    if (index >= days.size()) {
+      return 0;
+    }
 
+    if (memoDp[index] != -1) return memoDp[index];
+
+    int oneDayPass = costs[0] + solve(index + 1, days, costs, memoDp);
+
+    int i = index;
+    while (i < days.size() && days[i] < days[index] + 7) {
+      i++;
+    }
+    int sevenDayPass = costs[1] + solve(i, days, costs, memoDp);
+
+    i = index;
+    while (i < days.size() && days[i] < days[index] + 30) {
+      i++;
+    }
+    int thirtyDayPass = costs[2] + solve(i, days, costs, memoDp);
+
+    memoDp[index] = min({oneDayPass, sevenDayPass, thirtyDayPass});
+
+    return memoDp[index];
+  }
+  int mincostTickets(vector<int>& days, vector<int>& costs) {
+    vector<int> memoDp(days.size() + 1, -1);
+    return solve(0, days, costs, memoDp);
+  }
+};
+
+class Solution {
+ public:
+  int mincostTickets(vector<int>& days, vector<int>& costs) {
+    int n = days.size();
+    vector<int> dp(n + 1, 0);
+    for (int index = n - 1; index >= 0; index--) {
+      int ondedaypass = costs[0] + dp[index + 1];
+
+      int i = index;
+      while (i < n && days[i] < days[index] + 7) {
+        i++;
+      }
+
+      int weeklyPass = costs[1] + dp[i];
+
+      i = index;
+      while (i < n && days[i] < days[index] + 30) {
+        i++;
+      }
+
+      int thirtyDayPass = costs[2] + dp[i];
+
+      dp[index] = min({ondedaypass, weeklyPass, thirtyDayPass});
+    }
+    return dp[0];
+  }
+};
+
+class Solution {
+ public:
+  vector<string> findWords(vector<string>& words) {
+    unordered_map<char, int> mp;
+    string row1 = "qwertyuiop";
+    string row2 = "asdfghjkl";
+    string row3 = "zxcvbnm";
+    for (char c : row1) mp[c] = 0;
+    for (char c : row2) mp[c] = 1;
+    for (char c : row3) mp[c] = 2;
+    vector<string> result;
+    for (const string& word : words) {
+      int row = mp[tolower(word[0])];
+      bool isValid = true;
+      for (char c : word) {
+        if (mp[tolower(c)] != row) {
+          isValid = false;
+          break;
+        }
+      }
+      if (isValid) result.push_back(word);
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int findLHS(vector<int>& nums) {
+    unordered_map<int, int> frrq;
+    for (const int& num : nums) frrq[num]++;
+    int maxl = 0;
+    for (const auto& [key, value] : frrq) {
+      if (frrq.count(key + 1)) {
+        maxl = max(maxl, value + frrq[key + 1]);
+      }
+    }
+    return maxl;
+  }
+};
+
+class Solution {
+ public:
+  string mostCommonWord(string paragraph, vector<string>& banned) {
+    unordered_set<string> visitedWord(banned.begin(), banned.end());
+    unordered_map<string, int> frq;
+
+    string word = "";
+    for (const char& c : paragraph) {
+      if (isalpha(c)) {
+        word += tolower(c);
+      } else if (!word.empty()) {
+        frq[word]++;
+        word = "";
+      }
+    }
+
+    if (!word.empty()) frq[word]++;
+
+    string answer = "";
+    int maxCount = 0;
+
+    for (const auto& [key, value] : frq) {
+      if (visitedWord.find(key) == visitedWord.end() && value > maxCount) {
+        answer = key;
+        maxCount = value;
+      }
+    }
+    return answer;
+  }
+};
+
+class Solution {
+ public:
+  vector<string> uncommonFromSentences(string s1, string s2) {
+    unordered_map<string, int> wordCount;
+    string word = "";
+    string s = s1 + ' ' + s2 + ' ';
+    for (char c : s) {
+      if (isalpha(c)) {
+        word += tolower(c);
+      } else if (!word.empty()) {
+        wordCount[word]++;
+        word = "";
+      }
+    }
+    vector<string> answer;
+    for (const auto& [key, value] : wordCount) {
+      if (value == 1) {
+        answer.push_back(key);
+      }
+    }
+    return answer;
+  }
+};
+
+class Solution {
+ public:
+  int maxScore(string s) {
+    int oneCount = count(s.begin(), s.end(), '1');
+    int zero = 0;
+    int ans = 0;
+    for (int i = 0; i < s.size() - 1; i += 1) {
+      if (s[i] == '1') {
+        oneCount--;
+      } else {
+        zero++;
+      }
+      ans = max(oneCount + zero, ans);
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int solve(int n, int startNum, vector<int>& dp) {
+    if (n == 1) return 1;
+    if (dp[n] != -1) return dp[n];
+    int maxProduct = 0;
+    for (int i = 1; i <= n / 2; i++) {
+      int product = i * max(n - i, solve(n - i, 1, dp));
+      maxProduct = max(maxProduct, product);
+    }
+
+    return dp[n] = maxProduct;
+  }
+
+  int integerBreak(int n) {
+    if (n <= 3) return n - 1;
+    vector<int> dp(n + 1, -1);
+    return solve(n, 1, dp);
+  }
+};
+
+
+class Solution{
+  public:
+  int data;
+  
+}

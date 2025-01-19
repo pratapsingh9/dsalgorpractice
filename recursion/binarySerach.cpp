@@ -1,9 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int binary(vector<int> &nums, int target, int left, int right) {
-
-}
+int binary(vector<int> &nums, int target, int left, int right) {}
 
 int binarySearch(vector<int> &nums, int target, int low, int high) {
   if (low > high) {
@@ -113,29 +111,25 @@ class Solution {
   vector<int> fullBloomFlowers(vector<vector<int>> &flowers,
                                vector<int> &people) {
     int maxTime = 0;
-    
     for (auto it : flowers) {
       maxTime = max(maxTime, flowers[1]);
     }
-
-    vector<int> bloomChanges(maxTime+2,0);
-
-    for(auto flower:flowers) {
+    vector<int> bloomChanges(maxTime + 2, 0);
+    for (auto flower : flowers) {
       bloomChanges[flower[0]] += 1;
-      bloomChanges[flower[1]+1] -= 1;
+      bloomChanges[flower[1] + 1] -= 1;
     }
 
-    vector<int> bloomCount(maxTime+2,0);
-    for(int i = 1; i<maxTime; ++i) {
-      bloomCount[i] = bloomCount[i-1] + bloomChanges[i];
+    vector<int> bloomCount(maxTime + 2, 0);
+    for (int i = 1; i < maxTime; ++i) {
+      bloomCount[i] = bloomCount[i - 1] + bloomChanges[i];
     }
 
     vector<int> result;
-
-    for(int &person:people) {
-      if(person>maxTime) {
+    for (int &person : people) {
+      if (person > maxTime) {
         result.push_back(0);
-      } else{
+      } else {
         result.push_back(bloomCount[person]);
       }
     }
@@ -144,17 +138,18 @@ class Solution {
 };
 
 class Solution {
-public:
-    int findInMountainArray(int target, MountainArray &mountainArr) {
-        int low = 0 , high = mountainArr.length()-1;
-        while(high-low>1) {
-          int mid = low + (high-low)/2;
-          if(mountainArr.get(mid) > target && mountainArr.get(mid) > mountainArr.get(mid+1) ) {
-            low = mid+1;
-          } else{
-            high=mid;
-          }
-        }
-        return low;
+ public:
+  int findInMountainArray(int target, MountainArray &mountainArr) {
+    int low = 0, high = mountainArr.length() - 1;
+    while (high - low > 1) {
+      int mid = low + (high - low) / 2;
+      if (mountainArr.get(mid) > target &&
+          mountainArr.get(mid) > mountainArr.get(mid + 1)) {
+        low = mid + 1;
+      } else {
+        high = mid;
+      }
     }
+    return low;
+  }
 };

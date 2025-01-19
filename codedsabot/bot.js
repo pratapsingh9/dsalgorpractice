@@ -1,10 +1,8 @@
 const { Telegraf, Markup } = require("telegraf");
 const axios = require("axios");
 
-// Replace with your bot token
 const bot = new Telegraf("8115597059:AAEjQLbcBpGqO67xwkm3NXywEzhp1St-YyA");
 
-// Helper function to fetch Codeforces problems
 const getCodeforcesQuestion = async (rating) => {
   try {
     const response = await axios.get(
@@ -30,7 +28,7 @@ const getCodeforcesQuestion = async (rating) => {
   }
 };
 
-// Start command - works in both private and group chats
+
 bot.start((ctx) => {
   ctx.reply(
     "👋 Welcome to the Codeforces Problem Bot! 🧩\n\n" +
@@ -44,7 +42,7 @@ bot.start((ctx) => {
   );
 });
 
-// Help command - provides detailed instructions
+
 bot.help((ctx) => {
   ctx.reply(
     "🤖 Codeforces Problem Bot Help 🆘\n\n" +
@@ -56,6 +54,7 @@ bot.help((ctx) => {
     "Choose a rating that matches your skill level!"
   );
 });
+
 bot.command("getcf", async (ctx) => {
   const args = ctx.message.text.split(" ").slice(1);
   const rating = parseInt(args[0]);
@@ -84,6 +83,7 @@ bot.command("getcf", async (ctx) => {
     ctx.reply("🚨 An error occurred while fetching the problem. Please try again.");
   }
 });
+
 bot.command("random", async (ctx) => {
   const randomRatings = [800, 1200, 1600, 2000];
   const randomRating = randomRatings[Math.floor(Math.random() * randomRatings.length)];
@@ -106,6 +106,7 @@ bot.command("random", async (ctx) => {
     ctx.reply("🚨 An error occurred while fetching a random problem.");
   }
 });
+
 bot.on("new_chat_members", async (ctx) => {
   try {
     const botUsername = ctx.botInfo.username;
@@ -128,6 +129,7 @@ bot.on("new_chat_members", async (ctx) => {
     console.error("Group join handler error:", error);
   }
 });
+
 bot.catch((err, ctx) => {
   console.error(`Error for ${ctx.updateType}:`, err);
 });

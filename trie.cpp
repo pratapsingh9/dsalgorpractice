@@ -2,9 +2,8 @@
 using namespace std;
 
 struct TrieNode {
-  /* data */
   char data;
-  TrieNode* children[26];
+  TrieNode* children[26];  
   bool isEndOfword;
   TrieNode(char value) {
     this->data = value;
@@ -14,11 +13,7 @@ struct TrieNode {
     isEndOfword = false;
   }
 };
-
-void
-
-    void
-    insert(TrieNode* root, string word) {
+    void insert(TrieNode* root, string word) {
   TrieNode* crawler = root;
   for (char c : word) {
     int idx = c - 'a';
@@ -44,29 +39,27 @@ string shortestUnique(const string& word, TrieNode* root) {
   return prefix;
 }
 
-
 // 774
 // 445
-int minRotation(int input , int unlockCode) {
+int minRotation(int input, int unlockCode) {
   int minCost = 0;
-  while(input > 0 && unlockCode) {
-    int a = input%10;
-    int b  = unlockCode % 10;
-    minCost+= min(abs(a-b) , 10-abs(a-b));
-    input=input/10;
-    unlockCode=unlockCode/10;
+  while (input > 0 && unlockCode) {
+    int a = input % 10;
+    int b = unlockCode % 10;
+    minCost += min(abs(a - b), 10 - abs(a - b));
+    input = input / 10;
+    unlockCode = unlockCode / 10;
   }
   return minCost;
 }
 
 vector<int> splitMost(int n) {
   vector<int> result;
-  while(n>=4) {
+  while (n >= 4) {
     result.push_back(4);
-    n-=4;
+    n -= 4;
   }
-  if(n==1)
-}
+  if (n == 1) }
 
 bool search(TrieNode* root, string word) {
   TrieNode* crawler = root;

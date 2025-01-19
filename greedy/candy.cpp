@@ -12,8 +12,6 @@ pair<int, int> candyIssue(vector<int> candy, int k) {
   }
   int maxCost = 0;
   candiyremaing = 0;
-  for (int i = n - 1; i >= candiyremaing; i--) {
-  }
 }
 
 pair<int, int> kitnaDega(vector<int> candy, int k) {

@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// topo sort Normal wla
-
 void dfs(int node, vector<int> adj[], vector<bool> vis, stack<int> &st) {
   vis[node] = true;
   for (int neigbour : adj[node]) {
@@ -12,6 +10,8 @@ void dfs(int node, vector<int> adj[], vector<bool> vis, stack<int> &st) {
   }
   st.push(node);
 }
+
+
 
 vector<int> topoSort(int V, vector<int> adj[]) {
   vector<int> vis(v, false);
@@ -38,6 +38,7 @@ vector<int> topoSortBfsKahn(vector<int> adj[], int V) {
       q.push(i);
     }
   }
+
   vector<int> ans;
   while (!q.empty()) {
     int node = q.front();
@@ -60,13 +61,12 @@ vector<int> topoSortUsingBfs(vector<int> adj[], int V) {
   }
 
   queue<int> q;
-
   for (int i = 0; i < inDegree.size(); i++) {
     if (inDegree[i] == 0) {
       q.push(i);
     }
   }
-
+  
   vector<int> topoOrder;
   while (!q.empty()) {
     int top = q.front();
@@ -79,6 +79,7 @@ vector<int> topoSortUsingBfs(vector<int> adj[], int V) {
       }
     }
   }
+
   return topoOrder;
 }
 

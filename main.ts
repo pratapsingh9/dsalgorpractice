@@ -1,3 +1,5 @@
 function mains() {
     return ''
 }
+
+mains()

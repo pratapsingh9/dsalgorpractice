@@ -43,7 +43,6 @@ void print(vector<vector<char>> &grids) {
   }
 }
 
-// Main function
 int main() {
   vector<vector<char>> grid = {{'1', '0', '0', '1'},
                                {'0', '0', '1', '0'},
@@ -66,12 +65,7 @@ class Solution {
     if (memo[index] != -1) return memo[index];
     int maxSum = 0;
     int maxValueInpartition = arr[index];
-    // for(int j = 1; j<=k &&  index+j<=arr.size(); j++) {
-    //   maxValueInpartition=max(maxValueInpartition,arr[j+index-1]);
-    //   maxSum=max(maxSum,maxValueInpartition*j + solve(arr,index+j,k));
-    // }
     for (int i = 0; i <= k && index + i <= arr.size(); i++) {
-      /* code */
       maxValueInpartition = max(maxValueInpartition, arr[j + index - 1]);
       maxSum = max(maxSum, maxValueInpartition * j + solve(index))
     }
@@ -248,26 +242,53 @@ class Solution {
   }
 };
 class Solution {
-public:
-    bool buddyStrings(string s, string goal) {
-        if(s.size()!=goal.size()) return false;
-    }
+ public:
+  bool buddyStrings(string s, string goal) {
+    if (s.size() != goal.size()) return false;
+  }
 };
 
 class Solution {
-public:
-    int numRescueBoats(vector<int>& people, int limit) {
-        sort(people.begin(),people.end());
+ public:
+  int numRescueBoats(vector<int> &people, int limit) {
+    sort(people.begin(), people.end());
 
-        int left  = 0 , rigth =  people.size() - 1;
-        int answer = 0;
-        while(left<=rigth) {
-          if(people[left]+people[rigth] <= limit) {
-            left+=1;
-          }
-          rigth++;
-          answer++;
-        }
-        return answer;
+    int left = 0, rigth = people.size() - 1;
+    int answer = 0;
+    while (left <= rigth) {
+      if (people[left] + people[rigth] <= limit) {
+        left += 1;
+      }
+      rigth++;
+      answer++;
     }
+    return answer;
+  }
+};
+
+class Solution {
+ public:
+  vector<double> averageOfLevels(TreeNode *root) {
+    vector<double> ans;
+    if (!root) return ans;
+
+    queue<TreeNode *> q;
+    q.push(root);
+
+    while (!q.empty()) {
+      double qlen = q.size(), row = 0;
+      for (int i = 0; i < qlen; i++) {
+        TreeNode *curr = q.front();
+        q.pop();
+        row += curr->val;
+
+        if (curr->left) q.push(curr->left);
+        if (curr->right) q.push(curr->right);
+      }
+
+      ans.push_back(row / qlen);
+    }
+
+    return ans;
+  }
 };

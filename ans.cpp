@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-
-#include <iostream>
 using namespace std;
 struct ListNode {
   int val;
@@ -39,14 +37,11 @@ ListNode* reveseListWithStack(ListNode* head) {
 
 ListNode* reverseList(ListNode* head) {
   if (!head) {
-    /* code */
     return nullptr;
   }
-
   ListNode* curr = head;
   ListNode* prev = nullptr;
   while (curr != nullptr) {
-    /* code */
     ListNode* next = curr->next;
     curr->next = prev;
     prev = curr;
@@ -54,7 +49,6 @@ ListNode* reverseList(ListNode* head) {
   }
   return prev;
 }
-
 void reorderList(ListNode* head) {
   ListNode* f = head;
   ListNode* s = head;
@@ -65,7 +59,6 @@ void reorderList(ListNode* head) {
 
   ListNode* rev = findMiddle(s);
   ListNode* curr = head;
-
   while (rev->next != nullptr) {
     ListNode* curtemp = curr->next;
     ListNode* revTemp = rev->next;
@@ -75,6 +68,7 @@ void reorderList(ListNode* head) {
     rev = revTemp;
   }
 }
+
 ListNode* middle(ListNode* head) {
   ListNode* slow = head;
   ListNode* fast = head;
@@ -283,7 +277,6 @@ int main() {
   printList(head);
   return 0;
 }
-
 
 class Solution {
  public:
@@ -1181,11 +1174,9 @@ class Solution {
       int node = q.front();
       q.pop();
     }
-
     for (auto it : adj) {
       int neightbours = it.first;
       int isOutgoing = it.second;
-
       if (!visited[neightbours]) {
         visited[neightbours] = true;
         result += isOutgoing;
@@ -1198,19 +1189,21 @@ class Solution {
 
 class Solution {
  public:
+  int main() { cout << "yup" }
+}
+
+class Solution {
+ public:
   int minimumOperations(vector<int>& nums, int start, int goal) {
     if (goal < 0 || goal > 1000) return -1;
     queue<pair<int, int>> q;
     unordered_set<int> visited;
     q.push({start, 0});
     visited.insert(start);
-
     while (!q.empty()) {
       int x = q.front().first;
       int operations = q.front().second;
-
       if (x == goal) return operations;
-
       for (int num : nums) {
         vector<int> vals = {x - num, x + num, x ^ num};
         for (int next : vals) {
@@ -1236,7 +1229,6 @@ class Solution {
     while (!q.empty()) {
       int x = q.front().first;
       int ops = q.front().second;
-
       if (x == y) return ops;
       vector<int> possiblites = {x / 11, x / 5, x - 1, x + 1};
       for (int values : possiblites) {
@@ -1262,16 +1254,13 @@ class Solution {
     while (!q.empty()) {
       int indx = q.front();
       q.pop();
-
       if (arr[indx] == 0) return true;
-      int forward =  indx+arr[indx];
-      int backward = indx-arr[indx];
-
+      int forward = indx + arr[indx];
+      int backward = indx - arr[indx];
       if (forward < n && visited.find(forward) == visited.end()) {
         q.push(forward);
         visited.insert(forward);
       }
-
       if (backward >= 0 && visited.find(backward) == visited.end()) {
         q.push(backward);
         visited.insert(backward);
@@ -1282,13 +1271,389 @@ class Solution {
 };
 
 class Solution {
-public:
-    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
-        unordered_map<int,vector<int>> adj;
-        for(const auto &path:paths) {
-          adj[path[0]].push_back(adj[1]);
-          adj[path[1]].push_back(adj[0]);
-        }
+ public:
+  static bool isVowel(char c) {
+    static const unordered_set<char> vowels = {'a', 'e', 'i', 'o', 'u'};
+    return vowels.find(c) != vowels.end();
+  }
+  vector<int> vowelStrings(vector<string>& words,
+                           vector<vector<int>>& queries) {
+    vector<int> answer;
+    vector<int> prefix(words.size(), 0);
+    for (int i = 0; i < words.size(); i++) {
+      const string& word = words[i];
+      if (isVowel(word[0]) && isVowel(word.back())) {
+        prefix[i] = 1;
+      }
+    }
 
+    for (int i = 1; i < words.size(); i++) {
+      prefix[i] += prefix[i - 1];
+    }
+
+    for (auto& query : queries) {
+      int left = query[0];
+      int right = query[1];
+      int value = prefix[right];
+      if (left > 0) {
+        value -= prefix[left - 1];
+      }
+      answer.push_back(value);
+    }
+    return answer;
+  }
+};
+
+class Solution {
+ public:
+  bool divideArray(vector<int>& nums) {
+    if (nums.size() % 2 != 0) return false;
+
+    int divied = nums.size() / 2;
+    unordered_map<int, int> mp;
+
+    for (int n : nums) {
+      mp[n]++;
+    }
+
+    for (auto it : mp) {
+      if (it.second % 2 != 0) return false;
+    }
+
+    return true;
+  }
+};
+
+class Solution {
+ public:
+  bool canBeValid(string s, string locked) {
+    int n = s.size();
+    if (n % 2 != 0) return false;
+    int balance = 0, opened = 0;
+
+    for (int i = 0; i < n; i++) {
+      if (locked[i] == '1') {
+        balance +=
+      }
+    }
+  }
+};
+
+class Solution {
+ public:
+  vector<int> resultArray(vector<int>& nums) {
+    vector<int> result;
+    int last1 = -1, last2 = -1;
+    result.push_back(nums[0]);
+    last1 = 0;
+    result.push_back(nums[1]);
+    last2 = 1;
+
+    for (int i = 2; i < nums.size(); i++) {
+      if (result[last1] > result[last2]) {
+        result.push_back(nums[i]);
+        last1 = result.size() - 1;
+      } else {
+        result.push_back(nums[i]);
+        last2 = result.size() - 1;
+      }
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  bool canConstruct(string s, int k) {
+    if (k > s.size()) return false;
+    int odd = 0, i = 0;
+    sort(s.begin(), s.end());
+    while (i < s.size()) {
+      int count = 0;
+      char current = s[i];
+      while (i < s.size() && s[i] == current) {
+        count++;
+        i++;
+      }
+      if (count % 2 != 0) odd++;
+    }
+    return odd <= k;
+  }
+};
+
+class Solution {
+ public:
+  void dfs(TreeNode* node, int index, int width, int maxy) {
+    if (!node) return;
+    if (width == lindex.size()) }
+  int widthOfBinaryTree(TreeNode* root) {
+    if (!root) return 0;
+    int maxy = 0;
+    vector<int> lindex;
+    dfs(root, 0, 0, maxy);
+    return maxy;
+  }
+};
+
+class Solution {
+ public:
+  int minimumLength(string s) {
+    int n = s.size();
+    vector<int> charFreq(26, 0);
+    for (int i = 0; i < n; i++) {
+      charFreq[s[i] - 'a']++;
+      if (charFreq[s[i] - 'a'] == 3) {
+        charFreq[s[i] - 'a'] -= 2;
+      }
+    }
+    int ans = 0;
+    for (int i = 0; i < 26; i++) {
+      ans += charFreq[i];
+    }
+
+    return ans;
+  }
+};
+class Solution {
+ public:
+  int minimumLength(string s) {
+    int n = s.size();
+    vector<int> charFreq(26, 0);
+    for (int i = 0; i < n; i++) {
+      charFreq[s[i] - 'a']++;
+    }
+    int result = 0;
+    for (int i = 0; i < 26; i++) {
+      if (charFreq[i] == 0) continue;
+
+      if (charFreq[i] % 2 == 0) result += 2;
+      if (charFreq[i] % 2 != 0) result += 1;
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
+    unordered_map<int, vector<int>> diagonals;
+    int row = mat.size(), cols = mat[0].size();
+    for (int i = 0; i < row; i++) {
+      /* code */
+      for (int j = 0; j < cols; j++) {
+        /* code */
+        diagonals[i - j].push_back(mat[i][j]);
+      }
+    }
+
+    for (auto& diag : diagonals) {
+      sort(diag.second.begin(), diag.second.end());
+    }
+
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < cols; j++) {
+        int diagonal = i - j;
+
+        mat[i][j] = diagonals[diagonal].back();
+      }
+    }
+  }
+};
+
+class Solution {
+ public:
+  void buildGraph(TreeNode* node, TreeNode* parent,
+                  unordered_map<int, vector<int>>& graph) {
+    if (!node) return;
+
+    if (parent) {
+      graph[node->val].push_back(parent->val);
+      graph[parent->val].push_back(node->val);
+    }
+    buildGraph(node->left, node, graph);
+    buildGraph(node->right, node, graph);
+  }
+  int amountOfTime(TreeNode* root, int start) {
+    unordered_map<int, vector<int>> graph;
+    buildGraph(root, nullptr, graph);
+
+    unordered_set<int> visited;
+
+    queue<int> q;
+    q.push(start);
+    visited.insert(start);
+    int time = 0;
+
+    while (!q.empty()) {
+      int size = q.size();
+      for (int i = 0; i < size; i++) {
+        int node = q.front();
+        q.pop();
+        for (int neighbour : graph[node]) {
+          if (visited.count(neighbour) == 0) {
+            visited.insert(neighbour);
+            q.push(neighbour);
+          }
+        }
+      }
+      if (!q.empty()) time++;
+    }
+    return time;
+  }
+};
+
+class Solution {
+ public:
+  int findSecondMinimumValue(TreeNode* root) {
+    if (!root || (!root->left || !root->right)) {
+      return 0;
+    }
+
+    return solve(root, root->val);
+  }
+
+  int solve(TreeNode* root, int nodevalue) {
+    if (!root) return -1;
+
+    if (node->val > nodevalue) {
+      return node->val;
+    }
+
+    int left = solve(root->left, nodevalue);
+    int right = solve(root->right, nodevalue);
+
+    if (left == -1) return right;
+    if (right == -1) return left;
+
+    return min(left, right);
+  }
+};
+
+class Solution {
+ public:
+  int deepestLeavesSum(TreeNode* root) {
+    if (!root) return 0;
+
+    queue<TreeNode*> q;
+    q.push(root);
+    int sum = 0;
+    while (!q.empty()) {
+      int levelsize = q.size();
+      sum = 0;
+      for (size_t i = 0; i < levelsize; i++) {
+        /* code */
+        TreeNode* node = q.front();
+        q.pop();
+        sum += node->val;
+
+        if (node->left) q.push(node->left);
+        if (node->right) q.push(node->right);
+      }
+    }
+
+    return sum;
+  }
+};
+
+class Solution {
+ public:
+  void dfs(TreeNode* root, int depth, int maxd, int sum) {
+    if (!root) return;
+  }
+  int deepestLeavesSum(TreeNode* root) {
+    int maxd = -1;
+    int sum = 0;
+    dfs(root, 0, maxd, sum);
+    return sum;
+  }
+};
+
+// Method 2 : Optimized Brute force
+class Solution {
+ public:
+  vector<int> zigzagTraversal(vector<vector<int>>& grid) {
+    vector<int> result;
+    bool goRight = true;
+
+    for (int r = 0; r < grid.size(); r++) {
+      if (goRight) {
+        for (int c = 0; c < grid[r].size(); c += 2)
+          result.push_back(grid[r][c]);
+      } else {
+        int start =
+            grid[r].size() % 2 == 0 ? grid[r].size() - 1 : grid[r].size() - 2;
+        for (int c = start; c >= 0; c -= 2) {
+          result.push_back(grid[r][c]);
+        }
+      }
+      goRight = !goRight;
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int mod = 1000000007;
+  void solve(int maxrow , int maxC,int i , int j , int &maxy ,vector<vector<int>>& grid ) {
+    if(i>=maxrow || j>=maxC) return ;
+
+    if(i==maxrow-1 && j==maxC-1) {
+      maxy=max(maxy,grid[i][j]);
+      return ;
+    } 
+
+    if()
+  }
+  int maxProductPath(vector<vector<int>>& grid) {
+    int row = grid.size();
+    int cols = grid[0].size();
+    long long maxy = -1;
+    solve(row,cols,0,0,maxy,grid);
+    return maxy%mod;
+  }
+};
+
+class Solution {
+public:
+    int maxScore(vector<vector<int>>& grid) {
+      int ans = INT_MAX;
+        for(int i = 0; i<grid.size(); i++) {
+          for(int j = 0; grid[0].size();j++){
+            int miny = INT_MAX;
+            if(i==0 && j==0) continue;
+            if(i!=0) miny =min(miny,grid[i-1][j]);
+            if(j!=0) miny=min(miny,grid[i][j-1]);
+            ans=max(ans,grid[i][j]-min);
+            grid[i][j]=min(grid[i][j],min);
+          }
+        }
+        return ans;
     }
 };
+
+
+class Solution {
+public:
+    int MOD = 100000009;
+    int minMaxSums(vector<int>& nums, int k) {
+      int sum = 0 ;
+
+      return sum;
+    }
+};
+
+
+void sieveof(int n) {
+  vector<bool> isPrime(n+1,true);
+  isPrime[0]=false;
+  isPrime[1]=false;
+
+  for(int i  =2; i*i <= n; i++) {
+    if(isPrime[i]=true) {
+      for(int j = i*i; j<=n; j++) {
+        isPrime[j]=false;
+      }
+    }
+  }
+}

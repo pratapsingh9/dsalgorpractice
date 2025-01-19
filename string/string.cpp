@@ -17,9 +17,7 @@ bool canConstruct(string ransomNote, string magazine) {
   }
   return mp.empty();
 }
-
 unordered_map<int, int> mp;
-
 TreeNode* solve(vector<int> inorder, vector<int> postorder, int instart,
                 int inEnd, int index) {
   if (instart > inEnd) {

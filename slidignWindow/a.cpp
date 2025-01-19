@@ -84,11 +84,8 @@ class Solution {
     }
     int pos = 0, neg = 0;
     for (int i = 0; i < nums1.size(); i++) {
-      /* code */
       int diff = nums2[i] - nums1[i];
-
       if (diff != k) return -1;
-
       if (diff > 0) {
         pos += diff / k;
       } else if (diff < 0) {
@@ -100,3 +97,4 @@ class Solution {
     return pos;
   }
 };
+

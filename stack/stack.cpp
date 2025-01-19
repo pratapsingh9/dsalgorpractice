@@ -1,15 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void sortInsert(stack<int> &st, int element)
-{
-  if (st.empty())
-  {
+void sortInsert(stack<int> &st, int element) {
+  if (st.empty()) {
     st.push(element);
   }
 
-  if (!st.empty() && element > st.top())
-  {
+  if (!st.empty() && element > st.top()) {
     st.push(element);
     return;
   }
@@ -21,10 +18,8 @@ void sortInsert(stack<int> &st, int element)
   st.push(top);
 }
 
-void sortStack(stack<int> &input)
-{
-  if (!input.empty())
-  {
+void sortStack(stack<int> &input) {
+  if (!input.empty()) {
     int top = input.top();
     input.pop();
     sortStack(input);
@@ -32,26 +27,20 @@ void sortStack(stack<int> &input)
   }
 }
 
-vector<int> nextGreaterElementsQuestion(vector<int> nums)
-{
+vector<int> nextGreaterElementsQuestion(vector<int> nums) {
   int n = nums.size();
   vector<int> ans(n, -1);
   stack<int> st;
 
-  for (int i = n - 1; i >= 0; i++)
-  {
-    while (!st.empty() && st.top() <= nums[i])
-    {
+  for (int i = n - 1; i >= 0; i++) {
+    while (!st.empty() && st.top() <= nums[i]) {
       /* code */
       st.pop();
     }
 
-    if (st.empty())
-    {
+    if (st.empty()) {
       ans[i] = -1;
-    }
-    else
-    {
+    } else {
       ans[i] = st.top();
     }
     st.push(nums[i]);
@@ -59,23 +48,17 @@ vector<int> nextGreaterElementsQuestion(vector<int> nums)
   return ans;
 }
 
-vector<int> nextGreaterElement(vector<int> &arr)
-{
+vector<int> nextGreaterElement(vector<int> &arr) {
   int n = arr.size();
   vector<int> ans(n);
   stack<int> s;
-  for (int i = n - 1; i >= 0; i--)
-  {
-    while (!s.empty() && s.top() <= arr[i])
-    {
+  for (int i = n - 1; i >= 0; i--) {
+    while (!s.empty() && s.top() <= arr[i]) {
       s.pop();
     }
-    if (s.empty())
-    {
+    if (s.empty()) {
       ans[i] = -1;
-    }
-    else
-    {
+    } else {
       ans[i] = s.top();
     }
     s.push(arr[i]);
@@ -85,10 +68,8 @@ vector<int> nextGreaterElement(vector<int> &arr)
 
 //
 
-void reverseStack(stack<int> &s)
-{
-  if (s.empty())
-  {
+void reverseStack(stack<int> &s) {
+  if (s.empty()) {
     return;
   }
   int ele = s.top();
@@ -97,8 +78,7 @@ void reverseStack(stack<int> &s)
   s.push(ele);
 }
 
-int main()
-{
+int main() {
   stack<int> s;
   s.push(1);
   s.push(2);
@@ -106,8 +86,7 @@ int main()
   s.push(4);
   s.push(5);
   reverseStack(s);
-  while (!s.empty())
-  {
+  while (!s.empty()) {
     cout << s.top() << " ";
     s.pop();
   }

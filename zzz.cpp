@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include <string.h>
+#include <strings.h>
 using namespace std;
 
 class Solution {
@@ -12,7 +12,6 @@ class Solution {
       for (int j = 0; j < email.size(); j++) {
         if (email[j] == '.')
           continue;
-
         else if (email[j] == '@' || email[j] == '+') {
           break;
         }
@@ -57,6 +56,7 @@ class Solution {
     return min({countB, countA, countL, countN, countO});
   }
 };
+
 
 class Solution {
  public:
@@ -343,3 +343,43 @@ class Solution {
     return solve(nums, 0, 0, memo);
   }
 };
+
+class Solution {
+ public:
+  int numSquares(int n) { return solve(n); }
+  int solve(int n) {
+    if (n == 0) return 0;
+    if (n <= 0) return INT_MAX;
+    int ans = INT_MAX;
+    for (int i = 1; i * i <= n; i++) {
+      int include = solve(n - i * i);
+      int exclude =
+    }
+  }
+};
+
+
+
+
+
+
+
+
+
+
+class zzz
+{
+private:
+  /* data */
+public:
+  zzz(/* args */);
+  ~zzz();
+};
+
+zzz::zzz(/* args */)
+{
+}
+
+zzz::~zzz()
+{
+}

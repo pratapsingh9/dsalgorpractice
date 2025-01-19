@@ -1,9 +1,7 @@
+import slidignWindow as s
+
 class Solution(object):
     def sortArrayByParityII(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[int]
-        """
         answer = nums
         n = len(answer)
         oddidx = 1
@@ -19,31 +17,31 @@ class Solution(object):
                 nums[evenidx], nums[oddidx] = nums[oddidx], nums[evenidx]
         return answer
 
-class Values():
-    def vales(self,price):
+
+class Values:
+    def vales(self, price):
         for i in price:
             print(price)
 
+
 class Solution(object):
     def finalPrices(self, prices):
-        """
-        :type prices: List[int]
-        :rtype: List[int]
-        """
         n = len(prices)
         result = prices[:]
 
         for i in range(n):
-            for j in range(i+1,n):
+            for j in range(i + 1, n):
                 if prices[j] <= prices[i]:
                     result[i] -= prices[j]
                     break
         return result
 
-class Solution(object):
-    stack=[]
-    j = 0
-    for num in pushed:
-        stack.append(num)
-        while stack:
-            
+
+class Cycle:
+    car=0
+    def __init__(self, car: int, subject: str):
+        self.car = car
+        self.subject = subject
+        
+    def printworking():
+        print("wroking the procces worked out")
