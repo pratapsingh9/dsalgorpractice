@@ -1657,3 +1657,54 @@ void sieveof(int n) {
     }
   }
 }
+
+
+class Solution {
+public:
+    long long gridGame(vector<vector<int>>& grid) {
+        long long result_ans = LLONG_MAX;
+        long long row1sum = accumulate(grid[0].begin(),grid[0].end(),0LL);
+        long long row2sum =  0;
+
+        for(int robotMove = 0 ; robotMove<grid[0].size(); robotMove++) {
+          // jab robot aage badega toh ye wala robot 2 lelega
+          row1sum -= grid[0][i];
+          result_ans = min(result_ans,max(row1sum,row2sum));
+
+          row2sum += grid[1][i]; 
+        }
+        return result_ans;
+    }
+};
+
+
+class Solution {
+public:
+    int minSubarray(vector<int>& nums, int p) {
+        long long total_sum = 0;
+        for (int num : nums) {
+            total_sum += num;
+        }
+        
+        int target_mod = total_sum % p;
+        if (target_mod == 0) return 0; 
+
+        unordered_map<int, int> prefix_mod_map; /
+        prefix_mod_map[0] = -1; // Initialize with a dummy prefix
+        int min_len = nums.size();
+        long long prefix_sum = 0;
+        
+        for (int i = 0; i < nums.size(); i++) {
+            prefix_sum += nums[i];
+            int current_mod = prefix_sum % p;
+            int needed_mod = (current_mod - target_mod + p) % p;
+            if (prefix_mod_map.find(needed_mod) != prefix_mod_map.end()) {
+                min_len = min(min_len, i - prefix_mod_map[needed_mod]);
+            }
+            
+            prefix_mod_map[current_mod] = i;
+        }
+        
+        return min_len == nums.size() ? -1 : min_len; 
+    }
+};
