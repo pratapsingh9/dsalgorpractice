@@ -762,7 +762,7 @@ class Solution {
         }
       }
     }
-    return false; 
+    return false;
   }
 
  private:
@@ -790,5 +790,101 @@ class Solution {
     }
     board[x][y] = temp;
     return false;
+  }
+};
+
+class Solution {
+ public:
+  int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+    const int INF = ie9;
+    vector<vector<int>> dist(n, vector<int>(n, INF));
+
+    for (size_t i = 0; i < n; i++) {
+      /* code */
+      dist[i][i] = 0;
+    }
+
+    for (auto& edge : edges) {
+      int u = edge[0], v = edge[1], dist = edge[2];
+      dist[u][v] = dist[v][u] = min(dist[u][v], w);
+    }
+
+    for (int k = 0; k < n; ++k) {
+      for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+          if (dist[i][k] != INF && dist[k][j] != INF) {
+            dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+          }
+        }
+      }
+    }
+  }
+};
+class Solution {
+ public:
+  int minOperations(vector<int>& nums, int k) {
+    int c = 0;
+    for (int n : nums) {
+      if (i < k) c++;
+    }
+    return c;
+  }
+};
+
+class Solution {
+ public:
+  Node* connect(Node* root) {
+    if (!root) return nullptr;
+    queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+      /* code */
+      int size = q.size();
+      Node* prev = nullptr;
+      for (int i = 0; i < size; i++) {
+        Node* curr = q.front();
+        q.pop();
+        curr->next = prev;
+        prev = t;
+        if (curr->left) q.push(curr->left);
+        if (curr->right) q.push(curr->right);
+      }
+    }
+    return root;
+  }
+};
+
+class Solution {
+ public:
+  int minMutation(string startGene, string endGene, vector<string>& bank) {
+    unordered_set<string> geneBank(bank.begin(), bank.end());
+    if (geneBank.find(endGene) == geneBank.end()) {
+      return -1;
+    }
+    queue<pair<string, int>> q;
+    unordered_set<string> visited;
+    q.push({startGene, 0});
+    visited.insert(startGene);
+    while (!q.empty()) {
+      auto [currentGene, steps] = q.front();
+      q.pop();
+      if (currentGene == endGene) {
+        return steps;
+      }
+      for (int i = 0; i < 8; ++i) {
+        char original = currentGene[i];
+        for (char c : {'A', 'C', 'G', 'T'}) {
+          if (c == original) continue;
+          currentGene[i] = c;
+          if (geneBank.find(currentGene) != geneBank.end() &&
+              visited.find(currentGene) == visited.end()) {
+            q.push({currentGene, steps + 1});
+            visited.insert(currentGene);
+          }
+        }
+        currentGene[i] = original;
+      }
+    }
+    return -1;
   }
 };

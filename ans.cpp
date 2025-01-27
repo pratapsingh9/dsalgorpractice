@@ -1708,3 +1708,11 @@ public:
         return min_len == nums.size() ? -1 : min_len; 
     }
 };
+
+
+class Solution {
+public:
+    int findBottomLeftValue(TreeNode* root) {
+        
+    }
+};
