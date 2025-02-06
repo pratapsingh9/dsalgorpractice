@@ -661,9 +661,1404 @@ class Solution {
   }
 };
 
+class Solution {
+ public:
+  string longestPalindrome(string s) {
+    int n = s.size();
+    vector<vector<bool>> dp(n, vector<bool>(n, false));
+    string answer = "";
 
-class Solution{
-  public:
-  int data;
-  
+    for (int len = 1; len <= n; len++) {
+      for (int left = 0; left <= n - len; left++) {
+        int right = left + len - 1;
+        if (s[left] == s[right]) {
+          if (len == 1 || len == 2 || dp[left + 1][right - 1]) {
+            dp[left][right] = true;
+            if (len > answer.size()) {
+              answer = s.substr(left, len);
+            }
+          }
+        }
+      }
+    }
+    return answer;
+  }
+};
+
+class Solution {
+ public:
+  int twoCitySchedCost(vector<vector<int>>& costs) {
+    int n = costs.size() / 2;
+    int totalCosts = 0;
+
+    sort(costs.begin(), costs.end(), [](vector<int>& a, vector<int>& b) {
+      return (a[0] - a[1]) < (b[0] - b[1]);
+    });
+
+    for (int i = 0; i < n; i++) {
+      totalCosts += costs[i][0];
+    }
+    for (int i = n; i < n * 2; i++) {
+      totalCosts += costs[i][1];
+    }
+
+    return totalCosts;
+  }
+};
+
+class Solution {
+ public:
+  int findMinArrowShots(vector<vector<int>>& points) {
+    if (points.empty()) return 0;
+    sort(points.begin(), points.end(),
+         [&](vector<int>& a, vector<int>& b) { return a[1] < b[1]; });
+    int neededArrows = 1;
+    int endingIndex = points[0][1];
+    for (int i = 1; i < points.size(); i++) {
+      if (points[i][0] > endingIndex) {
+        neededArrows++;
+        endingIndex = points[i][1];
+      }
+    }
+    return neededArrows;
+  }
+};
+
+class Solution {
+ public:
+  // time complexity O(n)
+  // space complexity O(1)
+  vector<int> partitionLabels(string s) {
+    vector<int> last(26, 0);
+    for (int i = 0; i < s.size(); i += 1) {
+      last[s[i] - 'a'] = i;
+    }
+
+    vector<int> ans;
+    int maxEnd = 0, start = 0;
+    for (size_t i = 0; i < s.size(); i++) {
+      /* code */
+
+      maxEnd = max(maxEnd, last[s[i] - 'a']);
+      if (i == maxEnd) {
+        ans.push_back(i - start + 1);
+        // storing start kyuki jab ek partiion ban jaayega toh dusre ka size k
+        // liye 2 pointer use kar rhe h
+        start = i;
+      }
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int getImportance(vector<Employee*> employees, int id) {
+    unordered_map<int, Employee*> empmap;
+    for (Employee* emps : empmap) {
+      empmap[emps->id] = emp;
+    }
+    int answer = 0;
+    queue<int> q;
+    q.push(id);
+    while (!q.empty()) {
+      int currenId = q.front();
+      q.pop();
+
+      Employee* current = empmap[currenId];
+      answer += current->importance;
+      for (int sub_id : current->subordinates) {
+        q.push(sub_id);
+      }
+    }
+    return answer;
+  }
+};
+
+class Solution {
+ public:
+  int solve(vector<vector<int>>& adj, long long& fuelCost, int node, int parent,
+            int& seats) {
+    int rep = 1;
+
+    for (int neighbour : adj[node]) {
+      if (neighbour == parent) return;
+      rep += solve(adj, fuelCost, neighbour, node);
+    }
+    if (node != 0) {
+      fuelCost += (rep + seats - 1) / seats;
+    }
+    return rep;
+  }
+  long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+    int n = roads.size();
+    vector<vector<int>> adj(n);
+    for (const auto& edge : roads) {
+      int a = edge[0], b = edge[1];
+      adj[a].push_back(b);
+      adj[b].push_back(a);
+    }
+    long long fuelCost = 0;
+    solve(adj, fuelCost, 0, -1, seats);
+
+    return fuelCost;
+  }
+};
+
+class Solution {
+ public:
+  vector<vector<int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+  int dfs(vector<vector<int>>& grid, int i, int j, int islandId) {
+    if (i < 0 || j < 0 || i >= n || j >= n || grid[i][j] != 1) return 0;
+    grid[i][j] = islandId;
+    int size = 1;
+    for (auto& dir : directions) {
+      int newX = dir[0] + i;
+      int newY = dir[1] + j;
+      size += dfs(grid, newX, newY, islandId);
+    }
+    return size;
+  }
+
+  int n;
+  int largestIsland(vector<vector<int>>& grid) {
+    n = grid.size();
+    unordered_map<int, int> islandsize;
+    int islandId = 2;
+    int maxsize = 0;
+
+    for (size_t i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        int size = dfs(grid, i, j, islandId);
+        islandsize[islandId] = size;
+        maxsize = max(maxsize, size);
+        islandId++;
+      }
+    }
+
+    for (size_t i = 0; i < n; i++) {
+      /* code */
+      for (int j = 0; j < n; j++) {
+        if (grid[i][j] == 0) {
+          unordered_set<int> visitedIslands;
+          int current = 1;
+
+          for (auto& dir : directions) {
+            int newX = dir[0] + i;
+            int newY = dir[1] + j;
+            if (newX >= 0 && newY >= 0 && newX < n && newY < n &&
+                grid[newX][newY] >= 2) {
+              visitedIslands.insert(grid[newX][newY]);
+            }
+          }
+          for (int id : visitedIslands) {
+            current += islandsize[id];
+          }
+
+          maxsize = max(maxsize, current);
+        }
+      }
+    }
+    return maxsize;
+  }
+};
+
+class Solution {
+ public:
+  int getHeight(TreeNode* node) {
+    if (!node) return 0;
+    return 1 + max(getHeight(node->left), getHeight(node->right));
+  }
+  void solveTree(TreeNode* node, vector<vector<string>>& res, int row, int left,
+                 int right) {
+    if (!node) return;
+    int col = (left + right) / 2;
+    res[row][col] = to_string(node->val);
+    solveTree(node->left, res, row + 1, left, col - 1);
+    solveTree(node->right, res, row + 1, col + 1, right);
+  }
+  vector<vector<string>> printTree(TreeNode* root) {
+    int height = getHeight(root);
+    int width = pow(2, height) - 1;
+
+    vector<vector<string>> res(height, vector<string>(width, ""));
+
+    solveTree(root, res, 0, 0, width - 1);
+    return res;
+  }
+};
+
+struct TreeNode {
+  int val;
+  TreeNode* left;
+  TreeNode* right;
+  TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+ public:
+  TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+    if (depth == 1) {
+      TreeNode* newnode = new TreeNode(val);
+      newnode->left = root;
+      return newnode;
+    }
+
+    queue<TreeNode*> q;
+    q.push(root);
+    int currentDepth = 1;
+    while (!q.empty()) {
+      int size = q.size();
+      if (currentDepth == depth - 1) {
+        while (size--) {
+          /* code */
+          TreeNode* node = q.front();
+          q.pop();
+          TreeNode* realLeft = node->left;
+          TreeNode* realRight = node->right;
+
+          node->left = new TreeNode(val);
+          node->right = new TreeNode(val);
+          node->left->left = realLeft;
+          node->right->right = realRight;
+        }
+        return root;
+      }
+      while (size--) {
+        TreeNode* node = q.front();
+        q.pop();
+        if (node->left) q.push(node->left);
+        if (node->right) q.push(node->right);
+      }
+      currentDepth++;
+    }
+    return root;
+  }
+};
+class Solution {
+ public:
+  TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+    if (depth == 1) {
+      TreeNode* newnode = new TreeNode(val);
+      newnode->left = root;
+      return newnode;
+    }
+    solve(root, val, depth, 1);
+    return root;
+  }
+  void solve(TreeNode* node, int val, int depth, int currentDepth) {
+    if (!node) return;
+    if (currentDepth == depth - 1) {
+      TreeNode* realLeft = node->left;
+      TreeNode* realRight = node->right;
+
+      node->left = new TreeNode(val);
+      node->right = new TreeNode(val);
+      node->left->left = realLeft;
+      node->right->right = realRight;
+
+      return;
+    }
+
+    solve(node->left, val, depth, currentDepth + 1);
+    solve(node->right, val, depth, currentDepth + 1);
+  }
+};
+
+class Solution {
+ public:
+  bool dfs(ListNode* head, TreeNode* root) {
+    if (!head) return true;
+    if (!root) return false;
+
+    if (root->val == head->val) {
+      return dfs(head->next, root->left) || dfs(head->next, root->right);
+    }
+    return false;
+  }
+  bool isSubPath(ListNode* head, TreeNode* root) {
+    if (!root) return false;
+    if (dfs(root, head)) {
+      return true;
+    }
+    return isSubPath(head, root->right) || isSubPath(head, root->left);
+  }
+};
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int findMaxLength(string& s, int i, int j, vector<vector<int>>& dp) {
+  if (dp[i][j] != -1) return dp[i][j];
+  if ((j - i + 1) % 2 != 0) return 0;
+  int mid = (i + j) / 2;
+  int leftSum = 0, rightSum = 0;
+  for (int k = i; k <= mid; k++) leftSum += s[k] - '0';
+  for (int k = mid + 1; k <= j; k++) rightSum += s[k] - '0';
+  if (leftSum == rightSum) return dp[i][j] = j - i + 1;
+
+  dp[i][j] = max(findMaxLength(s, i, j - 1), findMaxLength(s, i + 1, j));
+  return dp[i][j];
 }
+
+int longestEvenSubstring(string s) {
+  int n = s.size();
+  int maxLength = 0;
+  int n = s.length();
+  vector<vector<int>> dp(n, vector<int>(n, -1));
+  for (int i = 0; i < n; i++) {
+    for (int j = i + 1; j < n; j++) {
+      maxLength = max(maxLength, findMaxLength(s, i, j, dp));
+    }
+  }
+
+  return maxLength;
+}
+
+class Solution {
+ public:
+  int minAddToMakeValid(string s) {
+    string stack = "";
+    for (char c : s) {
+      if (stack.size() && stack.back() == '(' && c == ')') {
+        stack.pop_back();
+      } else {
+        stack.push_back(c);
+      }
+    }
+    return stack.size();
+  }
+};
+
+class Solution {
+ public:
+  bool isArraySpecial(vector<int>& nums) {
+    int n = nums.size();
+    for (int i = 1; i < n; i += 2) {
+      if (nums[i] % 2 == nums[i - 1] % 2) {
+        return false;
+      }
+    }
+    return true;
+  }
+};
+class Node {
+ public:
+  int val;
+  vector<Node*> neighbors;
+  Node(int _val) {
+    val = _val;
+    neighbors = vector<Node*>();
+  }
+};
+
+class Solution {
+ public:
+  Node* cloneGraph(Node* node) {
+    if (!node) return nullptr;
+    unordered_map<Node*, Node*> mp;
+    queue<Node*> q;
+    Node* cloned = new Node(node->val);
+    mp[node] = cloned;
+    q.push(node);
+    while (!q.empty()) {
+      Node* node = q.front();
+      q.pop();
+
+      for (Node* neighbour : node->neighbors) {
+        if (mp.find(neighbour) == mp.end()) {
+          Node* cloneNeighbour = new Node(neighbour->val);
+          mp[neighbour] = cloneNeighbour;
+          q.push(neighbour);
+        }
+        mp[node]->neighbors.push_back(mp[neighbour]);
+      }
+    }
+    return cloned;
+  }
+};
+
+struct ListNode {
+  int val;
+  ListNode* next;
+  ListNode() : val(0), next(nullptr) {}
+  ListNode(int x) : val(x), next(nullptr) {}
+  ListNode(int x, ListNode* next) : val(x), next(next) {}
+};
+
+class Solution {
+ public:
+  ListNode* modifiedList(vector<int>& nums, ListNode* head) {
+    unordered_set<int> st(nums.begin(), nums.end());
+    ListNode dummy(0);
+    dummy.next = head;
+    ListNode* prev = &dummy;
+    ListNode* curr = head;
+
+    while (curr) {
+      if (st.find(curr->val) != st.end()) {
+        prev->next = curr->next;
+        delete curr;
+        curr = prev->next;
+      } else {
+        prev = curr;
+        curr = curr->next;
+      }
+    }
+
+    return dummy.next;
+  }
+};
+
+class Solution {
+ public:
+  ListNode* mergeNodes(ListNode* head) {
+    ListNode* dummy = new ListNode(0);
+    ListNode* curr = dummy;
+    ListNode* temp = head->next;
+    int sum = 0;
+
+    while (temp != nullptr) {
+      if (temp->val == 0) {
+        curr->next = new ListNode(sum);
+        curr = curr->next;
+        sum = 0;
+      } else {
+        sum += temp->val;
+      }
+      temp = temp->next;
+    }
+
+    return dummy->next;
+  }
+};
+class Solution {
+ public:
+  ListNode* mergeNodes(ListNode* head) {
+    ListNode* dummy = new ListNode(0);
+    ListNode* curr = dummy;
+    ListNode* temp = head->next;
+    int sum = 0;
+
+    while (temp != nullptr) {
+      if (temp->val == 0) {
+        curr->next = new ListNode(sum);
+        curr = curr->next;
+        sum = 0;
+      } else {
+        sum += temp->val;
+      }
+      temp = temp->next;
+    }
+
+    return dummy->next;
+  }
+};
+class Solution {
+ public:
+  ListNode* mergeNodes(ListNode* head) {
+    ListNode* dummy = new ListNode(0);
+    ListNode* current = dummy;
+    ListNode* temp = head->next;
+    int sum = 0;
+    while (temp != nullptr) {
+      if (temp->val == 0) {
+        current->next = new ListNode(sum);
+        current = current->next;
+        sum = 0;
+      } else {
+        sum += temp->val;
+      }
+      temp = temp->next;
+    }
+    return dummy->next;
+  }
+};
+
+#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+ public:
+  int maxFreeTime(int eventTime, vector<int>& startTime, vector<int>& endTime) {
+    int n = startTime.size();
+    int m = n + 1;
+    vector<int> g(m);
+
+    g[0] = startTime[0] - 0;
+    for (int i = 1; i < n; i++) {
+      g[i] = startTime[i] - endTime[i - 1];
+    }
+    g[m - 1] = eventTime - endTime[n - 1];
+
+    int om = 0;
+    for (int gap : g) {
+      om = max(om, gap);
+    }
+
+    vector<int> p(m);
+    vector<int> s(m);
+
+    p[0] = g[0];
+    for (int i = 1; i < m; i++) {
+      p[i] = max(p[i - 1], g[i]);
+    }
+
+    s[m - 1] = g[m - 1];
+    for (int i = m - 2; i >= 0; i--) {
+      s[i] = max(s[i + 1], g[i]);
+    }
+
+    int res = om;
+
+    for (int i = 0; i < n; i++) {
+      int d = endTime[i] - startTime[i];
+      int cG = 0;
+
+      if (i == 0) {
+        cG = g[0] + d + (n >= 2 ? g[1] : 0);
+      } else if (i == n - 1) {
+        cG = g[n - 1] + d + g[n];
+      } else {
+        cG = g[i] + d + g[i + 1];
+      }
+
+      int mO = 0;
+      if (i == 0) {
+        if (m > 2) mO = s[2];
+      } else if (i == n - 1) {
+        if (m > 2) mO = p[m - 3];
+      } else {
+        int lm = i - 1 >= 0 ? p[i - 1] : 0;
+        int rm = i + 2 < m ? s[i + 2] : 0;
+        mO = max(lm, rm);
+      }
+
+      int cP = mO >= d ? cG : cG - d;
+      res = max(res, cP);
+    }
+
+    return res;
+  }
+};
+class Solution {
+ public:
+  vector<ListNode*> splitListToParts(ListNode* head, int k) {
+    vector<ListNode*> result(k, nullptr);
+    ListNode* temp = head;
+    while (temp) {
+      n++;
+      temp = temp->next;
+    }
+
+    // Step 2: Determine size of each part
+    int baseSize = n / k;    // Minimum nodes in each part
+    int extraNodes = n % k;  // Extra nodes to distribute among first few parts
+
+    // Step 3: Split the list
+    ListNode* current = head;
+    for (int i = 0; i < k && current; i++) {
+      result[i] = current;  // Store head of the current partbva
+      int partSize =
+          baseSize + (extraNodes > 0
+                          ? 1
+                          : 0);  // Increase size for first 'extraNodes' parts
+      extraNodes--;
+
+      // Move to the last node of the current part
+      for (int j = 1; j < partSize; j++) {
+        if (current) current = current->next;
+      }
+
+      // Cut the link to separate parts
+      if (current) {
+        ListNode* nextPart = current->next;
+        current->next = nullptr;
+        current = nextPart;
+      }
+    }
+
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int maxDifference(string s) {
+    int maxEven = 0;
+    int maxOdd = 0;
+    vector<int> freq(26, 0);
+    for (char c : s) {
+      freq[c - 'a']++;
+      if (freq[c - 'a'] % 2 == 0) {
+        maxEven = max(maxEven, freq[c - 'a']);
+      } else if (freq[c - 'a'] % 2 != 0) {
+        maxOdd = max(maxOdd, freq[c - 'a']);
+      }
+    }
+    return maxEven - maxOdd;
+  }
+};
+
+class Solution {
+ public:
+  int maxDistance(string s, int k) {
+    int posx = 0, posy = 0, negx = 0, negy = 0, ans = 0;
+    for (auto i : s) {
+      if (i == 'N') posy++;
+      if (i == 'S') negy++;
+      if (i == 'E') posx++;
+      if (i == 'W') negx++;
+      int need1 = min(posx, negx), need2 = min(posy, negy),
+          val = min(k, need1 + need2);
+      ans = max(ans, max(posx, negx) - min(posx, negx) + max(posy, negy) -
+                         min(posy, negy) + 2 * val);
+    }
+    return ans;
+  }
+};
+
+struct Node {
+  int data;
+  Node* next;
+  Node* child;
+};
+
+Node* merge(Node* a, Node* b) {
+  if (!a) return b;
+  if (!b) return a;
+  Node* result;
+  if (a->data > b->data) {
+    result = b;
+    result->child = merge(a, b->child);
+  } else {
+    result = a;
+    result->child = merge()
+  }
+  return result;
+}
+
+Node* flatten(Node* head) {
+  if (!head || !head->next) return head;
+  head->next = flatten(head->next);
+  head = merge(head, head->next);
+  return head;
+}
+
+class Solution {
+ public:
+  int longestMonotonicSubarray(vector<int>& nums) {
+    int maxL = 0, inc = 0, dec = 0;
+    for (int i = 0; i < nums.size() - 1; i++) {
+      /* code */
+      if (nums[i] > nums[i + 1]) {
+        dec++;
+        inc = 1;
+      } else if (nums[i] < nums[i + 1]) {
+        inc++;
+        dec = 1;
+      } else {
+        inc = 1;
+        dec = 1;
+      }
+      maxL = max({maxL, inc, dec});
+    }
+    return maxL;
+  }
+};
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+ public:
+  const int INF = 1e9;
+
+  long long minimumCost(string source, string target, vector<char>& original,
+                        vector<char>& changed, vector<int>& cost) {
+    vector<vector<int>> minCost(26, vector<int>(26, INF));
+    for (int i = 0; i < 26; i++) {
+      minCost[i][i] = 0;
+    }
+    for (int i = 0; i < original.size(); i++) {
+      int u = original[i] - 'a';
+      int v = changed[i] - 'a';
+      minCost[u][v] =
+          min(minCost[u][v], cost[i]);  // Keep the minimum edge cost
+    }
+
+    // Step 2: Run Floyd-Warshall Algorithm
+    for (int k = 0; k < 26; k++) {      // Intermediate node
+      for (int i = 0; i < 26; i++) {    // Start node
+        for (int j = 0; j < 26; j++) {  // End node
+          if (minCost[i][k] < INF && minCost[k][j] < INF) {
+            minCost[i][j] = min(minCost[i][j], minCost[i][k] + minCost[k][j]);
+          }
+        }
+      }
+    }
+
+    long long totalCost = 0;
+
+    for (int i = 0; i < source.size(); i++) {
+      int from = source[i] - 'a';
+      int to = target[i] - 'a';
+
+      if (from == to) continue;
+
+      if (minCost[from][to] == INF) return -1;
+
+      totalCost += minCost[from][to];
+    }
+
+    return totalCost;
+  }
+};
+
+class Solution {
+ public:
+  int countPaths(int n, vector<vector<int>>& roads) {
+    const int MOD = 1e9 + 7;
+    vector<vector<pair<int, int>>> graph(n);
+    for (auto& road : roads) {
+      int u = road[0], v = road[1], time = road[2];
+      graph[u].push_back({v, time});
+      graph[v].push_back({u, time});
+    }
+    vector<long long> dist(n, LLONG_MAX);
+    vector<int> ways(n, 0);
+    priority_queue<pair<long long, int>, vector<pair<long long, int>>,
+                   greater<>>
+        pq;
+    dist[0] = 0;
+    ways[0] = 1;
+    pq.push({0, 0});
+    while (!pq.empty()) {
+      int dist = pq.top().first, node = pq.top().second;
+      pq.pop();
+
+      if (dist > dist[node]) continue;
+
+      for (auto [neighbour, ] :) }
+  }
+};
+
+class Solution {
+ public:
+  int balancedStringSplit(string s) {
+    int balance = 0, ans = 0;
+    for (char c : s) {
+      if (c == 'L') {
+        balance++;
+      } else if (c == 'R') {
+        balance--;
+      }
+
+      if (balance == 0) ans++;
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int findUnsortedSubarray(std::vector<int>& nums) {
+    int n = nums.size();
+    int left = -1, right = -1;
+    int maxSeen = INT_MIN, minSeen = INT_MAX;
+    for (int i = 0; i < n; i++) {
+      if (nums[i] < maxSeen) {
+        right = i;
+      }
+      maxSeen = std::max(maxSeen, nums[i]);
+    }
+
+    for (int i = n - 1; i >= 0; i--) {
+      if (nums[i] > minSeen) {
+        left = i;
+      }
+      minSeen = std::min(minSeen, nums[i]);
+    }
+
+    return (left == -1) ? 0 : (right - left + 1);
+  }
+};
+
+class Solution {
+ public:
+  int movesToMakeZigzag(vector<int>& nums) {
+    int moves1 = 0, moves2 = 0;
+    for (int i = 0; i < nums.size(); i++) {
+      int left = (i > 0) ? nums[i - 1] : INT_MAX;
+      int right = (i < nums.size() - 1) ? nums[i + 1] : INT_MAX;
+      if (i % 2 == 0) {
+        if (nums[i] >= min(left, right)) {
+          moves1 += nums[i] - min(left, right) + 1;
+        }
+      } else {
+        if (nums[i] <= max(left, right)) {
+          moves2 += max(left, right) - nums[i] + 1;
+        }
+      }
+    }
+    return min(moves1, moves2);
+  }
+};
+
+class Solution {
+ public:
+  int maxAscendingSum(vector<int>& nums) {
+    int maxs = nums[0], ans = nums[0];
+    for (size_t i = 1; i < nums.size() - 1; i++) {
+      /* code */
+      if (nums[i] > nums[i - 1]) {
+        maxs += nums[i];
+      } else {
+        maxs = nums[i];
+      }
+      ans = max(ans, maxs);
+    }
+    return ans;
+  }
+};
+
+int getMaxPositiveFeedback(char* videoFeedback) {
+  string fb(videoFeedback);
+  int n = fb.length();
+  int max_pf = 0;
+
+  for (int i = 0; i < n; ++i) {
+    for (int j = i; j < n; ++j) {
+      string temp_fb = fb;
+
+      for (int k = 0; k < i; ++k) {
+        if (temp_fb[k] == '0') {
+          temp_fb[k] = '1';
+        } else {
+          temp_fb[k] = '0';
+        }
+      }
+
+      for (int k = j + 1; k < n; ++k) {
+        if (temp_fb[k] == '0') {
+          temp_fb[k] = '1';
+        } else {
+          temp_fb[k] = '0';
+        }
+      }
+
+      int current_pf = 0;
+      for (char bit : temp_fb) {
+        if (bit == '1') {
+          current_pf++;
+        }
+      }
+      max_pf = max(max_pf, current_pf);
+    }
+  }
+  return max_pf;
+}
+
+class Solution {
+ public:
+  int minimumSumSubarray(vector<int>& nums, int l, int r) {
+    int n = nums.size();
+    int minSum = INT_MAX;
+    int currentSum = 0;
+    int left = 0;
+    for (int right = 0; right < n; right++) {
+      currentSum += nums[right];
+      if (right - left + 1 > r) {
+        currentSum -= nums[left];
+        left++;
+      }
+      if (right - left + 1 >= l) {
+        minSum = min(minSum, currentSum);
+      }
+    }
+
+    return minSum;
+  }
+};
+
+class Solution {
+ public:
+  int minimumSubarrayLength(vector<int>& nums, int k) {
+    int n = nums.size();
+    int minLength = INT_MAX;
+
+    for (int i = 0; i < n; i++) {
+      int currOr = 0;
+      for (int j = i; j < n; j++) {
+        currOr |= nums[j];
+        if (currOr >= k) {
+          minLength = min(minLength, j - i + 1);
+          break;
+        }
+      }
+    }
+
+    return (minLength == INT_MAX) ? -1 : minLength;
+  }
+};
+
+class Solution {
+ public:
+  int maximumLengthSubstring(string s) {
+    int left = 0;
+    int n = s.size(), maxl = 0;
+    unordered_map<char, int> freq;
+
+    for (int i = 0; i < n; i++) {
+      /* code */
+      freq[s[i]]++;
+      while (freq[s[left]] > 2) {
+        freq[s[left]]--;
+        left++;
+      }
+      maxl = max(maxl, i - left + 1);
+    }
+    return maxl;
+  }
+};
+
+class Solution {
+ public:
+  int minOperations(vector<int>& nums, int x) {
+    int target = accumulate(nums.begin(), nums.end(), 0) - x;
+    if (target < 0) return -1;
+
+    int n = nums.size();
+    int left = 0, sum = 0, maxLength = -1;
+    for (int right = 0; right < n; right++) {
+      sum += nums[right];
+      while (left <= right && sum > target) {
+        sum -= nums[left++];
+      }
+      if (sum == target) {
+        maxLength = max(maxLength, right - left + 1);
+      }
+    }
+    return (maxLength == -1) ? -1 : n - maxLength;
+  }
+};
+class Solution {
+ public:
+  vector<int> decrypt(vector<int>& code, int k) {
+    int n = code.size();
+    vector<int> result(n, 0);
+    if (k == 0) return result;
+    vector<int> extendedCode(code.begin(), code.end());
+    extendedCode.insert(extendedCode.end(), code.begin(), code.end());
+    int sum = 0, start = (k > 0) ? 1 : n + k;
+    for (int i = start; i < start + abs(k); i++) {
+      sum += extendedCode[i];
+    }
+    for (int i = 0; i < n; i++) {
+      result[i] = sum;
+      sum -= extendedCode[start];
+      sum += extendedCode[start + abs(k)];
+      start++;
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit,
+                          vector<int>& worker) {
+    vector<pair<int, int>> jobs;
+    for (int i = 0; i < difficulty.size(); i++) {
+      jobs.push_back({difficulty[i], profit[i]});
+    }
+    sort(jobs.begin(), jobs.end());
+    sort(worker.begin(), worker.end());
+
+    int maxproft = 0, j = 0, maxyfar = 0;
+    ;
+    for (int ability : worker) {
+      while (j < n && jobs[j].first <= ability) {
+        maxyfar = max(maxyfar, jobs[j].second);
+        j++;
+      }
+      maxproft += maxyfar;
+    }
+    return maxproft;
+  }
+};
+class Solution {
+ public:
+  bool isValid(int x, vector<int>& arr2, int d) {
+    int left = 0, right = arr2.size() - 1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (abs(arr2[mid] - x) <= d) return false;
+      if (arr2[mid] < x)
+        left = mid + 1;
+      else
+        right = mid - 1;
+    }
+    return true;
+  }
+  int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
+    sort(begin(arr2), end(arr2));
+    int count = 0;
+    for (int x : arr1) {
+      if (isValid(x, arr2, d)) count++;
+    }
+    return count;
+  }
+};
+
+class Solution {
+ public:
+  int customBinarySearchNegative(const vector<int>& nums) {
+    int left = 0, right = nums.size() - 1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] < 0) {
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+      }
+    }
+    return right + 1;
+  }
+
+  int customBinarySearchPositive(const vector<int>& nums) {
+    int left = 0, right = nums.size() - 1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] > 0) {
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
+    }
+    return nums.size() - left;
+  }
+
+  int maximumCount(vector<int>& nums) {
+    int negativeCount = customBinarySearchNegative(nums);
+    int positiveCount = customBinarySearchPositive(nums);
+
+    return max(negativeCount, positiveCount);
+  }
+};
+
+class Solution {
+ public:
+  vector<int> targetIndices(vector<int>& nums, int t) {
+    vector<int> res;
+    sort(nums.begin(), nums.end());
+    int left = 0, right = nums.size() - 1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] < t) {
+        left = mid + 1;
+      } else if (nums[mid] > t) {
+        right = mid - 1;
+      } else {
+        res.push_back(mid);
+        break;
+      }
+    }
+
+    if (res.empty()) return {};
+    int firstIndex = res[0];
+    for (int i = firstIndex + 1; i < nums.size(); ++i) {
+      if (nums[i] == t) {
+        res.push_back(i);
+      } else {
+        break;
+      }
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  int countPairs(vector<int>& nums, int target) {
+    sort(nums.begin(), nums.end());
+    int i = 0, j = nums.size() - 1;
+    int count = 0;
+    while (i < j) {
+      if (nums[i] + nums[j] < target) {
+        count += (j - i);
+        i++;
+      } else {
+        j--;
+      }
+    }
+
+    return count;
+  }
+};
+class Solution {
+ public:
+  int sumOfMultiples(int n) {
+    int sum = 0;
+    for (int i = 1; i < n; i++) {
+      if (i % 3 == 0 || i % 7 == 0 || i % 5 == 0) {
+        sum += i;
+      }
+    }
+    return sum;
+  }
+};
+
+class Solution {
+ public:
+  int tupleSameProduct(vector<int>& nums) {
+    unordered_map<int, int> mp;
+    int ans = 0;
+    int n = nums.size();
+    for (int i = 0; i < n; i++) {
+      for (int j = n - 1; j >= 0; j--) {
+        int product = nums[i]* [j];
+        ans += 8 * mp[product];
+        mp[product]++;
+      }
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int mostWordsFound(vector<string>& sentences) {
+    int maxFound = -1;
+    for (string& s : sentences) {
+      int current = 1;
+      for (int i = 0; i < s.size(); i++) {
+        if (s[i] == ' ') {
+          current++;
+        }
+      }
+      maxFound = max(maxFound, current);
+    }
+    return maxFound;
+  }
+};
+
+class Solution {
+ public:
+  int countDigits(int num) {
+    int ans = 0;
+    string value = to_string(num);
+    for (int i = value.size() - 1; i >= 0; i--) {
+      if (num % stoi(value[i]) == 0) {
+        ans++;
+      }
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int arraySign(vector<int>& nums) {
+    int negativeCount = 0;
+    for (int& x : nums) {
+      if (x < 0) {
+        negativeCount++;
+      }
+      if (x == 0) return 0;
+    }
+
+    return negativeCount % 2 != 0 ? -1 : 1;
+  }
+};
+
+class Solution {
+ public:
+  bool threeConsecutiveOdds(vector<int>& arr) {
+    for (int i = 1; i < arr.size() - 1; i++) {
+      if (arr[i - 1] % 2 != 0 && arr[i] % 2 != 0 && arr[i + 1] % 2 != 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+};
+
+class Solution {
+ public:
+  int subtractProductAndSum(int n) {
+    int sum = 0, product = 1;
+
+    while (n > 0) {
+      /* code */
+      int digit = n % 10;
+      sum += digit;
+      sum *= digit;
+      n /= 10;
+    }
+    return product - sum;
+  }
+};
+class Solution {
+ public:
+  string triangleType(vector<int>& nums) {
+    if (nums[0] == nums[1] == nums[2]) {
+      return "equilateral";
+    } else if (nums[0] == nums[1] || nums[1] == nums[2] || nums[2] == nums[0]) {
+      return "isosceles";
+    } else if () {
+      return "scalene";
+    }
+    return "none";
+  }
+};
+
+class Solution {
+ public:
+  int digitSinglesum(int num) {
+    int ans = 0;
+    while (num > 0) {
+      ans += num % 10;
+      num /= 10;
+    }
+    return ans;
+  }
+  int differenceOfSum(vector<int>& nums) {
+    int elementSum = accumulate(nums.begin(), nums.end(), 0);
+    int digitSum = 0;
+    for (int i = 0; i < nums.size(); i++) {
+      if (nums[i] > 9) {
+        digitSum += digitSinglesum(nums[i]);
+      } else {
+        digitSum += nums[i];
+      }
+    }
+    return elementSum - digitSum;
+  }
+};
+
+class Solution {
+ public:
+  bool isPalindorme(string& s) {
+    int l = 0, h = s.size() - 1;
+    while (l < s) {
+      if (s[l] != s[h]) {
+        return false;
+      }
+      l++;
+      h--;
+    }
+    return true;
+  }
+  string firstPalindrome(vector<string>& words) {
+    for (string& word : words) {
+      if (isPalindorme(word)) {
+        return word;
+      }
+    }
+    return "";
+  }
+};
+
+class Solution {
+ public:
+  bool isPalindrome(string& s) {
+    int n = s.size();
+    for (int i = 0; i < n / 2; i++) {
+      if (s[i] != s[n - i - 1]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  string firstPalindrome(vector<string>& words) {
+    for (string& word : words) {
+      if (isPalindrome(word)) {
+        return word;
+      }
+    }
+    return "";
+  }
+};
+
+class Solution {
+ public:
+  int differenceOfSums(int n, int m) {
+    int first = 0, second = 0;
+    for (int i = 1; i <= n; i++) {
+      if (i % m != 0) {
+        first += i;
+      } else {
+        second += i;
+      }
+    }
+    return first - second;
+  }
+};
+class Solution {
+ public:
+  int differenceOfSums(int n, int m) {
+    int val = 0;
+    for (int i = 1; i <= n; i++) {
+      if (i % m != 0) {
+        val += i;
+      } else {
+        val -= i;
+      }
+    }
+    return val;
+  }
+};
+
+class Solution {
+ public:
+  bool judgeCircle(string moves) {
+    int x = 0;
+    int y = 0;
+    for (char ch : moves) {
+      if (ch == 'U') {
+        x++;
+      } else if (ch == 'D') {
+        x--;
+      } else if (ch == 'L') {
+        y++;
+      } else if (ch == 'R') {
+        y--;
+      }
+    }
+    if (x == 0 && y == 0) {
+      return true;
+    }
+    return false;
+  }
+};
+
+class Solution {
+ public:
+  int numberOfEmployeesWhoMetTarget(vector<int>& hours, int target) {
+    int ans = 0 ;
+    for (size_t i = 0; i < hours.size(); i++)
+    {
+      /* code */
+      if(hours[i] >=target) ans++;
+    }
+    
+    return ans;
+  }
+};
+
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        
+    }
+};

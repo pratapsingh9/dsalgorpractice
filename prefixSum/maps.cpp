@@ -529,7 +529,7 @@ class Solution {
           int nx = x + dir.first, ny = y + dir.second;
           if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visited[nx][ny]) {
             if (grid[nx][ny] == 1) {
-              return steps;  // Found the second island
+              return steps; 
             }
             visited[nx][ny] = true;  // Mark water as visited
             q.push({nx, ny});        // Add water cell to the queue
@@ -542,6 +542,8 @@ class Solution {
     return -1;  // Should never be reached if input is valid
   }
 };
+
+
 
 class Solution {
  public:
@@ -888,3 +890,95 @@ class Solution {
     return -1;
   }
 };
+
+class Solution {
+ public:
+  vector<pair<int, int>> directions = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+  vector<vector<int>> validConnections = {{},     {1, 3}, {2, 4}, {1, 2},
+                                          {1, 4}, {2, 3}, {3, 4}};
+
+  bool hasValidPath(vector<vector<int>>& grid) {
+    int row = grid.size(), cols = grid[0].size();
+
+    vector<vector<bool>> visited(m, vector<bool>(n, false));
+
+    return dfs(0, 0, grid, visited, row, cols);
+  }
+
+  bool dfs(int x, int y, vector<vector<int>>& grid,
+           vector<vector<bool>>& visited, int totalRows, int totalcolumns) {
+    if (x == totalRows - 1 && y == totalcolumns - 1) return true;
+    visited[x][y] = true;
+
+    int street = grid[x][y];
+    for (int direction = 0; direction < 4; direction++) {
+      int newx = directions[direction].first;
+      int newY = directions[direction].second;
+
+      if (newx >= 0 && newY >= 0 && newx < totalRows && newY < totalcolumns &&
+          !visited[totalRows][totalcolumns]) {
+      }
+    }
+  }
+};
+
+class Solution {
+ public:
+  int dfs(int r, int c, vector<vector<int>>& grid, int rows, int columns) {
+    if (r < 0 || c < 0 || r >= rows || c >= columns || grid[r][c] == 0) {
+      return 0;
+    }
+    int fish = grid[r][c];
+    grid[r][c] = 0;
+
+    fish += dfs(r + 1, c, grid, rows, columns);
+    fish += dfs(r, c + 1, grid, rows, columns);
+    fish += dfs(r - 1, c, grid, rows, columns);
+    fish += dfs(r, c - 1, grid, rows, columns);
+
+    return fish;
+  }
+  int findMaxFish(vector<vector<int>>& grid) {
+    int rows = grid.size();
+    int columns = grid[0].size();
+
+    int totalFish = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        if (grid[i][j] > 0) {
+          totalFish = max(totalFish, dfs(i, j, grid, rows, columns));
+        }
+      }
+    }
+    return totalFish;
+  }
+};
+
+class Solution {
+ public:
+  int solve(TreeNode* root, TreeNode* parent, TreeNode* grandParent) {
+    if (!root) return 0;
+    int sum = 0;
+    if (grandParent && grandParent->val % 2 == 0) {
+      sum += root->val;
+    }
+    // left traversal
+    sum += solve(root->left, root, parent);
+    // right traversal
+    sum += solve(root->right, root, parent);
+  }
+  int sumEvenGrandparent(TreeNode* root) {
+    return solve(root, nullptr, nullptr);
+  }
+};
+
+
+class Solution{
+  public:
+  vector<int> operationNeeded(vector<int> speededx) {
+    if(speededx.empty()) {
+      return 0;
+    }
+    
+  }
+}

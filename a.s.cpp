@@ -21,6 +21,9 @@ int findMinDistance(vector<string>& words, string word1, string word2) {
   return minDistance;
 }
 
+class Solution{
+}
+
 class Solution {
  public:
   vector<string> removeAnagrams(vector<string>& words) {

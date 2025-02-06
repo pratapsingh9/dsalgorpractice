@@ -1,6 +1,6 @@
 import datetime
 import asyncio
-
+from abc import ABC ,  abstractmethod
 
 class SmallLibrary:
     def __init__(self):
@@ -95,3 +95,20 @@ library.remove_book()
 
 library.return_book(1, 1)
 print(book1.display_info())
+
+
+class Solution(object):
+    def subtractProductAndSum(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        sum = 0
+        product = 1
+
+        while n>0:
+            digit = n % 10
+            sum+= digit
+            product *= digit
+            n = n//10
+        return product-sum

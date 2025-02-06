@@ -45,3 +45,22 @@ class Cycle:
         
     def printworking():
         print("wroking the procces worked out")
+
+
+
+class Solution(object):
+    def sumEvenGrandparent(self, root):
+        return self.helper(root,None,None)
+    
+    def helper(self ,node , parent , grandParent):
+        if not node:
+            return 0
+        total = 0
+
+        if grandParent and grandParent.val % 2 == 0:
+            total+= node.val
+
+        total+= self.helper(node.left , node , parent)
+        total+= self.helper(node.right , node  , parent)
+
+        return total
