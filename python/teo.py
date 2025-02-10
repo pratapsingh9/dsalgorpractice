@@ -5,27 +5,31 @@ def print_board(board):
         print("|".join(row))
     print()
 
+
 def check_winner(board, player):
-    # Check rows, columns, and diagonals
     for i in range(3):
-        if all([cell == player for cell in board[i]]):  # Rows
+        if all([cell == player for cell in board[i]]):
             return True
-        if all([board[j][i] == player for j in range(3)]):  # Columns
+        if all([board[j][i] == player for j in range(3)]):
             return True
-    if all([board[i][i] == player for i in range(3)]) or all([board[i][2 - i] == player for i in range(3)]):  # Diagonals
+    if all([board[i][i] == player for i in range(3)]) or all(
+        [board[i][2 - i] == player for i in range(3)]
+    ):
         return True
     return False
+
 
 def get_empty_cells(board):
     return [(i, j) for i in range(3) for j in range(3) if board[i][j] == " "]
 
+
 def minimax(board, depth, is_maximizing):
     empty_cells = get_empty_cells(board)
-    if check_winner(board, "O"):  # AI win
+    if check_winner(board, "O"):
         return 10 - depth
-    if check_winner(board, "X"):  # Player win
+    if check_winner(board, "X"):
         return depth - 10
-    if not empty_cells:  # Draw
+    if not empty_cells:
         return 0
 
     if is_maximizing:
@@ -45,6 +49,7 @@ def minimax(board, depth, is_maximizing):
             best_score = min(score, best_score)
         return best_score
 
+
 def get_best_move(board):
     best_score = float("-inf")
     best_move = None
@@ -57,21 +62,24 @@ def get_best_move(board):
             best_move = cell
     return best_move
 
+
 def tic_tac_toe():
     board = [[" " for _ in range(3)] for _ in range(3)]
     print("Welcome to Tic-Tac-Toe!")
     print_board(board)
-
     while True:
-        # Player's turn
         try:
-            row, col = map(int, input("Enter your move (row and column: 0-2): ").split())
+            row, col = map(
+                int, input("Enter your move (row and column: 0-2): ").split()
+            )
             if board[row][col] != " ":
                 print("Cell already taken. Try again.")
                 continue
             board[row][col] = "X"
         except:
-            print("Invalid input. Enter row and column separated by space (e.g., '1 1').")
+            print(
+                "Invalid input. Enter row and column separated by space (e.g., '1 1')."
+            )
             continue
 
         print_board(board)
@@ -82,8 +90,7 @@ def tic_tac_toe():
         if not get_empty_cells(board):
             print("It's a draw!")
             break
-
-        # AI's turn
+        
         print("AI is making its move...")
         move = get_best_move(board)
         board[move[0]][move[1]] = "O"
@@ -96,5 +103,6 @@ def tic_tac_toe():
         if not get_empty_cells(board):
             print("It's a draw!")
             break
+
 
 tic_tac_toe()

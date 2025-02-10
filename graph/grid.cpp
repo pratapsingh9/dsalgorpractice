@@ -23,7 +23,7 @@ void replaceowithZero(vector<vector<char>> &grid, char replacement) {
       }
     }
   }
-}
+} 
 
 void printGrid(const vector<vector<char>> &grid) {
   for (const auto &row : grid) {

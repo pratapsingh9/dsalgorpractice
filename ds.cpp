@@ -2045,20 +2045,344 @@ class Solution {
 class Solution {
  public:
   int numberOfEmployeesWhoMetTarget(vector<int>& hours, int target) {
-    int ans = 0 ;
-    for (size_t i = 0; i < hours.size(); i++)
-    {
+    int ans = 0;
+    for (size_t i = 0; i < hours.size(); i++) {
       /* code */
-      if(hours[i] >=target) ans++;
+      if (hours[i] >= target) ans++;
     }
-    
+
     return ans;
   }
 };
 
 class Solution {
+ public:
+  string largestNumber(vector<int>& nums) {
+    vector<string> st;
+    for (int x : nums) {
+      st.push_back(to_string(x))
+    };
+
+    sort(st.begin(), st.end(),
+         [](string& a, string& b) { return a + b > b + a; });
+
+    if (st[0] == "0") return "0";
+
+    string result;
+    for (string& s : st) {
+      result += s;
+    }
+    return result;
+  }
+};
+
+class MyCalendar {
+ public:
+  vector<pair<int, int>> booking;
+  int binarySearch(int starttime) {
+    int low = 0, high = booking.size();
+    while (left < high) {
+      int mid = low + (high - low) / 2;
+      if (booking[mid].first >= starttime) {
+        high = mid - 1;
+      } else {
+        low = mid + 1;
+      }
+      return left;
+    };
+  }
+  MyCalendar() {}
+
+  bool book(int startTime, int endTime) {
+    int pos = binarySearch(startTime);
+    if (pos < booking.size()&&) }
+};
+
+class Solution {
+ public:
+  vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) {
+    vector<vector<int>> res;
+    unordered_set<int> set1(nums1.begin(), nums1.end());
+    unordered_set<int> set2(nums2.begin(), nums2.end());
+    vector<int> diff1;
+    for (int num : set1) {
+      if (set2.find(num) == set2.end()) {
+        diff1.push_back(num);
+      }
+    }
+    vector<int> diff2;
+    for (int num : set2) {
+      if (set1.find(num) == set1.end()) {
+        diff2.push_back(num);
+      }
+    }
+    res.push_back(diff1);
+    res.push_back(diff2);
+
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) {
+    vector<vector<int>> res;
+    sort(nums1.begin(), nums1.end());
+    sort(nums2.begin(), nums2.end());
+    vector<int> diff1, diff2;
+    int i = 0, j = 0;
+    while (i < nums1.size() && j < nums2.size()) {
+      if (nums1[i] < nums2[j]) {
+        if (i == 0 || nums1[i] != nums1[i - 1]) {  // Avoid duplicates
+          diff1.push_back(nums1[i]);
+        }
+        i++;
+      } else if (nums1[i] > nums2[j]) {
+        // nums2[j] is smaller, it's unique to nums2
+        if (j == 0 || nums2[j] != nums2[j - 1]) {  // Avoid duplicates
+          diff2.push_back(nums2[j]);
+        }
+        j++;
+      } else {
+        // nums1[i] == nums2[j], move both pointers
+        i++;
+        j++;
+      }
+    }
+
+    // Handle remaining elements in nums1
+    while (i < nums1.size()) {
+      if (i == 0 || nums1[i] != nums1[i - 1]) {  // Avoid duplicates
+        diff1.push_back(nums1[i]);
+      }
+      i++;
+    }
+
+    // Handle remaining elements in nums2
+    while (j < nums2.size()) {
+      if (j == 0 || nums2[j] != nums2[j - 1]) {  // Avoid duplicates
+        diff2.push_back(nums2[j]);
+      }
+      j++;
+    }
+
+    // Add the results to res
+    res.push_back(diff1);
+    res.push_back(diff2);
+
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  bool hasGroupsSizeX(vector<int>& deck) {
+    vector<int> check(10001, 0);
+    for (int dec : deck) {
+      check[dec]++;
+    }
+
+    for (int x : check) {
+      if (check[x] % 2 != 0) return false;
+    }
+    return true;
+  }
+};
+
+class Solution {
+ public:
+  void inorder(vector<int>& v, TreeNode* root) {
+    if (root == nullptr) return;
+    inorder(v, root->left);
+    v.push_back(root->val);
+    inorder(v, root->right);
+  }
+
+  TreeNode* construct(vector<int>& arr, int left, int right) {
+    if (left > right) return nullptr;
+    int mid = left + (right - left) / 2;
+    TreeNode* node = new TreeNode(arr[mid]);
+
+    node->left = construct(arr, left, mid - 1);
+    node->right = construct(arr, mid + 1, right);
+
+    return node;
+  }
+
+  TreeNode* balanceBST(TreeNode* root) {
+    vector<int> sorted;
+    inorder(sorted, root);
+    return construct(sorted, 0, sorted.size() - 1);
+  }
+};
+
+class NumberContainers {
+ public:
+  unordered_map<int, int> indexTomap;
+  unordered_map<int, set<int>> numberToIndexs;
+  NumberContainers() {}
+
+  void change(int index, int number) {
+    if (indexTomap.count(index)) {
+      int olddigit = indexTomap[index];
+      numberToIndexs[olddigit].erase(index);
+      if (numberToIndexs[olddigit].empty()) {
+        numberToIndexs.erase(olddigit);
+      }
+    }
+    indexTomap[index] = number;
+    numberToIndexs[number].insert(index);
+  }
+
+  int find(int number) {
+    if (numberToIndexs.find(number) != numberToIndexs.end() &&
+        !numberToIndexs[number].empty()) {
+      return *numberToIndexs[number].begin();
+    }
+    return -1;
+  }
+};
+
+class Solution {
+ public:
+  char repeatedCharacter(string s) {
+    vector<int> freq(26, 0);
+    for (char c : s) {
+      freq[c - '0']++;
+      if (freq[c] > 1) return c;
+    }
+    return '';
+  }
+};
+
+class Solution {
+ public:
+  int rearrangeCharacters(string s, string target) {
+    vector<int> freq(26, 0), freqT(26, 0);
+    ;
+    for (char c : s) {
+      freq[c - 'a']++;
+    }
+    for (char c : s) {
+      freqT[c - 'a']++;
+    }
+    int ans = INT_MAX;
+    for (char ch : target) {
+      ans = min(ans, freq[ch - 'a'] / freqT(ch - 'a'));
+    }
+    return ans == INT_MAX ? -1 : ans;
+  }
+};
+
+class Solution {
+ public:
+  bool digitCount(string num) {
+    vector<int> bodyCount(10, 0);
+    for (char c : num) {
+      bodyCount[c - '0']++;
+    }
+    for (int i = 0; i < num.length(); i++) {
+      if (bodyCount[s[i]] != s[i]) return false;
+    }
+    return true;
+  }
+};
+
+class Solution {
+ public:
+  int rev(int n) {
+    int ans = 0;
+    while (n > 0) {
+      ans = ans * 10 + n % 10;
+      n = n % 10;
+    }
+    return ans;
+  }
+  int mod = 1e9 + 7;
+
+  int countNicePairs(vector<int>& nums) {
+    unordered_map<long long, long long> fr;
+    long long goodPairs = 0;
+
+    for (long long n : nums) {
+      long long dif = n - rev(n);
+      goodPairs = (goodPairs + fr[dif]) % mod;
+      fr[dif]++;
+    }
+    return goodPairs;
+  }
+};
+
+class Solution {
+ public:
+  int longestPalindrome(string s) {
+    unordered_map<char, int> mp;
+    for (char c : s) {
+      mp[c]++;
+    }
+    int length = 0;
+    bool doesHaveOddsingle = false;
+    for (auto it : mp) {
+      if (it.second % 2 == 0) {
+        length += it.second;
+      } else if (it.second % 2 != 0) {
+        doesHaveOddsingle = true;
+        length += it.second - 1;
+      }
+    }
+    if (doesHaveOddsingle) length++;
+
+    return length;
+  }
+};
+
+class Solution {
+ public:
+  int findMaxLength(vector<int>& nums) {
+    unordered_map<int, int> mp;
+    mp[0] = -1;
+    int maxLenght = INT_MIN, prefixSum = 0;
+
+    for (int i = 0; i < nums.size(); i += 1) {
+      prefixSum += (nums[i] == 1) ? 1 : -1;
+      if (mp.find(prefixSum) != mp.end()) {
+        maxLenght = max(maxLenght, i - mp[prefixSum]);
+      } else {
+        mp[prefixSum] = i;
+      }
+    }
+    return maxLenght;
+  }
+};
+
+class Solution {
+ public:
+  bool checkSubarraySum(vector<int>& nums, int k) {
+    unordered_map<int, int> mp;
+    mp[0] = -1;
+    int prefixSum = 0;
+    int n = nums.size();
+    for (int i = 0; i < n; i += 1) {
+      prefixSum += nums[i];
+      int rem = prefixSum % k;
+      if (rem < 0) rem += k;
+      if (mp.find(rem) != mp.end()) {
+        if (i - mp[rem] > 1) return true;
+      } else {
+        mp[rem] = i;
+      }
+    }
+    return false;
+  }
+};
+
+// 10,15,9,15
+// 6 12 18 24 30 36 42 48 54 60
+
+
+class Solution {
 public:
-    string largestNumber(vector<int>& nums) {
+    vector<string> findRepeatedDnaSequences(string s) {
         
     }
 };

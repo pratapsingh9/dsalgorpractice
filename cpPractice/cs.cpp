@@ -1,4 +1,4 @@
-#include <btis/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 void add2num() {
@@ -10,8 +10,6 @@ void add2num() {
     cout << n + m << endl;
   }
 }
-
-void 
 
 int main() {
   int n, k;
@@ -25,3 +23,24 @@ int main() {
   }
   return ans;
 }
+
+class Solution {
+ public:
+  vector<int> intersection(vector<vector<int>>& nums) {
+    unordered_map<int, int> mp;
+    for (auto it : nums) {
+      for (auto i : it) {
+        mp[i]++;
+      }
+    }
+    int n = nums.size();
+    vector<int> ans;
+    for (auto it : mp) {
+      if (it.second == n) {
+        ans.push_back(it.first);
+      }
+    }
+    sort(ans.begin(), ans.end());
+    return ans;
+  }
+};

@@ -1,9 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int nMeetingInOneRoom(vector<int> vec )
-
-
 int minRotation(vector<int> start, vector<int> end) {
   if (start.size() != end.size()) return -1;
   int n = 10;
@@ -18,7 +15,6 @@ int minRotation(vector<int> start, vector<int> end) {
 
 int assignMicetohole(vector<int> mouse, vector<int> hole) {
   if (mouse.size() != hole.size()) return -1;
-
   sort(mouse.begin(), mouse.end());
   sort(hole.begin(), hole.end());
   int ans = INT_MIN;

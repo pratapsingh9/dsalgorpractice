@@ -2,7 +2,7 @@
 using namespace std;
 
 void solve() {
-  int n;  // Input size of array
+  int n;
   cin >> n;
 
   vector<int> arr(n);  // Array to store the input

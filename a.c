@@ -100,12 +100,9 @@ struct Node* createNode(int key) {
 struct Node* rightRotate(struct Node *y) {
     struct Node *x = y->left;
     struct Node *T2 = x->right;
-
-    // Perform rotation
+    
     x->right = y;
     y->left = T2;
-
-    // Update heights
     y->height = 1 + (height(y->left) > height(y->right) ? height(y->left) : height(y->right));
     x->height = 1 + (height(x->left) > height(x->right) ? height(x->left) : height(x->right));
 
