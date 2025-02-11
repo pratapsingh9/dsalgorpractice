@@ -2379,10 +2379,384 @@ class Solution {
 // 10,15,9,15
 // 6 12 18 24 30 36 42 48 54 60
 
+class Solution {
+ public:
+  vector<string> findRepeatedDnaSequences(string s) {
+    unordered_set<string> seen, repeated;
+    vector<string> res;
+    for (int i = 0; i < s.size(); i++) {
+      string temp = s.substr(i, 10);
+      if (seen.find(temp) != seen.end()) {
+        repeated.insert(temp);
+      } else {
+        seen.insert(temp);
+      }
+    }
+
+    for (const string& seq : repeated) {
+      res.push_back(seq);
+    }
+    return res;
+  }
+};
 
 class Solution {
-public:
-    vector<string> findRepeatedDnaSequences(string s) {
-        
+ public:
+  int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3,
+                   vector<int>& nums4) {
+    unordered_map<int, int> pairSum;
+    for (int i = 0; i < nums1.size(); i++) {
+      for (int j = 0; j < nums2.size(); j++) {
+        pairSum[nums1[i] + nums2[j]]++;
+      }
     }
+    int count = 0;
+    for (int i = 0; i < nums3.size(); i++) {
+      for (int j = 0; j < nums4.size(); j++) {
+        int target = -(nums3[i] + nums4[j]);
+        if (pairSum.find(target) != pairSum.end()) {
+          count += pairSum[target];
+        }
+      }
+    }
+    return count;
+  }
+};
+
+class Solution {
+ public:
+  vector<string> findRestaurant(vector<string>& list1, vector<string>& list2) {
+    unordered_map<string, int> idx;
+    vector<string> result;
+    int minSum = INT_MAX;
+    for (int i = 0; i < list1.size(); i++) {
+      idx[list1[i]] = i;
+    }
+    for (int j = 0; j < list2.size(); j++) {
+      if (idx.find(list2[j]) != idx.end()) {
+        int sum = j + idx[list2[j]];
+        if (sum < minSum) {
+          minSum = sum;
+          result = {list2[j]};
+        } else if (sum == minSum) {
+          result.push_back(list2[j]);
+        }
+      }
+    }
+
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  int countElements(vector<int>& nums) {
+    int minVal = INT_MAX, maxVal = INT_MIN;
+    for (int num : nums) {
+      minVal = min(minVal, num);
+      maxVal = max(maxVal, num);
+    }
+    int cnt = 0;
+    for (int n : nums) {
+      if (n > minVal && n < maxVal) cnt++;
+    }
+    return cnt;
+  }
+};
+
+class Solution {
+ public:
+  int largestPerimeter(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    for (int i = 0; i < nums.size(); i++) {
+      if (nums[i] < nums[i + 1] + nums[i + 2]) {
+        return nums[i] + nums[i + 1] + nums[i + 2];
+      }
+    }
+    return 0;
+  }
+};
+
+class Solution {
+ public:
+  string maximumTime(string time) {
+    if (time[0] == '?')
+      time[0] = (time[1] == '?' || time[1] <= '3') ? '2' : '1';
+    if (time[1] == '?') time[1] = (time[0] == '2') ? '3' : '9';
+    if (time[3] == '?') time[3] = '5';
+    if (time[4] == '?') time[4] = '9';
+
+    return time;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> countSubTrees(int n, vector<vector<int>>& edges, string labels) {
+    vector<vector<int>> tree(n);
+    vector<int> ans(n, 0);
+    vector<bool> visited(n, false);
+    for (auto& edge : edges) {
+      tree[edge[0]].push_back(edge[1]);
+      tree[edge[1]].push_back(edge[0]);
+    }
+    function<vector<int>(int)> dfs = [&](int node) -> vector<int> {
+      visited[node] = true;
+      vector<int> count(26, 0);
+      count[labels[node] - 'a']++;
+      for (int child : tree[node]) {
+        if (!visited[child]) {
+          vector<int> childCount = dfs(child);
+          for (int i = 0; i < 26; i++) {
+            count[i] += childCount[i];
+          }
+        }
+      }
+
+      ans[node] = count[labels[node] - 'a'];
+      return count;
+    };
+
+    dfs(0);
+
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  string removeOccurrences(string s, string part) {
+    stack<char> st;
+    int n = part.size();
+    for (char c : s) {
+      st.push(c);
+      if (st.size() >= n) {
+        string temp = "";
+        stack<char> tempStack = st;
+        for (int i = 0; i < n; i++) {
+          temp = tempStack.top() + temp;
+          tempStack.pop();
+        }
+        if (temp == part) {
+          for (int i = 0; i < n; i++) {
+            st.pop();
+          }
+        }
+      }
+    }
+    string result = "";
+    while (!st.empty()) {
+      result = st.top() + result;
+      st.pop();
+    }
+    return result;
+  }
+};
+
+class Solution {
+ public:
+  string removeDuplicateLetters(string s) {
+    vector<int> freq(26, 0);
+    stack<char> s;
+    vector<bool> inResult(26, false);
+
+    for (char c : s) freq[s - 'a']++;
+    for (char ch : s) {
+      freq[c - 'a']--;
+      if (inResult[c - 'a']) continue;
+    }
+  }
+};
+
+class Solution {
+ public:
+  bool canThreePartsEqualSum(vector<int>& arr) {
+    int target = accumulate(begin(arr), end(arr), 0);
+    if (target % 3 != 0) return false;
+    int t = target / 3;
+    int count = 0, sum = 0;
+    for (int n : arr) {
+      sum += n;
+      if (sum == t) {
+        count++;
+        sum = 0;
+      }
+    }
+    return count >= 3;
+  }
+};
+
+class Solution {
+ public:
+  string strWithout3a3b(int a, int b) {
+    string res;
+    while (a > 0 || b > 0) {
+      bool writea = false;
+      if (res.size() > 2 && res[res.size() - 1] == res[res.size() - 2]) {
+        if (res.back() == 'a') {
+          writea = false;
+        } else {
+          writea = true;
+        }
+      } else {
+        if (a >= b) {
+          writea = true;
+        } else {
+          writea = false;
+        }
+      }
+      if (writea) {
+        res.push_back('a');
+        a--;
+      } else {
+        res.push_back('b');
+        b--;
+      }
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  string strWithout3a3b(int a, int b) {
+    string res;
+    while (a > 0 || b > 0) {
+      if (a > b) {
+        if (a > 1)
+          res += "aa", a -= 2;
+        else
+          res += "a", a--;
+        if (b > 0) res += "b", b--;
+      } else if (b > a) {
+        if (b > 1)
+          res += "bb", b -= 2;
+        else
+          res += "b", b--;
+        if (a > 0) res += "a", a--;
+      } else {
+        res += "a", a--;
+        res += "b", b--;
+      }
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> minSubsequence(vector<int>& nums) {
+    int total = accumulate(nums.begin(), nums.end(), 0);
+    sort(nums.begin(), nums.end(), greater<int>());
+
+    vector<int> res;
+    int sum = 0;
+    for (int i = 0; i < nums.size(); i++) {
+      sum += nums[i];
+      res.push_back(nums[i]);
+      if (sum > total - sum) break;
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  int findMinFibonacciNumbers(int k) {
+    vector<int> fib = {1, 1};
+    while (fib.back() < k) {
+      fib.push_back(fib[fib.size() - 1] + fib[fib.size() - 2]);
+    }
+
+    int count = 0;
+    int i = fib.size() - 1;
+    while (k > 0) {
+      if (fib[i] <= k) {
+        k -= fib[i];
+        count++;
+      }
+      i--;
+    }
+
+    return count;
+  }
+};
+
+class Solution {
+ public:
+  vector<vector<int>> restoreMatrix(vector<int>& rowSum, vector<int>& colSum) {
+    int row = rowSum.size(), cols = colSum.size();
+    vector<vector<int>> matrix(row, vector<int>(cols, 0));
+
+    for (size_t i = 0; i < row; i++) {
+      /* code */
+      for (size_t j = 0; j < cols; j++) {
+        /* code */
+        int val = min(rowSum[i], colSum[j]);
+        matrix[i][j] = val;
+        rowSum[i] -= val;
+        colSum[j] -= val;
+      }
+    }
+    return matrix;
+  }
+};
+class Solution {
+ public:
+  int minTimeToReach(vector<vector<int>>& moveTime) {
+    int rows = moveTime.size();
+    int cols = moveTime[0].size();
+
+    // Min-Heap priority queue: {current_time, row, col}
+    priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
+    pq.push({0, 0, 0});
+
+    vector<vector<int>> mintime(rows, vector<int>(cols, INT_MAX));
+    mintime[0][0] = 0;
+
+    vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+    while (!pq.empty()) {
+      auto it = pq.top();
+      pq.pop();
+
+      int time = it[0], r = it[1], c = it[2];
+      if (r == rows - 1 && c == cols - 1) {
+        return time;
+      }
+
+      for (auto dir : directions) {
+        int nr = r + dir.first, nc = c + dir.second;
+
+        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+          int waiting = max(time + 1, moveTime[nr][nc]);
+
+          if (waiting < mintime[nr][nc]) {
+            mintime[nr][nc] = waiting;
+            pq.push({waiting, nr, nc});
+          }
+        }
+      }
+    }
+
+    return -1;
+  }
+};
+
+class Solution {
+ public:
+  int maxDistance(vector<vector<int>>& arrays) {
+    int res = INT_MIN;
+    int maxVal = arrays[0].back();
+    int minVal = arrays[0][0];
+
+    for (int i = 1; i < arrays.size(); i += 1) {
+      res = max(res, abs(arrays[i][0] - maxVal));
+      res = max(res, abs(arrays[i].back() - minVal));
+      maxVal = max(maxVal, arrays[i].back());
+      minVal = min(minVal, arrays[i][0]);
+    }
+
+    return res;
+  }
 };
