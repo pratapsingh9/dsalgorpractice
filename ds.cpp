@@ -2687,11 +2687,8 @@ class Solution {
   vector<vector<int>> restoreMatrix(vector<int>& rowSum, vector<int>& colSum) {
     int row = rowSum.size(), cols = colSum.size();
     vector<vector<int>> matrix(row, vector<int>(cols, 0));
-
     for (size_t i = 0; i < row; i++) {
-      /* code */
       for (size_t j = 0; j < cols; j++) {
-        /* code */
         int val = min(rowSum[i], colSum[j]);
         matrix[i][j] = val;
         rowSum[i] -= val;
@@ -2701,30 +2698,25 @@ class Solution {
     return matrix;
   }
 };
+
 class Solution {
  public:
   int minTimeToReach(vector<vector<int>>& moveTime) {
     int rows = moveTime.size();
     int cols = moveTime[0].size();
-
-    // Min-Heap priority queue: {current_time, row, col}
     priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
     pq.push({0, 0, 0});
-
     vector<vector<int>> mintime(rows, vector<int>(cols, INT_MAX));
     mintime[0][0] = 0;
-
     vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-
     while (!pq.empty()) {
       auto it = pq.top();
       pq.pop();
-
       int time = it[0], r = it[1], c = it[2];
+
       if (r == rows - 1 && c == cols - 1) {
         return time;
       }
-
       for (auto dir : directions) {
         int nr = r + dir.first, nc = c + dir.second;
 
@@ -2738,7 +2730,6 @@ class Solution {
         }
       }
     }
-
     return -1;
   }
 };
@@ -2758,5 +2749,256 @@ class Solution {
     }
 
     return res;
+  }
+};
+
+class Solution {
+ public:
+  int maximumProduct(vector<int>& nums) {
+    int n = nums.size();
+    sort(begin(nums), end(nums));
+    return max(nums[0] * nums[n - 1] * nums[n - 2],
+               nums[n - 1] * nums[n - 2] * nums[n - 3]);
+  }
+};
+
+class Solution {
+ public:
+  int maximumSum(vector<int>& nums) {
+    int maxsum = -1;
+    unordered_map<int, int> mp;
+    for (int num : nums) {
+      int digtsum = 0, temp = num;
+      while (temp) {
+        digtsum += temp % 10;
+        temp /= 10;
+      }
+      if (mp.count(digtsum)) {
+        maxsum = max(maxsum, mp[digtsum] + num);
+      }
+      mp[digtsum] = max(mp[digtsum], num);
+    }
+    return maxsum;
+  }
+};
+class Solution {
+ public:
+  vector<vector<int>> matrixReshape(vector<vector<int>>& mat, int r, int c) {
+    int m = mat.size(), n = mat[0].size();
+    if (m * n != r * c) return mat;
+    vector<vector<int>> res(r, vector<int>(c));
+    int index = 0;
+    for (size_t i = 0; i < m; i++) {
+      for (size_t j = 0; j < n; j++) {
+        res[index / c][index % c] = mat[i][j];
+        index++;
+      }
+    }
+    return res;
+  }
+};
+
+class Solution {
+ private:
+  void prepareAdj(vector<vector<int>>& pairs, vector<list<int>>& adj) {
+    for (int i = 0; i < pairs.size(); i++) {
+      int u = pairs[i][0];
+      int v = pairs[i][1];
+
+      adj[u].push_back(v);
+      adj[v].push_back(u);
+    }
+  }
+
+  void dfs(int node, vector<bool>& vis, vector<list<int>>& adj,
+           vector<char>& chars, vector<int>& indices, string& s) {
+    chars.push_back(s[node]);
+    indices.push_back(node);
+
+    vis[node] = 1;
+
+    for (int neigh : adj[node]) {
+      if (!vis[neigh]) {
+        dfs(neigh, vis, adj, chars, indices, s);
+      }
+    }
+  }
+
+ public:
+  string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) {
+    int n = s.length();
+
+    vector<list<int>> adj(n);
+    prepareAdj(pairs, adj);
+
+    vector<bool> visited(n, 0);
+
+    for (int i = 0; i < n; i++) {
+      if (!visited[i]) {
+        vector<char> chars;
+        vector<int> indices;
+
+        dfs(i, visited, adj, chars, indices, s);
+
+        sort(begin(chars), end(chars));
+        sort(begin(indices), end(indices));
+
+        for (int j = 0; j < chars.size(); j++) {
+          s[indices[j]] = chars[j];
+        }
+      }
+    }
+
+    return s;
+  }
+};
+
+class Solution {
+ public:
+  vector<int> findErrorNums(vector<int>& nums) {
+    sort(begin(nums), end(nums));
+    int dup = -1, miss = -1;
+
+    for (size_t i = 0; i < nums.size(); i++) {
+      /* code */
+      if (nums[i] == nums[i + 1]) {
+        dup = nums[i];
+      } else if (nums[i] + 1 != nums[i + 1]) {
+        miss = nums[i] + 1;
+      }
+    }
+    if (nums.back() != nums.size()) miss = nums.size();
+    return {dup, miss};
+  }
+};
+
+class Solution {
+ public:
+  vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+    unordered_map<int, int> freq;
+    for (int n : arr1) freq[n]++;
+    vector<int> res;
+    for (int n : arr2) {
+      while (freq[n] > 0) {
+        res.push_back(n);
+        freq[n]--;
+      }
+      freq.erase(n);
+    }
+    vector<int> v;
+    for (auto it : freq) {
+      int count = it.second;
+      int n = it.first;
+      while (count-- > 0) {
+        v.push_back(n);
+      }
+    }
+    sort(begin(v), end(v));
+    res.insert(res.end(), v.begin(), v.end());
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  bool canBeEqual(vector<int>& target, vector<int>& arr) {
+    sort(target.begin(), target.end());
+    sort(arr.begin(), arr.end());
+    return target == arr;
+  }
+};
+
+class Solution {
+ public:
+  double trimMean(vector<int>& arr) {
+    sort(arr.begin(), arr.end());
+    double n = arr.size();
+    double rem = n / 20;
+    double sum = 0;
+    for (double i = rem; i < n - rem; i++) {
+      sum += arr[i];
+    }
+
+    return (sum / n - rem);
+  }
+};
+
+class Solution {
+ public:
+  string sortSentence(string s) {
+    vector<string> words;
+    stringstream ss(s);
+    string word;
+
+    while (ss >> word) {
+      words.push_back(word);
+    }
+
+    sort(words.begin(), words.end(),
+         [&](const string& a, const string& b) { return a.back() < b.back(); });
+    string res;
+    for (int i = 0; i < words.size(); i++) {
+      words[i].pop_back();
+      res += words[i];
+      if (i < words.size() - 1) res += " ";
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  bool closeStrings(string word1, string word2) {
+    if (word1.size() != word2.size()) return false;
+    vector<int> freq1(26, 0), fre2(26, 0);
+
+    vector<bool> occurence1(26, false), occurence2(26, false);
+
+    for (char c : word1) {
+      freq1[c - 'a']++;
+      occurence1[c - 'a'] = true;
+    }
+    for (char c : word2) {
+      fre2[c - 'a']++;
+      occurence2[c - 'a'] = true;
+    }
+    if (occurence1 != occurence2) return false;
+    sort(freq1.begin(), freq1.end());
+    sort(fre2.begin(), fre2.end());
+    return true;
+  }
+};
+
+class Solution {
+ public:
+  int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
+    int rows = grid1.size(), cols = grid1[0].size();
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (grid2[i][j] == 1 && grid1[i][j] == 0) {
+          dfs(grid2, i, j);
+        }
+      }
+    }
+    int count = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (grid2[i][j] == 1) {
+          count++;
+          dfs(grid2, i, j);
+        }
+      }
+    }
+    return count;
+  }
+  void dfs(vector<vector<int>>& grid, int i, int j) {
+    int rows = grid.size(), cols = grid[0].size();
+    if (i < 0 || j < 0 || i >= rows || j >= cols || grid[i][j] == 0) return;
+
+    grid[i][j] = 0;
+    dfs(grid, i + 1, j);
+    dfs(grid, i - 1, j);
+    dfs(grid, i, j + 1);
+    dfs(grid, i, j - 1);
   }
 };
