@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 long long sumOfDistinctCounts(const vector<int>& categories) {
   unordered_map<int, int> lastSeen;
   int start = 0;
@@ -505,21 +504,16 @@ class Solution {
     vector<int> dp(n + 1, 0);
     for (int index = n - 1; index >= 0; index--) {
       int ondedaypass = costs[0] + dp[index + 1];
-
       int i = index;
       while (i < n && days[i] < days[index] + 7) {
         i++;
       }
-
       int weeklyPass = costs[1] + dp[i];
-
       i = index;
       while (i < n && days[i] < days[index] + 30) {
         i++;
       }
-
       int thirtyDayPass = costs[2] + dp[i];
-
       dp[index] = min({ondedaypass, weeklyPass, thirtyDayPass});
     }
     return dp[0];
@@ -2004,6 +1998,7 @@ class Solution {
     return first - second;
   }
 };
+
 class Solution {
  public:
   int differenceOfSums(int n, int m) {
@@ -3000,5 +2995,213 @@ class Solution {
     dfs(grid, i - 1, j);
     dfs(grid, i, j + 1);
     dfs(grid, i, j - 1);
+  }
+};
+
+class Solution {
+ public:
+  int minOperations(vector<int>& nums, int k) {
+    priority_queue<int, vector<int>, greater<int>> pq(nums.begin(),
+                                                      nums.end());  // Min-Heap
+    int ans = 0;
+
+    while (pq.top() < k) {
+      if (pq.size() < 2) return -1;
+
+      int x = pq.top();
+      pq.pop();
+      int y = pq.top();
+      pq.pop();
+
+      int64_t newVal = (int64_t)x * 2 + y;
+      pq.push(static_cast<int>(newVal));
+      ans++;
+    }
+
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int solve(TreeNode* root, int minv, int maxv) {
+    if (!root) return maxv - minv;
+
+    minv = min(minv, root->val);
+    maxv = max(maxv, root->val);
+
+    int leftDiff = solve(root->left, minv, maxv);
+    int rightdiff = solve(root->right, minv, maxv);
+
+    return max(leftDiff, rightdiff);
+  }
+  int maxAncestorDiff(TreeNode* root) {
+    if (!root) return 0;
+    return solve(root, root->val, root->val);
+  }
+};
+
+class Solution {
+ public:
+  int longestWPI(vector<int>& hours) {
+    int n = hours.size();
+    unordered_map<int, int> prefixIndex;
+    / int score = 0, maxLen = 0;
+
+    for (int i = 0; i < n; i++) {
+      score += (hours[i] > 8) ? 1 : -1;
+      if (score > 0) {
+        maxLen = i + 1;
+      } else {
+        if (prefixIndex.count(score - 1)) {
+          maxLen = max(maxLen, i - prefixIndex[score - 1]);
+        }
+        if (!prefixIndex.count(score)) {
+          prefixIndex[score] = i;
+        }
+      }
+    }
+    return maxLen;
+  }
+};
+
+class Solution {
+ public:
+  bool isPerfectSquare(int num) {
+    long long low = 1, high = num;
+
+    while (low <= high) {
+      long long mid = low + (high - low) / 2;
+
+      long long square = mid * mid;
+      if (square == num) {
+        return true;
+      } else if (square < num) {
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+
+    return false;
+  }
+};
+
+class Solution {
+ public:
+  int maxCount(vector<int>& banned, int n, int maxSum) {
+    sort(banned.begin(), banned.end());
+    int count = 0, sum = 0;
+    for (int num = 1; num <= n; num++) {
+      if (binary_search(banned.begin(), banned.end(), num)) continue;
+
+      if (sum + num > maxSum) break;
+      sum += num;
+      count++;
+    }
+    return count;
+  }
+};
+
+void seiveOferasto(int n) {
+  vector<bool> prime(n + 1, true);
+  prime[0] = prime[1] = false;
+  for (int i = 2; i * i <= n; i++) {
+    if (prime[i]) {
+      for (int j = i * i; j <= n; j += i) {
+        prime[j] = false;
+      }
+    }
+  }
+}
+
+void sieve(int n) {
+  vector<bool> prime(n + 1, true);
+  prime[0] = prime[1] = false;  // 0 and 1 are not prime
+
+  for (int i = 2; i * i <= n; i++) {
+    if (prime[i]) {  // If i is prime
+      for (int j = i * i; j <= n; j += i) {
+        prime[j] = false;  // Mark multiples of i as not prime
+      }
+    }
+  }
+
+  // Printing all prime numbers
+  for (int i = 2; i <= n; i++) {
+    if (prime[i]) cout << i << " ";
+  }
+}
+
+class Solution {
+ public:
+  void solve(int pos, string& num, vector<int>& ans, int n, int k) {
+    if (pos == n) {
+      ans.push_back(stoi(num));
+      return;
+    }
+
+    for (int i = 0; i <= 9; i++) {
+      if (pos == 0 && i == 0) continue;
+
+      if (num.size() >= 1) {
+        int a = abs(i - (num.back() - '0'));
+        if (a == k) {
+          num += to_string(i);
+          solve(pos + 1, num, ans, n, k);
+          num.pop_back();
+        }
+      }
+
+      else {
+        num += to_string(i);
+        solve(pos + 1, num, ans, n, k);
+        num.pop_back();
+      }
+    }
+  }
+
+  vector<int> numsSameConsecDiff(int n, int k) {
+    vector<int> ans;
+    string num = "";
+    solve(0, num, ans, n, k);
+    return ans;
+  }
+}
+
+class Solution {
+ public:
+  void solve(int pos, string& num, vector<int>& ans, int n, int k) {
+    if (pos == n) {
+      ans.push_back(stoi(num));
+      return;
+    }
+
+    for (int i = 0; i <= 9; i++) {
+      if (pos == 0 && i == 0) continue;
+
+      if (num.size() >= 1) {
+        int backNumber  = num.back() - '0';
+        int diff =  abs(backNumber-i);
+        if (diff == k) {
+          num += to_string(i);
+          solve(pos + 1, num, ans, n, k);
+          num.pop_back();
+        }
+      }
+
+      else {
+        num += to_string(i);
+        solve(pos + 1, num, ans, n, k);
+        num.pop_back();
+      }
+    }
+  }
+
+  vector<int> numsSameConsecDiff(int n, int k) {
+    vector<int> ans;
+    string num = "";
+    solve(0, num, ans, n, k);
+    return ans;
   }
 };
