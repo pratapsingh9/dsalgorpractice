@@ -316,4 +316,403 @@ class Solution {
   }
 };
 
+class Solution {
+ public:
+  vector<string> restoreIpAddresses(string s) {
+    vector<string> res;
+    vecto
+  }
+};
 
+class Solution {
+ public:
+  int splitNum(int num) {
+    string res = to_string(num);
+    sort(begin(res), end(res));
+    string num1 = "", num2 = "";
+    for (size_t i = 0; i < res.size(); i++) {
+      /* code */
+      if (i % 2 == 0) {
+        num1 += res[i];
+      } else {
+        num2 += res[i];
+      }
+    }
+    return stoi(num1) + stoi(num2);
+  }
+};
+
+class Solution {
+ public:
+  vector<vector<int>> mergeArrays(vector<vector<int>>& nums1,
+                                  vector<vector<int>>& nums2) {
+    map<int, int> mp;
+    for (auto& it : nums1) {
+      mp[it[0]] = it[1];
+    }
+    for (auto it : nums2) {
+      mp[it[0]] += it[1];
+    }
+    vector<vector<int>> res;
+    for (auto it : mp) {
+      res.push_back({it.first, it.second});
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  vector<vector<int>> mergeArrays(vector<vector<int>>& nums1,
+                                  vector<vector<int>>& nums2) {
+    int m = nums1.size();
+    int n = nums2.size();
+    int i = 0;
+    int j = 0;
+    vector<vector<int>> res;
+    while (i < m && j < n) {
+      if (nums1[i][0] > nums2[j][0]) {
+        res.push_back(nums2[j]);
+        j++;
+      } else if (nums1[i][0] < nums2[j][0]) {
+        res.push_back(nums1[i]);
+        i++;
+      } else {
+        res.push_back({nums1[i][0], nums1[i][1] + nums2[j][1]});
+        i++;
+        j++;
+      }
+    }
+    while (i < m) {
+      res.push_back(nums1[i]);
+      i++;
+    }
+    while (j < n) {
+      res.push_back(nums2[j]);
+      j++;
+    }
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  int largestInteger(vector<int>& nums, int k) {
+    int n = nums.size();
+    unordered_map<int, set<int>> mp;
+    for (int i = 0; i < n - k; i++) {
+      for (int j = i; j < i + k; j++) {
+        mp[nums[j]].insert(i);
+      }
+    }
+    int maxi = INT_MIN;
+    for (auto it : mp) {
+      int ele = it.first;
+      int elements = it.second;
+      if (elements == 1) {
+        maxi = max(maxi, ele);
+      }
+    }
+    return maxi;
+  }
+};
+
+class Solution {
+ public:
+  int solve(int prev, int curr, vector<int>& nums, vector<vector<int>>& dp) {
+    int n = nums.size();
+    if (curr == n) return nums[prev];
+    if (curr == n - 1) return max(nums[prev], nums[curr]);
+    if (dp[prev][curr] != -1) return dp[prev][curr];
+    int first =
+        max(nums[curr], nums[curr + 1]) + solve(prev, curr + 2, nums, dp);
+    int second =
+        max(nums[prev], nums[curr + 1]) + solve(curr, curr + 2, nums, dp);
+    int third =
+        max(nums[prev], nums[curr]) + solve(curr + 1, curr + 2, nums, dp);
+    return dp[prev][curr] = min({first, second, third});
+  }
+
+  int minCost(vector<int>& nums) {
+    int n = nums.size();
+    vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
+    return solve(0, 1, nums, dp);
+  }
+};
+
+class Solution {
+ public:
+  int numFriendRequests(vector<int>& ages) {
+    sort(ages.begin(), ages.end());
+    int ans = 0;
+
+    for (int i = 0; i < ages.size(); i++) {
+      int age = ages[i];
+      if (age <= 14) continue;
+
+      int left =
+          upper_bound(ages.begin(), ages.end(), 0.5 * age + 7) - ages.begin();
+      int right = upper_bound(ages.begin(), ages.end(), age) - ages.begin();
+
+      ans += right - left - 1;
+    }
+
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int numMatchingSubseq(string s, vector<string>& words) {
+    unordered_map<char, vector<string>> mp;
+    for (string word : words) {
+      mp[word[0]].push_back(word);
+    }
+  }
+};
+
+class Solution {
+ public:
+  bool hasValidPath(vector<vector<int>>& grid) {
+    int m = grid.size(), n = grid[0].size();
+    if (m == 0 || n == 0) return false;
+
+    vector<vector<pair<int, int>>> moves = {{},
+                                            {{0, -1}, {0, 1}},
+                                            {{-1, 0}, {1, 0}},
+                                            {{0, -1}, {1, 0}},
+                                            {{0, 1}, {1, 0}},
+                                            {{-1, 0}, {0, -1}},
+                                            {{-1, 0}, {0, 1}}};
+
+    queue<pair<int, int>> q;
+    vector<vector<bool>> visited(m, vector<bool>(n, false));
+
+    q.push({0, 0});
+    visited[0][0] = true;
+
+    while (!q.empty()) {
+      auto [r, c] = q.front();
+      q.pop();
+
+      if (r == m - 1 && c == n - 1) return true;
+
+      for (auto& move : moves[grid[r][c]]) {
+        int nr = r + move.first, nc = c + move.second;
+
+        if (nr >= 0 && nr < m && nc >= 0 && nc < n && !visited[nr][nc]) {
+          for (auto& back : moves[grid[nr][nc]]) {
+            if (nr + back.first == r && nc + back.second == c) {
+              visited[nr][nc] = true;
+              q.push({nr, nc});
+              break;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
+};
+
+pair<int, int> secondSmallestlargest(vector<int>& nums) {
+  int smallest = INT_MAX, secondsmall = INT_MAX;
+  int largest = INT_MIN, secondlarget = INT_MIN;
+
+  for (int i = 0; i < nums.size(); i++) {
+    if (nums[i] < smallest) {
+      secondsmall = smallest;
+      smallest = nums[i];
+    } else if (nums[i] < secondsmall && nums[i] != smallest) {
+      secondsmall = nums[i];
+    }
+
+    if (nums[i] > largest) {
+      secondlarget = largest;
+      largest = nums[i];
+    } else if (nums[i] > secondlarget && nums[i] < largest) {
+      secondlarget = nums[i];
+    }
+  }
+  return {secondsmall, secondlarget};
+}
+
+class Solution {
+ public:
+  vector<int> findMissingAndRepeatedValues(vector<vector<int>>& grid) {
+    unordered_set<int> st;
+    int a = -1, b = -1;
+    int n = grid.size();
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        int var = grid[i][j];
+        if (st.count(var)) {
+          a = var;
+        } else {
+          st.insert(var);
+        }
+      }
+    }
+    for (int i = 1; i <= n * n; i += 1) {
+      if (st.find(i) == st.end()) {
+        b = i;
+        break;
+      }
+    }
+    return {a, b};
+  }
+};
+
+class Solution {
+ public:
+  vector<int> findMissingAndRepeatedValues(vector<vector<int>>& grid) {
+    int n = grid.size();
+    int size = n * n;
+    vector<int> count(size + 1, 0);
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        count[grid[i][j]]++;
+      }
+    }
+    int a = -1, b = -1;
+    for (int i = 1; i <= size; i++) {
+      if (count[i] == 2) {
+        a = num;
+      } else if (count[i] == 0) {
+        b = num
+      }
+    }
+    return {a, b};
+  }
+};
+
+class Solution {
+ public:
+  void solveKr(string& s, vector<string>& result, int idx) {
+    if (idx == s.size()) {
+      result.push_back(s);
+      return;
+    }
+    if (isalpha(s[idx])) {
+      s[idx] = toupper(s[idx]);
+      solve(s, result, idx + 1);
+      s[idx] = tolower(s[idx]);
+      solve(s, result, idx + 1);
+    } else {
+      solveKr(s, result, idx + 1);
+    }
+  }
+  vector<string> letterCasePermutation(string s) {
+    vector<string> res;
+    solveKr(s, res, 0);
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  void solve(string& s, int idx, vector<string>& result, string current) {
+    if (idx == s.size()) {
+      result.push_back(current);
+      return;
+    }
+
+    if (isalpha(s[idx])) {
+      solve(s, idx + 1, result, current + (char)tolower(s[idx]));
+      solve(s, idx + 1, result, current + (char)toupper(s[idx]));
+    } else {
+      solve(s, idx + 1, result, current + s[idx]);
+    }
+  }
+  vector<string> letterCasePermutation(string s) {
+    vector<string> res;
+    solve(s, 0, res, "");
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  int minimumRecolors(string blocks, int k) {
+    if (k > blocks.size()) return 0;
+    int res = 0, countWhite = 0;
+    for (int i = 0; i < k; i++) {
+      if (blocks[i] == 'W') countWhite++;
+    }
+    res = countWhite;
+    for (int i = k; i < blocks.size(); i++) {
+      if (blocks[i] == 'W') countWhite++;
+      if (blocks[i - k] == 'W') countWhite--;
+
+      res = min(res, countWhite);
+    }
+    return res;
+  }
+};
+
+string simpleCipher(string input, int k) {
+  string ans = "";
+  int adjustedShift = k % 26;
+  for (char c : input) {
+    char an = (char)('A' + (ch - 'A' - adjustedShift + 26) % 26);
+    ans += an;
+  }
+  return ans;
+}
+
+class Solution {
+ public:
+  int solve(int l, int r, vector<vector<int>>& dp) {
+    if (l >= r) return 0;
+    if (dp[l][r] != 0) return dp[l][r];
+    int minCost = INT_MAX;
+    for (int k = l; k <= r; k++) {
+      int cost = k + max(solve(l, k - 1), solve(k + 1, r));
+      minCost = min(minCost, cost);
+    }
+    dp[l][r] = minCost;
+    return dp[l][r];
+  }
+
+  int getMoneyAmount(int n) {
+    vector<vector<int>> dp(n, vector<int>(n, 0));
+    return solve(1, n), dp;
+  }
+};
+
+class Solution {
+ public:
+  string rankTeams(vector<string>& votes) {
+    priority_queue<string> pq;
+    for (string& v : votes) pq.push(v);
+    return pq.top();
+  }
+};
+
+class Solution {
+ public:
+  int numberOfSubstrings(string s) {
+    int left = 0;
+    int a = 0, b = 0, c = 0;
+    int res = 0;
+    for (int i = 0; i < s.size(); i++) {
+      if (s[i] == 'a')
+        a++;
+      else if (s[i] == 'b')
+        b++;
+      else
+        c++;
+
+      while (a > 0 && b > 0 && c > 0) {
+        res += s.size()-i;
+        if (s[left] == 'a') a--;
+        if (s[left] == 'b')
+          b--;
+        else
+          c--;
+        left++;
+      }
+    }
+    return res;
+  }
+};
